@@ -28,7 +28,8 @@ public class Moon : MonoBehaviour
         Vector3 mp = Input.mousePosition;
         mp.z = 10f;
 
-        if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Alpha1) ||
+            Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Alpha8))
         {
             leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
             var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
@@ -37,7 +38,8 @@ public class Moon : MonoBehaviour
             Shoot(leftBarrel.position, -leftHand.transform.right);
         }
 
-        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Alpha2) ||
+            Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Alpha9))
         {
             rightHand.AddForce(-rightHand.transform.right * amount, ForceMode2D.Impulse);
             var eff = EffectManager.Instance.AddEffect(0, rightMuzzle.position);
