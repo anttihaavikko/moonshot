@@ -9,11 +9,13 @@ public class Levels : MonoBehaviour
     public Moon moon;
     public EffectCamera cam;
     public Transform backdrop;
+    public Zoomer zoomer;
 
     private List<Level> levels;
     private int current;
 
     private readonly float moveDuration = 0.7f;
+    private readonly float farZoom = 14f;
 
     private void Start()
     {
@@ -22,12 +24,14 @@ public class Levels : MonoBehaviour
         if(Manager.Instance.level > -1)
         {
             levels.ForEach(l => l.gameObject.SetActive(false));
+            zoomer.ZoomTo(farZoom, true);
             current = Manager.Instance.level;
             cam.transform.position = Manager.Instance.startPos;
             cam.enabled = false;
-            MoveCamTo(levels[current].GetCamPos());
+            MoveCamTo(levels[current].GetCamPos(), TweenEasings.QuadraticEaseInOut);
             this.StartCoroutine(() =>
             {
+                zoomer.ZoomTo(8.5f);
                 Manager.Instance.startPos = cam.transform.position;
                 cam.enabled = true;
                 cam.ResetOrigin();
@@ -61,17 +65,21 @@ public class Levels : MonoBehaviour
 
     public void ChangeLevel(int dir)
     {
-        levels[current].gameObject.SetActive(false);
-        cam.enabled = false;
-        current += dir;
-        var next = levels[current];
-        MoveCamTo((next.transform.position + cam.transform.position) * 0.5f);
-        Invoke("Reload", moveDuration);
+        zoomer.ZoomTo(farZoom);
+
+        this.StartCoroutine(() =>
+        {
+            cam.enabled = false;
+            current += dir;
+            var next = levels[current];
+            MoveCamTo((next.transform.position + cam.transform.position) * 0.5f, TweenEasings.QuadraticEaseInOut);
+            Invoke("Reload", moveDuration);
+        }, 0.5f);
     }
 
-    void MoveCamTo(Vector3 pos)
+    void MoveCamTo(Vector3 pos, System.Func<float, float> ease)
     {
-        Tweener.Instance.MoveTo(cam.transform, pos, moveDuration, 0f, TweenEasings.BounceEaseOut);
+        Tweener.Instance.MoveTo(cam.transform, pos, moveDuration, 0f, ease);
     }
 
     void Reload()

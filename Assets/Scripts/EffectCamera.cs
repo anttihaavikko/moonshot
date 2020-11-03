@@ -32,6 +32,8 @@ public class EffectCamera : MonoBehaviour {
     //private ColorSplit cs;
     private ColorAdjustments cg;
 
+    
+
 	void Start() {
 
         if (ppVolume)
@@ -89,6 +91,8 @@ public class EffectCamera : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, originalPosition, Time.deltaTime * 20f);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, Time.deltaTime);
         }
+
+        
     }
 
 	public void Chromate(float amount, float speed) {
