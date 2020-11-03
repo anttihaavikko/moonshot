@@ -16,7 +16,7 @@ public class Zoomer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, targetOrtho, Time.deltaTime * 10f);
+        cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, targetOrtho, Time.deltaTime * 20f);
     }
 
     public void ZoomTo(float target, bool instant = false)

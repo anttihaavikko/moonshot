@@ -71,6 +71,10 @@ public class Levels : MonoBehaviour
         {
             cam.enabled = false;
             current += dir;
+
+            if (current >= levels.Count) current = 0;
+            if (current < 0) current = levels.Count - 1;
+
             var next = levels[current];
             MoveCamTo((next.transform.position + cam.transform.position) * 0.5f, TweenEasings.QuadraticEaseInOut);
             Invoke("Reload", moveDuration);
