@@ -13,8 +13,11 @@ public class Moon : MonoBehaviour
     public EffectCamera effectCam;
     public LineRenderer linePrefab;
     public LinePool linePool;
+    public TMPro.TMP_Text timerText, bestText;
 
     private Camera cam;
+    private float touchTimer, bestTime = 4.5f;
+    private bool hasTouched;
 
     // Start is called before the first frame update
     void Start()
@@ -52,10 +55,26 @@ public class Moon : MonoBehaviour
         {
             SceneManager.LoadSceneAsync("Main");
         }
+
+        CheckTouch();
+    }
+
+    void CheckTouch()
+    {
+        if (touchTimer > bestTime)
+            bestTime = touchTimer;
+
+        timerText.text = touchTimer.ToString("F1");
+        bestText.text = "BEST  " + bestTime.ToString("F1");
+
+        if(!hasTouched)
+            touchTimer += Time.deltaTime;
     }
 
     void Shoot(Vector3 pos, Vector3 dir)
     {
+        hasTouched = false;
+
         var hit = Physics2D.Raycast(pos, dir);
         if(hit)
         {
@@ -68,5 +87,11 @@ public class Moon : MonoBehaviour
 
             this.StartCoroutine(() => linePool.ReturnToPool(line), 0.1f);
         }
+    }
+
+    public void Touched()
+    {
+        touchTimer = 0f;
+        hasTouched = true;
     }
 }
