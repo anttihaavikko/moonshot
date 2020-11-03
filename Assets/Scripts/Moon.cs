@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,7 @@ public class Moon : MonoBehaviour
     public Rigidbody2D leftHand, rightHand;
     public Transform leftBarrel, rightBarrel;
     public Transform leftMuzzle, rightMuzzle;
+    public GameObject leftGun, rightGun;
     public Rigidbody2D body;
     public float amount = 1f;
     public EffectCamera effectCam;
@@ -34,21 +36,27 @@ public class Moon : MonoBehaviour
         if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Alpha1) ||
             Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Alpha8))
         {
-            leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
-            var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
-            eff.transform.parent = leftBarrel;
-            effectCam.BaseEffect(0.2f);
-            Shoot(leftBarrel.position, -leftHand.transform.right);
+            if(leftGun.activeSelf)
+            {
+                leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
+                var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
+                eff.transform.parent = leftBarrel;
+                effectCam.BaseEffect(0.2f);
+                Shoot(leftBarrel.position, -leftHand.transform.right);
+            }
         }
 
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Alpha2) ||
             Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Alpha9))
         {
-            rightHand.AddForce(-rightHand.transform.right * amount, ForceMode2D.Impulse);
-            var eff = EffectManager.Instance.AddEffect(0, rightMuzzle.position);
-            eff.transform.parent = rightBarrel;
-            effectCam.BaseEffect(0.2f);
-            Shoot(rightBarrel.position, rightBarrel.transform.right);
+            if (rightGun.activeSelf)
+            {
+                rightHand.AddForce(-rightHand.transform.right * amount, ForceMode2D.Impulse);
+                var eff = EffectManager.Instance.AddEffect(0, rightMuzzle.position);
+                eff.transform.parent = rightBarrel;
+                effectCam.BaseEffect(0.2f);
+                Shoot(rightBarrel.position, rightBarrel.transform.right);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -93,5 +101,11 @@ public class Moon : MonoBehaviour
     {
         touchTimer = 0f;
         hasTouched = true;
+    }
+
+    public void SetGuns(bool hasLeftGun, bool hasRightGun)
+    {
+        leftGun.SetActive(hasLeftGun);
+        rightGun.SetActive(hasRightGun);
     }
 }
