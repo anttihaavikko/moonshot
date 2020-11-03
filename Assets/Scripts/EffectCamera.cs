@@ -44,6 +44,11 @@ public class EffectCamera : MonoBehaviour {
             bulgeAmount = defaultLensDistortion = ld.intensity.value;
         }
 
+        ResetOrigin();
+    }
+
+    public void ResetOrigin()
+    {
         originalPosition = transform.position;
     }
 
