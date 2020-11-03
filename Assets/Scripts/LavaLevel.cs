@@ -7,6 +7,5 @@ public class LavaLevel : Level
     public override void Activate()
     {
         base.Activate();
-        print("Activated lava level");
     }
 }

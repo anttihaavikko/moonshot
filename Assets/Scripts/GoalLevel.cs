@@ -6,6 +6,5 @@ public class GoalLevel : Level
     public override void Activate()
     {
         base.Activate();
-        print("Activated goal level");
     }
 }
