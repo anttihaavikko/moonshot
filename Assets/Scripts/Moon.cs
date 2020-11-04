@@ -17,6 +17,7 @@ public class Moon : MonoBehaviour
     public LinePool linePool;
     public TMPro.TMP_Text timerText, bestText;
     public LayerMask collisionMask;
+    public Bubble bubble;
 
     private Level level;
 
@@ -90,6 +91,8 @@ public class Moon : MonoBehaviour
     void Shoot(Vector3 pos, Vector3 dir)
     {
         hasTouched = false;
+
+        bubble.Hide();
 
         var hit = Physics2D.Raycast(pos, dir, 100f, collisionMask);
         if(hit)

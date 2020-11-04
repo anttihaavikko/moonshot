@@ -2,15 +2,22 @@
 
 public abstract class Level : MonoBehaviour
 {
+    public string message;
     public Levels levels;
     public Transform spawn;
 
     public bool hasLeftGun = true;
     public bool hasRightGun = true;
 
+    private bool completed;
+
     public void Complete()
     {
-        levels.ChangeLevel(1);
+        if(!completed)
+        {
+            completed = true;
+            this.StartCoroutine(() => levels.ChangeLevel(), 1f);
+        }
     }
 
     public virtual void Activate()
@@ -20,6 +27,8 @@ public abstract class Level : MonoBehaviour
         gameObject.SetActive(true);
         levels.backdrop.position = transform.position;
         levels.moon.transform.position = spawn.position;
+
+        this.StartCoroutine(() => levels.moon.bubble.Show(message), 1f);
     }
 
     public Vector3 GetCamPos()

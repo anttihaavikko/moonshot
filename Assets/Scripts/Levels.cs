@@ -63,7 +63,7 @@ public class Levels : MonoBehaviour
         }
     }
 
-    public void ChangeLevel(int dir)
+    public void ChangeLevel(int dir = 1)
     {
         zoomer.ZoomTo(farZoom);
 
