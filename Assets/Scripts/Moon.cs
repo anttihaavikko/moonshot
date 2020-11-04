@@ -16,6 +16,9 @@ public class Moon : MonoBehaviour
     public LineRenderer linePrefab;
     public LinePool linePool;
     public TMPro.TMP_Text timerText, bestText;
+    public LayerMask collisionMask;
+
+    private Level level;
 
     private Camera cam;
     private float touchTimer, bestTime = 4.5f;
@@ -67,6 +70,11 @@ public class Moon : MonoBehaviour
         CheckTouch();
     }
 
+    public void SetLevel(Level l)
+    {
+        level = l;
+    }
+
     void CheckTouch()
     {
         if (touchTimer > bestTime)
@@ -83,7 +91,7 @@ public class Moon : MonoBehaviour
     {
         hasTouched = false;
 
-        var hit = Physics2D.Raycast(pos, dir);
+        var hit = Physics2D.Raycast(pos, dir, 100f, collisionMask);
         if(hit)
         {
             EffectManager.Instance.AddEffect(0, hit.point);
@@ -107,5 +115,13 @@ public class Moon : MonoBehaviour
     {
         leftGun.SetActive(hasLeftGun);
         rightGun.SetActive(hasRightGun);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Flag" && level)
+        {
+            level.Complete();
+        }
     }
 }

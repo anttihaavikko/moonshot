@@ -10,12 +10,13 @@ public abstract class Level : MonoBehaviour
 
     public void Complete()
     {
-
+        levels.ChangeLevel(1);
     }
 
     public virtual void Activate()
     {
         levels.moon.SetGuns(hasLeftGun, hasRightGun);
+        levels.moon.SetLevel(this);
         gameObject.SetActive(true);
         levels.backdrop.position = transform.position;
         levels.moon.transform.position = spawn.position;
