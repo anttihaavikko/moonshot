@@ -10,6 +10,7 @@ public class Levels : MonoBehaviour
     public EffectCamera cam;
     public Transform backdrop;
     public Zoomer zoomer;
+    public LevelInfo levelInfo;
 
     private List<Level> levels;
     private int current;

@@ -2,6 +2,8 @@
 
 public abstract class Level : MonoBehaviour
 {
+    public string levelName, levelDesc;
+    [TextArea]
     public string message;
     public Levels levels;
     public Transform spawn;
@@ -28,7 +30,8 @@ public abstract class Level : MonoBehaviour
         levels.backdrop.position = transform.position;
         levels.moon.transform.position = spawn.position;
 
-        this.StartCoroutine(() => levels.moon.bubble.Show(message), 1f);
+        this.StartCoroutine(() => levels.levelInfo.Show(levelName, levelDesc), 0.6f);
+        this.StartCoroutine(() => levels.moon.bubble.Show(message), levels.levelInfo.delay + 0.9f);
     }
 
     public Vector3 GetCamPos()
