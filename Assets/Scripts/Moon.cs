@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Moon : MonoBehaviour
@@ -25,6 +22,9 @@ public class Moon : MonoBehaviour
     private Camera cam;
     private float touchTimer, bestTime = 0f;
     private bool hasTouched;
+
+    private float autoShotDelay;
+    private bool autoShoot = false;
 
     // Start is called before the first frame update
     void Start()
@@ -54,11 +54,7 @@ public class Moon : MonoBehaviour
         {
             if (leftGun.activeSelf)
             {
-                leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
-                var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
-                eff.transform.parent = leftBarrel;
-                effectCam.BaseEffect(0.2f);
-                Shoot(leftBarrel.position, -leftHand.transform.right);
+                ShootLeft();
             }
         }
 
@@ -67,13 +63,46 @@ public class Moon : MonoBehaviour
         {
             if (rightGun.activeSelf)
             {
-                rightHand.AddForce(-rightHand.transform.right * amount, ForceMode2D.Impulse);
-                var eff = EffectManager.Instance.AddEffect(0, rightMuzzle.position);
-                eff.transform.parent = rightBarrel;
-                effectCam.BaseEffect(0.2f);
-                Shoot(rightBarrel.position, rightBarrel.transform.right);
+                ShootRight();
             }
         }
+
+        if(autoShoot)
+        {
+            autoShotDelay -= Time.deltaTime;
+
+            var hit = Physics2D.Raycast(rightBarrel.position, rightBarrel.transform.right, 100f, collisionMask);
+            if (hit && hit.collider.gameObject.tag == "Enemy" && autoShotDelay < 0f && Random.value < 0.1f)
+            {
+                ShootRight();
+                autoShotDelay = 0.5f;
+            }
+
+            hit = Physics2D.Raycast(leftBarrel.position, -leftBarrel.transform.right, 100f, collisionMask);
+            if (hit && hit.collider.gameObject.tag == "Enemy" && autoShotDelay < 0f && Random.value < 0.1f)
+            {
+                ShootLeft();
+                autoShotDelay = 0.5f;
+            }
+        }
+    }
+
+    private void ShootRight()
+    {
+        rightHand.AddForce(-rightHand.transform.right * amount, ForceMode2D.Impulse);
+        var eff = EffectManager.Instance.AddEffect(0, rightMuzzle.position);
+        eff.transform.parent = rightBarrel;
+        effectCam.BaseEffect(0.2f);
+        Shoot(rightBarrel.position, rightBarrel.transform.right);
+    }
+
+    private void ShootLeft()
+    {
+        leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
+        var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
+        eff.transform.parent = leftBarrel;
+        effectCam.BaseEffect(0.2f);
+        Shoot(leftBarrel.position, -leftHand.transform.right);
     }
 
     public void SetLevel(Level l)
@@ -110,7 +139,7 @@ public class Moon : MonoBehaviour
                 var e = hit.collider.GetComponent<Enemy>();
                 e.Hurt(hit.point, dir.normalized);
 
-                level.CheckEnd();
+                level.CheckEnd(touchTimer);
             }
 
             var line = linePool.Get();
