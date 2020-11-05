@@ -12,6 +12,7 @@ public class Bubble : MonoBehaviour
 
     private bool shown;
     private string hiliteColorHex;
+    private bool locked;
 
     private void Start()
     {
@@ -20,11 +21,11 @@ public class Bubble : MonoBehaviour
         wrapper.transform.localScale = Vector3.zero;
     }
 
-    public void Show(string message)
+    public void Show(string message, bool permanent = false)
     {
         SetText(message);
         SetMirroring(transform.position.x > levels.GetCurrentLevel().transform.position.x);
-        Show();
+        Show(permanent);
     }
 
     private void SetMirroring(bool mirrored)
@@ -34,8 +35,9 @@ public class Bubble : MonoBehaviour
         text.transform.localScale = new Vector3(dir, 1f, 1f);
     }
 
-    public void Show()
+    public void Show(bool permanent = false)
     {
+        locked = permanent;
         shown = true;
         wrapper.SetActive(true);
         Tweener.Instance.ScaleTo(wrapper.transform, Vector3.one, showDuration, 0, TweenEasings.BounceEaseOut);
@@ -43,7 +45,7 @@ public class Bubble : MonoBehaviour
 
     public void Hide()
     {
-        if (!shown) return;
+        if (!shown || locked) return;
 
         shown = false;
         Tweener.Instance.ScaleTo(wrapper.transform, Vector3.zero, showDuration, 0, TweenEasings.QuadraticEaseOut);

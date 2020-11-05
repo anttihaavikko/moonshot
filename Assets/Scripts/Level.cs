@@ -20,7 +20,7 @@ public abstract class Level : MonoBehaviour
         if(!completed)
         {
             completed = true;
-            this.StartCoroutine(() => levels.moon.bubble.Show(winMessage), 0.2f);
+            this.StartCoroutine(() => levels.moon.bubble.Show(winMessage, true), 0.2f);
             this.StartCoroutine(() => levels.ChangeLevel(), 1.7f);
         }
     }
