@@ -82,6 +82,11 @@ public class Levels : MonoBehaviour
         }, 0.5f);
     }
 
+    public void AfterInfo()
+    {
+        levels[current].AfterInfo();
+    }
+
     void MoveCamTo(Vector3 pos, System.Func<float, float> ease)
     {
         Tweener.Instance.MoveTo(cam.transform, pos, moveDuration, 0f, ease);
@@ -92,5 +97,10 @@ public class Levels : MonoBehaviour
         Manager.Instance.level = current;
         Manager.Instance.startPos = cam.transform.position;
         SceneManager.LoadSceneAsync("Main");
-    }   
+    }
+
+    public Level GetCurrentLevel()
+    {
+        return levels[current];
+    }
 }

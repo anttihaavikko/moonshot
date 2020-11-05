@@ -21,7 +21,7 @@ public abstract class Level : MonoBehaviour
         {
             completed = true;
             this.StartCoroutine(() => levels.moon.bubble.Show(winMessage), 0.2f);
-            this.StartCoroutine(() => levels.ChangeLevel(), 1f);
+            this.StartCoroutine(() => levels.ChangeLevel(), 1.7f);
         }
     }
 
@@ -34,7 +34,11 @@ public abstract class Level : MonoBehaviour
         levels.moon.transform.position = spawn.position;
 
         this.StartCoroutine(() => levels.levelInfo.Show(levelName, levelDesc), 0.6f);
-        this.StartCoroutine(() => levels.moon.bubble.Show(message), levels.levelInfo.delay + 0.9f);
+    }
+
+    public void AfterInfo()
+    {
+        levels.moon.bubble.Show(message);
     }
 
     public Vector3 GetCamPos()

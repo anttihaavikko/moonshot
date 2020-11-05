@@ -18,6 +18,7 @@ public class Moon : MonoBehaviour
     public TMPro.TMP_Text timerText, bestText;
     public LayerMask collisionMask;
     public Bubble bubble;
+    public LevelInfo levelInfo;
 
     private Level level;
 
@@ -34,13 +35,24 @@ public class Moon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 mp = Input.mousePosition;
-        mp.z = 10f;
+        CheckShots();
 
-        if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Alpha1) ||
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadSceneAsync("Main");
+        }
+
+        CheckTouch();
+    }
+
+    void CheckShots()
+    {
+        if (levelInfo.IsShown()) return;
+
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Alpha1) ||
             Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Alpha8))
         {
-            if(leftGun.activeSelf)
+            if (leftGun.activeSelf)
             {
                 leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
                 var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
@@ -62,13 +74,6 @@ public class Moon : MonoBehaviour
                 Shoot(rightBarrel.position, rightBarrel.transform.right);
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadSceneAsync("Main");
-        }
-
-        CheckTouch();
     }
 
     public void SetLevel(Level l)

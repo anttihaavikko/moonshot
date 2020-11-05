@@ -8,6 +8,7 @@ public class Bubble : MonoBehaviour
     public float showDuration = 0.3f;
     public GameObject wrapper;
     public Color hiliteColor;
+    public Levels levels;
 
     private bool shown;
     private string hiliteColorHex;
@@ -22,7 +23,7 @@ public class Bubble : MonoBehaviour
     public void Show(string message)
     {
         SetText(message);
-        SetMirroring(transform.position.x > 0f);
+        SetMirroring(transform.position.x > levels.GetCurrentLevel().transform.position.x);
         Show();
     }
 
