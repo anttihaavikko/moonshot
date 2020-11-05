@@ -1,16 +1,17 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/KillLevel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Flasher.cs">
     <Files>
       <File FileName="Assets/Scripts/Moon.cs" Line="115" Column="1" />
-      <File FileName="Assets/Scripts/LavaLevel.cs" Line="22" Column="9" />
+      <File FileName="Assets/Scripts/LavaLevel.cs" Line="25" Column="53" />
       <File FileName="Assets/Scripts/GoalLevel.cs" Line="16" Column="1" />
-      <File FileName="Assets/Scripts/KillLevel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/KillLevel.cs" Line="16" Column="43" />
       <File FileName="Assets/Scripts/Level.cs" Line="29" Column="6" />
       <File FileName="Assets/Scripts/Levels.cs" Line="70" Column="42" />
       <File FileName="Assets/Scripts/Manager.cs" Line="38" Column="6" />
       <File FileName="Assets/Scripts/LevelInfo.cs" Line="23" Column="9" />
       <File FileName="Assets/Scripts/Bat.cs" Line="31" Column="28" />
       <File FileName="Assets/Scripts/Enemy.cs" Line="39" Column="30" />
+      <File FileName="Assets/Scripts/Flasher.cs" Line="7" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,7 +26,7 @@
                 </Node>
               </Node>
               <Node name="Scripts" expanded="True">
-                <Node name="KillLevel.cs" selected="True" />
+                <Node name="Flasher.cs" selected="True" />
               </Node>
             </Node>
           </Node>

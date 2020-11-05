@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     public int hp = 3;
     public Rigidbody2D body;
+    public Flasher flasher;
 
     private EffectCamera cam;
 
@@ -23,6 +24,9 @@ public class Enemy : MonoBehaviour
         EffectManager.Instance.AddEffect(2, point);
 
         cam.BaseEffect(0.3f);
+
+        if (flasher)
+            flasher.Flash();
 
         if (hp <= 0)
             Die();

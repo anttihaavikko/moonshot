@@ -693,6 +693,7 @@ GameObject:
   - component: {fileID: 7198037766597438408}
   - component: {fileID: 7448576283232002203}
   - component: {fileID: 406898252815625321}
+  - component: {fileID: 8246059011624676318}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Enemy
@@ -817,6 +818,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 3
   body: {fileID: 1062592299096240998}
+  flasher: {fileID: 8246059011624676318}
+--- !u!114 &8246059011624676318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062592299096241003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71dcd9a763d4346a689a1a3517f0f272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  darkSprites:
+  - {fileID: 1062592297254288825}
+  - {fileID: 1062592298253302741}
+  - {fileID: 1062592297378488998}
+  lightsSprites:
+  - {fileID: 1062592297358408278}
+  - {fileID: 1062592297870924850}
+  - {fileID: 1062592299025836874}
 --- !u!1 &1062592299159631697
 GameObject:
   m_ObjectHideFlags: 0
