@@ -132,5 +132,16 @@ public class Moon : MonoBehaviour
         {
             level.Complete();
         }
+
+        if (collision.gameObject.tag == "Bubble")
+        {
+            var trigger = collision.GetComponent<BubbleTrigger>();
+            if(!trigger.shown && !Manager.Instance.IsShown(trigger.message))
+            {
+                this.StartCoroutine(() => bubble.Show(trigger.message), trigger.delay);
+                Manager.Instance.Add(trigger.message);
+                trigger.shown = true;
+            }
+        }
     }
 }

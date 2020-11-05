@@ -9,6 +9,8 @@ public class Manager : MonoBehaviour {
     public Vector3 startPos = Vector3.zero;
     public bool showInfo = true;
 
+    private List<string> shownMessages;
+
 	private static Manager instance = null;
 	public static Manager Instance {
 		get { return instance; }
@@ -22,6 +24,18 @@ public class Manager : MonoBehaviour {
 			instance = this;
 		}
 
+        shownMessages = new List<string>();
+
         DontDestroyOnLoad(gameObject);
 	}
+
+    public void Add(string message)
+    {
+        shownMessages.Add(message);
+    }
+
+    public bool IsShown(string message)
+    {
+        return shownMessages.Contains(message);
+    }
 }
