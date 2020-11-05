@@ -22,7 +22,15 @@ public class Bubble : MonoBehaviour
     public void Show(string message)
     {
         SetText(message);
+        SetMirroring(transform.position.x > 0f);
         Show();
+    }
+
+    private void SetMirroring(bool mirrored)
+    {
+        var dir = mirrored ? -1f : 1f;
+        transform.localScale = new Vector3(dir, 1f, 1f);
+        text.transform.localScale = new Vector3(dir, 1f, 1f);
     }
 
     public void Show()

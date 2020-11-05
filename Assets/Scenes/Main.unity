@@ -8074,6 +8074,7 @@ MonoBehaviour:
   message: Something about this level...
   levels: {fileID: 1812602595}
   spawn: {fileID: 990031718}
+  winMessage: Too easy!
   hasLeftGun: 1
   hasRightGun: 1
 --- !u!1 &1039748776
@@ -8131,6 +8132,7 @@ MonoBehaviour:
   message: Use (LMB) to shoot left hand gun.
   levels: {fileID: 1812602595}
   spawn: {fileID: 110330675}
+  winMessage: Nice!
   hasLeftGun: 1
   hasRightGun: 0
 --- !u!1001 &1048168442
@@ -22935,6 +22937,7 @@ MonoBehaviour:
     (pistol ballet)!'
   levels: {fileID: 1812602595}
   spawn: {fileID: 168081796}
+  winMessage: Could have done longer...
   hasLeftGun: 1
   hasRightGun: 1
 --- !u!1001 &1507363785
@@ -32762,6 +32765,7 @@ MonoBehaviour:
   message: Use (RMB) to shoot right hand gun.
   levels: {fileID: 1812602595}
   spawn: {fileID: 531426963}
+  winMessage: Yahoo!
   hasLeftGun: 0
   hasRightGun: 1
 --- !u!1 &2031463785

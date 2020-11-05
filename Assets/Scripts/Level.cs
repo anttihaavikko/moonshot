@@ -7,6 +7,8 @@ public abstract class Level : MonoBehaviour
     public string message;
     public Levels levels;
     public Transform spawn;
+    [TextArea]
+    public string winMessage;
 
     public bool hasLeftGun = true;
     public bool hasRightGun = true;
@@ -18,6 +20,7 @@ public abstract class Level : MonoBehaviour
         if(!completed)
         {
             completed = true;
+            this.StartCoroutine(() => levels.moon.bubble.Show(winMessage), 0.2f);
             this.StartCoroutine(() => levels.ChangeLevel(), 1f);
         }
     }
