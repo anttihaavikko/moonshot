@@ -11,6 +11,7 @@ public class Levels : MonoBehaviour
     public Transform backdrop;
     public Zoomer zoomer;
     public LevelInfo levelInfo;
+    public Appearer timer;
 
     private List<Level> levels;
     private int current;
@@ -66,6 +67,7 @@ public class Levels : MonoBehaviour
 
     public void ChangeLevel(int dir = 1)
     {
+        Manager.Instance.showInfo = true;
         zoomer.ZoomTo(farZoom);
 
         this.StartCoroutine(() =>

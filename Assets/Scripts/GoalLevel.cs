@@ -7,4 +7,9 @@ public class GoalLevel : Level
     {
         base.Activate();
     }
+
+    public override void CheckEnd(float time = 0)
+    {
+        // noop
+    }
 }

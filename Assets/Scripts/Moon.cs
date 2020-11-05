@@ -15,7 +15,7 @@ public class Moon : MonoBehaviour
     public EffectCamera effectCam;
     public LineRenderer linePrefab;
     public LinePool linePool;
-    public TMPro.TMP_Text timerText, bestText;
+    public TMPro.TMP_Text timerText, bestText, timerShadow, bestShadow;
     public LayerMask collisionMask;
     public Bubble bubble;
     public LevelInfo levelInfo;
@@ -23,7 +23,7 @@ public class Moon : MonoBehaviour
     private Level level;
 
     private Camera cam;
-    private float touchTimer, bestTime = 4.5f;
+    private float touchTimer, bestTime = 0f;
     private bool hasTouched;
 
     // Start is called before the first frame update
@@ -86,8 +86,8 @@ public class Moon : MonoBehaviour
         if (touchTimer > bestTime)
             bestTime = touchTimer;
 
-        timerText.text = touchTimer.ToString("F1");
-        bestText.text = "BEST  " + bestTime.ToString("F1");
+        timerText.text = timerShadow.text = touchTimer.ToString("F1");
+        bestText.text = bestShadow.text = "BEST  " + bestTime.ToString("F1");
 
         if(!hasTouched)
             touchTimer += Time.deltaTime;
@@ -115,6 +115,7 @@ public class Moon : MonoBehaviour
 
     public void Touched()
     {
+        level.CheckEnd(touchTimer);
         touchTimer = 0f;
         hasTouched = true;
     }

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Manager : MonoBehaviour {
     public int level = -1;
     public Vector3 startPos = Vector3.zero;
+    public bool showInfo = true;
 
 	private static Manager instance = null;
 	public static Manager Instance {

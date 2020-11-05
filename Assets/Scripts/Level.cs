@@ -36,7 +36,7 @@ public abstract class Level : MonoBehaviour
         this.StartCoroutine(() => levels.levelInfo.Show(levelName, levelDesc), 0.6f);
     }
 
-    public void AfterInfo()
+    public virtual void AfterInfo()
     {
         levels.moon.bubble.Show(message);
     }
@@ -45,4 +45,6 @@ public abstract class Level : MonoBehaviour
     {
         return new Vector3(transform.position.x, transform.position.y, -10f);
     }
+
+    public abstract void CheckEnd(float time = 0f);
 }

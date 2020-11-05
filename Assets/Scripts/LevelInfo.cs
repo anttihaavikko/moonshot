@@ -14,6 +14,13 @@ public class LevelInfo : MonoBehaviour
 
     public void Show(string levelName, string description)
     {
+        if (!Manager.Instance.showInfo)
+        {
+            AfterHide();
+            return;
+        }
+
+        Manager.Instance.showInfo = false;
         shown = true;
         nameText.text = nameShadow.text = levelName;
         descText.text = descShadow.text = description;
@@ -23,6 +30,11 @@ public class LevelInfo : MonoBehaviour
     public void Hide()
     {
         appearers.ForEach(a => a.Hide());
+        AfterHide();
+    }
+
+    void AfterHide()
+    {
         this.StartCoroutine(() => {
             shown = false;
             levels.AfterInfo();
