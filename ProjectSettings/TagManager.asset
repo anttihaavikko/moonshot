@@ -7,6 +7,7 @@ TagManager:
   - NoTouch
   - Flag
   - Bubble
+  - Enemy
   layers:
   - Default
   - TransparentFX

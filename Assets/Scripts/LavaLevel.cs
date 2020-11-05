@@ -22,7 +22,7 @@ public class LavaLevel : Level
         if(time >= par)
         {
             Complete();
-            this.StartCoroutine(levels.timer.Hide, 0.5f);
+            this.StartCoroutine(levels.timer.Hide, 1.5f);
         }
     }
 }

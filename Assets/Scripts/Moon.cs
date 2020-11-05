@@ -105,6 +105,14 @@ public class Moon : MonoBehaviour
             EffectManager.Instance.AddEffect(0, hit.point);
             EffectManager.Instance.AddEffect(1, hit.point);
 
+            if(hit.collider.gameObject.tag == "Enemy")
+            {
+                var e = hit.collider.GetComponent<Enemy>();
+                e.Hurt(hit.point, dir.normalized);
+
+                level.CheckEnd();
+            }
+
             var line = linePool.Get();
             line.SetPosition(0, pos);
             line.SetPosition(1, hit.point);
