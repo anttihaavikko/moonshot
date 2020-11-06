@@ -8,6 +8,7 @@ TagManager:
   - Flag
   - Bubble
   - Enemy
+  - Breakable
   layers:
   - Default
   - TransparentFX

@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
     public int hp = 3;
     public Rigidbody2D body;
     public Flasher flasher;
+    public bool bleeds = true;
+    public GameObject customParticles;
+    public SpriteRenderer sprite;
 
     private EffectCamera cam;
 
@@ -19,9 +22,15 @@ public class Enemy : MonoBehaviour
     {
         hp--;
 
-        body.AddForceAtPosition(dir * 10f, point, ForceMode2D.Impulse);
+        if(body)
+        {
+            body.AddForceAtPosition(dir * 10f, point, ForceMode2D.Impulse);
+        }
 
-        EffectManager.Instance.AddEffect(2, point);
+        if(bleeds)
+        {
+            EffectManager.Instance.AddEffect(2, point);
+        }
 
         cam.BaseEffect(0.3f);
 
@@ -34,11 +43,24 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        gameObject.SetActive(false);
+        if(!customParticles)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            sprite.enabled = false;
+            gameObject.layer = 10;
+            customParticles.SetActive(true);
+        }
 
-        EffectManager.Instance.AddEffect(3, transform.position);
-        EffectManager.Instance.AddEffect(4, transform.position);
-        EffectManager.Instance.AddEffect(5, transform.position);
+        if(bleeds)
+        {
+            EffectManager.Instance.AddEffect(3, transform.position);
+            EffectManager.Instance.AddEffect(4, transform.position);
+            EffectManager.Instance.AddEffect(5, transform.position);
+            EffectManager.Instance.AddEffect(6, transform.position);
+        }
 
         cam.BaseEffect(0.5f);
     }

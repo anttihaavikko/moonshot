@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -140,7 +141,7 @@ public class Moon : MonoBehaviour
             EffectManager.Instance.AddEffect(0, hit.point);
             EffectManager.Instance.AddEffect(1, hit.point);
 
-            if(hit.collider.gameObject.tag == "Enemy")
+            if(hit.collider.gameObject.tag == "Enemy" || hit.collider.gameObject.tag == "Breakable")
             {
                 var e = hit.collider.GetComponent<Enemy>();
                 if(e)
@@ -200,8 +201,8 @@ public class Moon : MonoBehaviour
         level.Restart();
 
         visibleObjects.ForEach(vo => vo.SetActive(false));
-        joints.ForEach(j => j.enabled = false);
-        extraJoints.ForEach(j => j.enabled = Random.value > 0.3f);
+        joints.ForEach(ThrowBody);
+        extraJoints.Where(j => Random.value > 0.3f).ToList().ForEach(ThrowBody);
 
         sprite.enabled = false;
 
@@ -211,5 +212,13 @@ public class Moon : MonoBehaviour
         EffectManager.Instance.AddEffect(3, transform.position);
         EffectManager.Instance.AddEffect(4, transform.position);
         EffectManager.Instance.AddEffect(5, transform.position);
+        EffectManager.Instance.AddEffect(6, transform.position);
+    }
+
+    void ThrowBody(Joint2D joint)
+    {
+        joint.enabled = false;
+        var dir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
+        joint.attachedRigidbody.AddForce(dir * 15f, ForceMode2D.Impulse);
     }
 }
