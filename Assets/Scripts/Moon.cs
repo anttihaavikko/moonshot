@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Moon : MonoBehaviour
@@ -16,12 +17,16 @@ public class Moon : MonoBehaviour
     public LayerMask collisionMask;
     public Bubble bubble;
     public LevelInfo levelInfo;
+    public List<Joint2D> joints, extraJoints;
+    public SpriteRenderer sprite;
+    public List<GameObject> visibleObjects;
 
     private Level level;
 
     private Camera cam;
     private float touchTimer, bestTime = 0f;
     private bool hasTouched;
+    private bool hasDied;
 
     private float autoShotDelay;
     private bool autoShoot = false;
@@ -39,7 +44,8 @@ public class Moon : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadSceneAsync("Main");
+            //SceneManager.LoadSceneAsync("Main");
+            Die();
         }
 
         CheckTouch();
@@ -47,7 +53,7 @@ public class Moon : MonoBehaviour
 
     void CheckShots()
     {
-        if (levelInfo.IsShown()) return;
+        if (levelInfo.IsShown() || hasDied) return;
 
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Alpha1) ||
             Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Alpha8))
@@ -137,9 +143,11 @@ public class Moon : MonoBehaviour
             if(hit.collider.gameObject.tag == "Enemy")
             {
                 var e = hit.collider.GetComponent<Enemy>();
-                e.Hurt(hit.point, dir.normalized);
-
-                level.CheckEnd(touchTimer);
+                if(e)
+                {
+                    e.Hurt(hit.point, dir.normalized);
+                    level.CheckEnd(touchTimer);
+                }
             }
 
             var line = linePool.Get();
@@ -180,5 +188,28 @@ public class Moon : MonoBehaviour
                 trigger.shown = true;
             }
         }
+    }
+
+    public void Die()
+    {
+        if (hasDied) return;
+
+        hasDied = true;
+        bubble.Hide();
+
+        level.Restart();
+
+        visibleObjects.ForEach(vo => vo.SetActive(false));
+        joints.ForEach(j => j.enabled = false);
+        extraJoints.ForEach(j => j.enabled = Random.value > 0.3f);
+
+        sprite.enabled = false;
+
+        gameObject.layer = 10;
+        body.gravityScale = 0;
+
+        EffectManager.Instance.AddEffect(3, transform.position);
+        EffectManager.Instance.AddEffect(4, transform.position);
+        EffectManager.Instance.AddEffect(5, transform.position);
     }
 }

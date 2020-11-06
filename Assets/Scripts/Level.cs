@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class Level : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public abstract class Level : MonoBehaviour
     public bool hasRightGun = true;
 
     private bool completed;
+
+    public void Restart()
+    {
+        this.StartCoroutine(() => SceneManager.LoadSceneAsync("Main"), 2f);
+    }
 
     public void Complete()
     {
