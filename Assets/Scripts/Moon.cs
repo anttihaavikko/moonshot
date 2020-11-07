@@ -177,8 +177,15 @@ public class Moon : MonoBehaviour
         rightGun.SetActive(hasRightGun);
     }
 
+    public bool HasDied()
+    {
+        return hasDied;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (hasDied) return;
+
         if(collision.gameObject.tag == "Flag" && level)
         {
             level.Complete();
@@ -189,7 +196,12 @@ public class Moon : MonoBehaviour
             var trigger = collision.GetComponent<BubbleTrigger>();
             if(!trigger.shown && !Manager.Instance.IsShown(trigger.message))
             {
-                this.StartCoroutine(() => bubble.Show(trigger.message), trigger.delay);
+                this.StartCoroutine(() => {
+                    if(!hasDied)
+                    {
+                        bubble.Show(trigger.message);
+                    }
+                }, trigger.delay);
                 Manager.Instance.Add(trigger.message);
                 trigger.shown = true;
             }

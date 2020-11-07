@@ -3,18 +3,15 @@ using UnityEngine.SceneManagement;
 
 public abstract class Level : MonoBehaviour
 {
-    public string levelName, levelDesc;
-    [TextArea]
-    public string message;
+    public int index;
     public Levels levels;
     public Transform spawn;
-    [TextArea]
-    public string winMessage;
 
     public bool hasLeftGun = true;
     public bool hasRightGun = true;
 
     private bool completed;
+    private LevelData info;
 
     public void Restart()
     {
@@ -26,7 +23,12 @@ public abstract class Level : MonoBehaviour
         if(!completed)
         {
             completed = true;
-            this.StartCoroutine(() => levels.moon.bubble.Show(winMessage, true), 0.2f);
+            this.StartCoroutine(() => {
+                 if(!levels.moon.HasDied())
+                {
+                    levels.moon.bubble.Show(info.winMessage, true);
+                }
+            }, 0.2f);
             this.StartCoroutine(() => levels.ChangeLevel(), 1.7f);
         }
     }
@@ -38,13 +40,15 @@ public abstract class Level : MonoBehaviour
         gameObject.SetActive(true);
         levels.backdrop.position = transform.position;
         levels.moon.transform.position = spawn.position;
+        info = levels.GetInfo(index);
 
-        this.StartCoroutine(() => levels.levelInfo.Show(levelName, levelDesc), 0.6f);
+        this.StartCoroutine(() => levels.levelInfo.Show(info.name, info.description), 0.6f);
     }
 
     public virtual void AfterInfo()
     {
-        levels.moon.bubble.Show(message);
+        if (levels.moon.HasDied()) return;
+        levels.moon.bubble.Show(info.message);
     }
 
     public Vector3 GetCamPos()

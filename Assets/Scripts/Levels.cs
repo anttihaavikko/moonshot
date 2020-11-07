@@ -19,6 +19,16 @@ public class Levels : MonoBehaviour
     private readonly float moveDuration = 0.7f;
     private readonly float farZoom = 14f;
 
+    private readonly LevelData[] levelData = {
+        new LevelData("Sinister", "Reach the goal", "Use (LMB) to shoot left hand gun.", "Nice!"), // 0
+        new LevelData("Dexter", "Reach the goal", "Use (RMB) to shoot right hand gun.", "Yahoo!"), // 1
+        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"), // 2
+        new LevelData("The floor is lava", "Survive 5 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."), // 3
+        new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"), // 4
+        new LevelData("The floor is lava", "Survive 7 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."), // 5
+        new LevelData("Flappy Moon", "Reach the goal", "Lorem ipsum", "And they call this hard..."), // 6
+    };
+
     private void Start()
     {
         levels = GetComponentsInChildren<Level>(true).ToList();
@@ -51,6 +61,16 @@ public class Levels : MonoBehaviour
         }
 
         levels[current].Activate();
+    }
+
+    public LevelData GetInfo(int index)
+    {
+        if(index >= levelData.Length)
+        {
+            return levelData[Random.Range(0, levelData.Length)];
+        }
+
+        return levelData[index];
     }
 
     private void Update()
@@ -111,3 +131,19 @@ public class Levels : MonoBehaviour
         return levels[current];
     }
 }
+
+public struct LevelData
+{
+    public string name;
+    public string description;
+    public string message;
+    public string winMessage;
+
+    public LevelData(string name, string description, string message, string winMessage)
+    {
+        this.name = name;
+        this.description = description;
+        this.message = message;
+        this.winMessage = winMessage;
+    }
+};
