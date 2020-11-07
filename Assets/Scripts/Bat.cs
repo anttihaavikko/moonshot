@@ -26,7 +26,7 @@ public class Bat : MonoBehaviour
         var dir = currentTarget - transform.position;
         body.AddForce(dir.normalized * speed);
 
-        if((transform.position - currentTarget).magnitude < 0.1f)
+        if((transform.position - currentTarget).magnitude < 0.5f)
         {
             ChangeTarget();
         }

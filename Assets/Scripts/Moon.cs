@@ -94,6 +94,11 @@ public class Moon : MonoBehaviour
         }
     }
 
+    public bool IsDead()
+    {
+        return hasDied;
+    }
+
     private void ShootRight()
     {
         rightHand.AddForce(-rightHand.transform.right * amount, ForceMode2D.Impulse);

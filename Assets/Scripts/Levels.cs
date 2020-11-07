@@ -67,6 +67,11 @@ public class Levels : MonoBehaviour
 
     public void ChangeLevel(int dir = 1)
     {
+        if(moon.IsDead())
+        {
+            return;
+        }
+
         Manager.Instance.showInfo = true;
         zoomer.ZoomTo(farZoom);
 
