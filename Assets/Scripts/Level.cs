@@ -15,7 +15,7 @@ public abstract class Level : MonoBehaviour
 
     public void Restart()
     {
-        this.StartCoroutine(() => SceneManager.LoadSceneAsync("Main"), 2f);
+        this.StartCoroutine(() => SceneChanger.Instance.ChangeScene("Main"), 2f);
     }
 
     public void Complete()
