@@ -254,6 +254,8 @@ public class Moon : MonoBehaviour, IDier
             return true;
         }
 
+        effectCam.BaseEffect(0.1f);
+
         return false;
     }
 }

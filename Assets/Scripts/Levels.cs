@@ -27,6 +27,7 @@ public class Levels : MonoBehaviour
         new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"), // 4
         new LevelData("The floor is lava", "Survive 7 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."), // 5
         new LevelData("Flappy Moon", "Reach the goal", "Lorem ipsum", "And they call this hard..."), // 6
+        new LevelData("1-2", "Reach the goal", "It's me, (Moon)!", "No warps!"), // 7
     };
 
     private void Start()

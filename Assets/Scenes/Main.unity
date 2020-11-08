@@ -1173,7 +1173,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!233 &50419078
 HingeJoint2D:
@@ -4131,7 +4131,7 @@ PrefabInstance:
     - target: {fileID: 1933286342873167919, guid: 0b471fe4eee2b42b2a9bfd714625c527,
         type: 3}
       propertyPath: m_Radius
-      value: 1.25
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9101469229199207196, guid: 0b471fe4eee2b42b2a9bfd714625c527,
         type: 3}
@@ -4141,7 +4141,7 @@ PrefabInstance:
     - target: {fileID: 9101469229199207199, guid: 0b471fe4eee2b42b2a9bfd714625c527,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.22
+      value: 14.01
       objectReference: {fileID: 0}
     - target: {fileID: 9101469229199207199, guid: 0b471fe4eee2b42b2a9bfd714625c527,
         type: 3}
@@ -5070,7 +5070,7 @@ Transform:
   - {fileID: 676587200}
   - {fileID: 197543170}
   m_Father: {fileID: 1812602594}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &301084035
 MonoBehaviour:
@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123dabfa7cb4a4417b17d217e41b1502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 0
+  index: 7
   levels: {fileID: 1812602595}
   spawn: {fileID: 288924230}
   zoom: 11
@@ -9888,10 +9888,10 @@ MonoBehaviour:
   - {fileID: 1267981298}
   radii:
   - 0.25
-  - 0.001
-  - 0.001
-  - 0.001
-  - 0.001
+  - 0.00001
+  - 0.00001
+  - 0.00001
+  - 0.00001
   mask:
     serializedVersion: 2
     m_Bits: 7479
@@ -23621,7 +23621,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &1261305334
 BoxCollider2D:
@@ -24124,7 +24124,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!233 &1267981295
 HingeJoint2D:
@@ -29976,7 +29976,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &1327280362
 BoxCollider2D:
@@ -32489,7 +32489,7 @@ Transform:
   - {fileID: 1654111516}
   - {fileID: 168081796}
   m_Father: {fileID: 1812602594}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1503375462
 MonoBehaviour:
@@ -41326,7 +41326,7 @@ GameObject:
   - component: {fileID: 1746047847}
   - component: {fileID: 1746047848}
   m_Layer: 0
-  m_Name: Squeeze
+  m_Name: Flappy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41355,7 +41355,7 @@ Transform:
   - {fileID: 834856401}
   - {fileID: 1611938532}
   m_Father: {fileID: 1812602594}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1746047848
 MonoBehaviour:
@@ -42347,10 +42347,10 @@ Transform:
   - {fileID: 2031242003}
   - {fileID: 1020735052}
   - {fileID: 142185453}
-  - {fileID: 301084034}
   - {fileID: 1746047847}
   - {fileID: 1503375461}
   - {fileID: 1934639712}
+  - {fileID: 301084034}
   - {fileID: 173829351}
   - {fileID: 1565182105}
   - {fileID: 1570034600}
@@ -44194,7 +44194,7 @@ Transform:
   - {fileID: 189389655}
   - {fileID: 1586679430}
   m_Father: {fileID: 1812602594}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1934639713
 MonoBehaviour:
