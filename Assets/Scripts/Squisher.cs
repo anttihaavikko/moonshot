@@ -27,7 +27,7 @@ public class Squisher : MonoBehaviour
             {
                 if (moon && !moon.HasDied())
                 {
-                    print("Hurt for " + spots[i].name + " and " + hit.gameObject.name);
+                    //print("Hurt for " + spots[i].name + " and " + hit.gameObject.name);
                     if(moon.Hurt())
                     {
                         enabled = false;
