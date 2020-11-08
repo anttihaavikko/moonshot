@@ -694,7 +694,8 @@ GameObject:
   - component: {fileID: 7448576283232002203}
   - component: {fileID: 406898252815625321}
   - component: {fileID: 8246059011624676318}
-  m_Layer: 0
+  - component: {fileID: 4225268045826197265}
+  m_Layer: 12
   m_Name: Bat
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -843,6 +844,27 @@ MonoBehaviour:
   - {fileID: 1062592297358408278}
   - {fileID: 1062592297870924850}
   - {fileID: 1062592299025836874}
+--- !u!114 &4225268045826197265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062592299096241003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62c617d9cf2f4e1ab7bdcbcc465f4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moon: {fileID: 0}
+  enemy: {fileID: 406898252815625321}
+  spots:
+  - {fileID: 1062592299096240996}
+  radii:
+  - 0.5
+  mask:
+    serializedVersion: 2
+    m_Bits: 3383
 --- !u!1 &1062592299159631697
 GameObject:
   m_ObjectHideFlags: 0

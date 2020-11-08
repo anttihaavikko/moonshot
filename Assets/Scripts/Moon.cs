@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Moon : MonoBehaviour
+public class Moon : MonoBehaviour, IDier
 {
     public Rigidbody2D leftHand, rightHand;
     public Transform leftBarrel, rightBarrel;
@@ -21,6 +21,7 @@ public class Moon : MonoBehaviour
     public List<Joint2D> joints, extraJoints;
     public SpriteRenderer sprite;
     public List<GameObject> visibleObjects;
+    public Flasher flasher;
 
     private Level level;
 
@@ -31,6 +32,8 @@ public class Moon : MonoBehaviour
 
     private float autoShotDelay;
     private bool autoShoot = false;
+
+    private int hp = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -237,5 +240,20 @@ public class Moon : MonoBehaviour
         joint.enabled = false;
         var dir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
         joint.attachedRigidbody.AddForce(dir * 15f, ForceMode2D.Impulse);
+    }
+
+    public bool Hurt()
+    {
+        flasher.Flash();
+
+        hp--;
+
+        if (hp <= 0)
+        {
+            Die();
+            return true;
+        }
+
+        return false;
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDier
 {
     public int hp = 3;
     public Rigidbody2D body;
@@ -64,4 +64,8 @@ public class Enemy : MonoBehaviour
 
         cam.BaseEffect(0.5f);
     }
+}
+
+public interface IDier {
+    void Die();
 }

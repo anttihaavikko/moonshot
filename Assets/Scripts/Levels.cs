@@ -32,18 +32,18 @@ public class Levels : MonoBehaviour
     private void Start()
     {
         levels = GetComponentsInChildren<Level>(true).ToList();
+        zoomer.ZoomTo(farZoom, true);
 
-        if(Manager.Instance.level > -1)
+        if (Manager.Instance.level > -1)
         {
             levels.ForEach(l => l.gameObject.SetActive(false));
-            zoomer.ZoomTo(farZoom, true);
             current = Manager.Instance.level;
             cam.transform.position = Manager.Instance.startPos;
             cam.enabled = false;
             MoveCamTo(levels[current].GetCamPos(), TweenEasings.QuadraticEaseInOut);
             this.StartCoroutine(() =>
             {
-                zoomer.ZoomTo(8.5f);
+                zoomer.ZoomTo(levels[current].zoom);
                 Manager.Instance.startPos = cam.transform.position;
                 cam.enabled = true;
                 cam.ResetOrigin();
@@ -55,6 +55,7 @@ public class Levels : MonoBehaviour
             if (act)
             {
                 current = levels.IndexOf(act);
+                zoomer.ZoomTo(levels[current].zoom);
                 cam.transform.position = levels[current].GetCamPos();
                 cam.ResetOrigin();
             }

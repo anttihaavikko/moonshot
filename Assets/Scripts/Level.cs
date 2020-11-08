@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public abstract class Level : MonoBehaviour
 {
     public int index;
     public Levels levels;
     public Transform spawn;
+    public float zoom = 8.5f;
 
     public bool hasLeftGun = true;
     public bool hasRightGun = true;
