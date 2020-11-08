@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Squisher.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Levels.cs">
     <Files>
-      <File FileName="Assets/Scripts/Moon.cs" Line="6" Column="41" />
+      <File FileName="Assets/Scripts/Moon.cs" Line="69" Column="6" />
       <File FileName="Assets/Scripts/LavaLevel.cs" />
       <File FileName="Assets/Scripts/GoalLevel.cs" />
       <File FileName="Assets/Scripts/KillLevel.cs" Line="14" Column="6" />
       <File FileName="Assets/Scripts/Level.cs" Line="8" Column="18" />
-      <File FileName="Assets/Scripts/Levels.cs" Line="58" Column="53" />
+      <File FileName="Assets/Scripts/Levels.cs" Line="39" Column="41" />
       <File FileName="Assets/Scripts/Manager.cs" />
       <File FileName="Assets/Scripts/LevelInfo.cs" />
       <File FileName="Assets/Scripts/Bat.cs" Line="29" Column="64" />
@@ -18,7 +18,7 @@
       <File FileName="Assets/SceneChanger/Blinders.cs" Line="31" Column="53" />
       <File FileName="Assets/Scripts/Platform.cs" Line="15" Column="72" />
       <File FileName="Assets/Scripts/Zoomer.cs" Line="18" Column="6" />
-      <File FileName="Assets/Scripts/Squisher.cs" Line="7" Column="11" />
+      <File FileName="Assets/Scripts/Squisher.cs" Line="30" Column="90" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,7 +27,7 @@
             <Node name="Assets" expanded="True">
               <Node name="SceneChanger" expanded="True" />
               <Node name="Scripts" expanded="True">
-                <Node name="Squisher.cs" selected="True" />
+                <Node name="Levels.cs" selected="True" />
               </Node>
             </Node>
           </Node>

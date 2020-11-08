@@ -55,11 +55,31 @@ public class Moon : MonoBehaviour, IDier
         CheckTouch();
     }
 
+    bool LeftTouch()
+    {
+        return Input.mousePosition.x < Screen.width / 2f && Input.GetMouseButtonDown(0) && Application.isMobilePlatform;
+    }
+
+    bool RightTouch()
+    {
+        return Input.mousePosition.x > Screen.width / 2f && Input.GetMouseButtonDown(0) && Application.isMobilePlatform;
+    }
+
+    bool LeftMouse()
+    {
+        return Input.GetMouseButtonDown(0) && !Application.isMobilePlatform;
+    }
+
+    bool RightMouse()
+    {
+        return Input.GetMouseButtonDown(1) && !Application.isMobilePlatform;
+    }
+
     void CheckShots()
     {
         if (levelInfo.IsShown() || hasDied) return;
 
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Alpha1) ||
+        if (LeftTouch() || LeftMouse() || Input.GetKeyDown(KeyCode.Alpha1) ||
             Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Alpha8))
         {
             if (leftGun.activeSelf)
@@ -68,7 +88,7 @@ public class Moon : MonoBehaviour, IDier
             }
         }
 
-        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Alpha2) ||
+        if (RightTouch() || RightMouse() || Input.GetKeyDown(KeyCode.Alpha2) ||
             Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Alpha9))
         {
             if (rightGun.activeSelf)
