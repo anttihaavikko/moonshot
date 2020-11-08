@@ -20,8 +20,8 @@ public class Levels : MonoBehaviour
     private readonly float farZoom = 14f;
 
     private readonly LevelData[] levelData = {
-        new LevelData("Sinister", "Reach the goal", "Use (LMB) to shoot left hand gun.", "Nice!"), // 0
-        new LevelData("Dexter", "Reach the goal", "Use (RMB) to shoot right hand gun.", "Yahoo!"), // 1
+        new LevelData("Sinistrum", "Reach the goal", "Use (LMB) to shoot left hand gun.", "Nice!"), // 0
+        new LevelData("Dextrum", "Reach the goal", "Use (RMB) to shoot right hand gun.", "Yahoo!"), // 1
         new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"), // 2
         new LevelData("The floor is lava", "Survive 5 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."), // 3
         new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"), // 4
