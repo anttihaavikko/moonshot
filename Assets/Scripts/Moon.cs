@@ -57,12 +57,14 @@ public class Moon : MonoBehaviour, IDier
 
     bool LeftTouch()
     {
-        return Input.mousePosition.x < Screen.width / 2f && Input.GetMouseButtonDown(0) && Application.isMobilePlatform;
+        var newTouches = Input.touches.Where(t => t.phase == TouchPhase.Began);
+        return newTouches.Any(t => t.position.x < Screen.width / 2f) && Application.isMobilePlatform;
     }
 
     bool RightTouch()
     {
-        return Input.mousePosition.x > Screen.width / 2f && Input.GetMouseButtonDown(0) && Application.isMobilePlatform;
+        var newTouches = Input.touches.Where(t => t.phase == TouchPhase.Began);
+        return newTouches.Any(t => t.position.x > Screen.width / 2f) && Application.isMobilePlatform;
     }
 
     bool LeftMouse()
