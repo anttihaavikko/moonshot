@@ -37,7 +37,7 @@ public class Bubble : MonoBehaviour
 
     private Vector3 GetSize()
 	{
-		return Vector3.one * 1.5f;
+		return Vector3.one * (Application.isMobilePlatform ? 1.5f : 1.2f);
 	}
 
     public void Show(bool permanent = false)
