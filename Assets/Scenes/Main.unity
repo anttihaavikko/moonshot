@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -485,8 +485,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9836052}
   m_LocalRotation: {x: -0, y: -0, z: 0.9228967, w: 0.38504776}
-  m_LocalPosition: {x: 0.53, y: 0.53999966, z: 0}
-  m_LocalScale: {x: 0.90000623, y: 1.3584999, z: 1.3585}
+  m_LocalPosition: {x: 0.651, y: 0.66, z: 0}
+  m_LocalScale: {x: 1.12512, y: 1.6982943, z: 1.6982944}
   m_Children: []
   m_Father: {fileID: 908797963}
   m_RootOrder: 1
@@ -3290,9 +3290,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 330105205ee7e43f8961d43e81a12d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: 'Press (R) to respawn
+  message: 'Press (R) to (respawn)
 
     if you''re stuck.'
+  mobileMessage: Press (button on top left) corner to (respawn) if you're stuck.
   delay: 0.5
   shown: 0
 --- !u!4 &188201586 stripped
@@ -5173,9 +5174,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 330105205ee7e43f8961d43e81a12d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: 'Press (R) to respawn
+  message: 'Press (R) to (respawn)
 
     if you''re stuck.'
+  mobileMessage: Press (button on top left) corner to (respawn) if you're stuck.
   delay: 0.5
   shown: 0
 --- !u!1 &301084033
@@ -9818,8 +9820,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 605339407}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.36, y: 1.57, z: 0}
-  m_LocalScale: {x: 5.507369, y: 2.7710035, z: 2.7710035}
+  m_LocalPosition: {x: 2.689, y: 1.735, z: 0}
+  m_LocalScale: {x: 6.165186, y: 3.1019807, z: 3.1019807}
   m_Children: []
   m_Father: {fileID: 908797963}
   m_RootOrder: 0
@@ -12375,8 +12377,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744721012}
   m_LocalRotation: {x: -0, y: -0, z: 0.9228967, w: 0.38504776}
-  m_LocalPosition: {x: 0.53, y: 0.53999966, z: 0}
-  m_LocalScale: {x: 0.6055771, y: 0.9140786, z: 0.91407865}
+  m_LocalPosition: {x: 0.651, y: 0.66, z: 0}
+  m_LocalScale: {x: 0.7570469, y: 1.1427122, z: 1.1427124}
   m_Children: []
   m_Father: {fileID: 908797963}
   m_RootOrder: 3
@@ -16216,8 +16218,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067357393}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.36, y: 1.5699997, z: 0}
-  m_LocalScale: {x: 5.266422, y: 2.5562506, z: 2.4939032}
+  m_LocalPosition: {x: 2.689, y: 1.735, z: 0}
+  m_LocalScale: {x: 5.895459, y: 2.861577, z: 2.7917826}
   m_Children: []
   m_Father: {fileID: 908797963}
   m_RootOrder: 2
@@ -32721,9 +32723,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 330105205ee7e43f8961d43e81a12d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: 'Press (R) to respawn
+  message: 'Press (R) to (respawn)
 
     if you''re stuck.'
+  mobileMessage: Press (button on top left) corner to (respawn) if you're stuck.
   delay: 0.5
   shown: 0
 --- !u!1 &1482900889
@@ -33635,8 +33638,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.41, y: 1.597}
-  m_SizeDelta: {x: 4.114541, y: 2.2088428}
+  m_AnchoredPosition: {x: 2.684, y: 1.723}
+  m_SizeDelta: {x: 4.6633377, y: 2.4603744}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1522401021
 MonoBehaviour:

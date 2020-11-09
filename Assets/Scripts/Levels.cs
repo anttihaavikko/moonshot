@@ -20,8 +20,8 @@ public class Levels : MonoBehaviour
     private readonly float farZoom = 14f;
 
     private readonly LevelData[] levelData = {
-        new LevelData("Sinistrum", "Reach the goal", "Use (LMB) to shoot left hand gun.", "Nice!"), // 0
-        new LevelData("Dextrum", "Reach the goal", "Use (RMB) to shoot right hand gun.", "Yahoo!"), // 1
+        new LevelData("Sinistrum", "Reach the goal", GetLeftHelp(), "Nice!"), // 0
+        new LevelData("Dextrum", "Reach the goal", GetRightHelp(), "Yahoo!"), // 1
         new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"), // 2
         new LevelData("The floor is lava", "Survive 5 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."), // 3
         new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"), // 4
@@ -29,6 +29,17 @@ public class Levels : MonoBehaviour
         new LevelData("Flappy Moon", "Reach the goal", "Lorem ipsum", "And they call this hard..."), // 6
         new LevelData("1-2", "Reach the goal", "It's me, (Moon)!", "No warps!"), // 7
     };
+
+    private static string GetLeftHelp()
+    {
+        return Application.isMobilePlatform ? "Touch (left side of screen) to shoot left gun." : "Use (LMB) to shoot left hand gun.";
+    }
+
+    private static string GetRightHelp()
+    {
+        return Application.isMobilePlatform ? "Touch (right side of screen) to shoot right gun." : "Use (RMB) to shoot right hand gun.";
+    }
+
 
     private void Start()
     {

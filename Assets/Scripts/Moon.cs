@@ -219,15 +219,16 @@ public class Moon : MonoBehaviour, IDier
         if (collision.gameObject.tag == "Bubble")
         {
             var trigger = collision.GetComponent<BubbleTrigger>();
-            if(!trigger.shown && !Manager.Instance.IsShown(trigger.message))
+            var msg = trigger.GetMessage();
+            if (!trigger.shown && !Manager.Instance.IsShown(msg))
             {
                 this.StartCoroutine(() => {
                     if(!hasDied)
                     {
-                        bubble.Show(trigger.message);
+                        bubble.Show(msg);
                     }
                 }, trigger.delay);
-                Manager.Instance.Add(trigger.message);
+                Manager.Instance.Add(msg);
                 trigger.shown = true;
             }
         }

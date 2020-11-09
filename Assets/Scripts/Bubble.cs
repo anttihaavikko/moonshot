@@ -35,12 +35,17 @@ public class Bubble : MonoBehaviour
         text.transform.localScale = new Vector3(dir, 1f, 1f);
     }
 
+    private Vector3 GetSize()
+	{
+		return Vector3.one * 1.5f;
+	}
+
     public void Show(bool permanent = false)
     {
         locked = permanent;
         shown = true;
         wrapper.SetActive(true);
-        Tweener.Instance.ScaleTo(wrapper.transform, Vector3.one, showDuration, 0, TweenEasings.BounceEaseOut);
+        Tweener.Instance.ScaleTo(wrapper.transform, GetSize(), showDuration, 0, TweenEasings.BounceEaseOut);
     }
 
     public void Hide()
