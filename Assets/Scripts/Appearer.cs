@@ -56,6 +56,7 @@ public class Appearer : MonoBehaviour
         }
 
         // Debug.Log("Showing " + name);
+        gameObject.SetActive(true);
         Tweener.Instance.ScaleTo(transform, size, showDuration, 0f, TweenEasings.BounceEaseOut);
 
         if (autoHide)

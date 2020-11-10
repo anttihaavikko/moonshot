@@ -34,6 +34,7 @@ public class Moon : MonoBehaviour, IDier
     private bool autoShoot = false;
 
     private int hp = 3;
+    private bool clicksDisabled;
 
     // Start is called before the first frame update
     void Start()
@@ -48,8 +49,7 @@ public class Moon : MonoBehaviour, IDier
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            //SceneManager.LoadSceneAsync("Main");
-            Die();
+            SceneChanger.Instance.ChangeScene("Main");
         }
 
         CheckTouch();
@@ -69,12 +69,17 @@ public class Moon : MonoBehaviour, IDier
 
     bool LeftMouse()
     {
-        return Input.GetMouseButtonDown(0) && !Application.isMobilePlatform;
+        return !clicksDisabled && Input.GetMouseButtonDown(0) && !Application.isMobilePlatform;
     }
 
     bool RightMouse()
     {
-        return Input.GetMouseButtonDown(1) && !Application.isMobilePlatform;
+        return !clicksDisabled && Input.GetMouseButtonDown(1) && !Application.isMobilePlatform;
+    }
+
+    public void SetClicksDisabled(bool state)
+    {
+        clicksDisabled = state;
     }
 
     void CheckShots()

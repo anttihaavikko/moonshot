@@ -1,11 +1,15 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BubbleTrigger.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/DisableOnHover.cs">
     <Files>
-      <File FileName="Assets/Scripts/Moon.cs" Line="72" Column="77" />
-      <File FileName="Assets/Scripts/Level.cs" Line="8" Column="18" />
-      <File FileName="Assets/Scripts/Levels.cs" Line="42" Column="1" />
-      <File FileName="Assets/Scripts/Bubble.cs" Line="43" Column="45" />
-      <File FileName="Assets/Scripts/BubbleTrigger.cs" Line="7" Column="5" />
+      <File FileName="Assets/Scripts/Moon.cs" Line="87" Column="6" />
+      <File FileName="Assets/Scripts/Level.cs" />
+      <File FileName="Assets/Scripts/Levels.cs" />
+      <File FileName="Assets/Scripts/Bubble.cs" />
+      <File FileName="Assets/Scripts/BubbleTrigger.cs" />
+      <File FileName="Assets/Scripts/CustomButton.cs" Line="7" Column="44" />
+      <File FileName="Assets/Scripts/ButtonMenu.cs" Line="71" Column="23" />
+      <File FileName="Assets/Scripts/Appearer.cs" />
+      <File FileName="Assets/Scripts/DisableOnHover.cs" Line="5" Column="87" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,7 +18,7 @@
             <Node name="Assets" expanded="True">
               <Node name="SceneChanger" expanded="True" />
               <Node name="Scripts" expanded="True">
-                <Node name="BubbleTrigger.cs" selected="True" />
+                <Node name="DisableOnHover.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -24,7 +28,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="dff5077d-d9f7-45cb-9ba1-d1aaf156c5ca" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a37963d8-703b-4d65-8d5d-816948e77292" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
