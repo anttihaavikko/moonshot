@@ -6,9 +6,19 @@ public class ButtonMenu : MonoBehaviour
 {
     public List<CustomButton> buttons;
     public Appearer appearer;
+    public bool startVisible;
+    public bool loops = true;
 
     private int active;
     private bool state;
+
+    private void Start()
+    {
+        if(startVisible)
+        {
+            this.StartCoroutine(() => Toggle(true), 0.2f);
+        }
+    }
 
     public void Toggle(bool focusFirst = false)
     {
@@ -60,8 +70,8 @@ public class ButtonMenu : MonoBehaviour
         var prev = active;
 
         active += direction;
-        if (active >= buttons.Count) active = 0;
-        if (active < 0) active = buttons.Count - 1;
+        if (active >= buttons.Count) active = loops ? 0 : buttons.Count - 1;
+        if (active < 0) active = loops ? buttons.Count - 1 : 0;
 
         Focus(prev, active);
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Image fill;
     public Color hoverFill, hoverText;
     public ButtonMenu menu;
+    public UnityAction onFocus;
+    public int index;
 
     private Color fillColor, textColor;
 
@@ -26,6 +29,9 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, Random.Range(-3f, 3f)), 0.2f, 0, TweenEasings.BounceEaseOut);
         fill.color = hoverFill;
         text.color = hoverText;
+
+        if(onFocus != null)
+            onFocus.Invoke();
     }
 
     public void DeFocus()
