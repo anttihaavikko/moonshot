@@ -48,9 +48,9 @@ public class Bubble : MonoBehaviour
         Tweener.Instance.ScaleTo(wrapper.transform, GetSize(), showDuration, 0, TweenEasings.BounceEaseOut);
     }
 
-    public void Hide()
+    public void Hide(bool forced = false)
     {
-        if (!shown || locked) return;
+        if (!shown || (locked && !forced)) return;
 
         shown = false;
         Tweener.Instance.ScaleTo(wrapper.transform, Vector3.zero, showDuration, 0, TweenEasings.QuadraticEaseOut);

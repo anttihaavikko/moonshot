@@ -244,7 +244,7 @@ public class Moon : MonoBehaviour, IDier
         if (hasDied) return;
 
         hasDied = true;
-        bubble.Hide();
+        bubble.Hide(true);
 
         level.Restart();
 
