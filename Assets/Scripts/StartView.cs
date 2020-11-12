@@ -7,18 +7,18 @@ public class StartView : MonoBehaviour
     private bool disableStart;
     private bool hasStarted;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (disableStart) return;
 
-        if(Input.anyKeyDown && !hasStarted)
+        if (Input.GetKeyDown(KeyCode.Escape) && !hasStarted && Application.platform != RuntimePlatform.WebGLPlayer)
+        {
+            hasStarted = true;
+            Application.Quit();
+        }
+
+        if (Input.anyKeyDown && !hasStarted)
         {
             hasStarted = true;
             SceneChanger.Instance.ChangeScene("LevelSelect");

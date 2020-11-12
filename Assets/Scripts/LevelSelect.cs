@@ -10,6 +10,8 @@ public class LevelSelect : MonoBehaviour
     public RectTransform scroller, scrollContent;
     public ButtonMenu menu;
 
+    private bool hasStarted;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,15 @@ public class LevelSelect : MonoBehaviour
         });
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !hasStarted)
+        {
+            hasStarted = true;
+            SceneChanger.Instance.ChangeScene("Start");
+        }
+    }
+
     void ScrollTo(RectTransform rt)
     {
         Canvas.ForceUpdateCanvases();
@@ -42,6 +53,9 @@ public class LevelSelect : MonoBehaviour
 
     void StartLevel(int index)
     {
+        if (hasStarted) return;
+
+        hasStarted = true;
         Manager.Instance.level = index;
         Manager.Instance.showInfo = true;
         SceneChanger.Instance.ChangeScene("Main");
