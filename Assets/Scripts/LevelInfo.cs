@@ -7,10 +7,18 @@ public class LevelInfo : MonoBehaviour
 {
     public List<Appearer> appearers;
     public Levels levels;
+    public bool closeWithAny = true;
 
     public TMPro.TMP_Text nameText, descText, nameShadow, descShadow;
 
     private bool shown;
+    private bool clickDisabled;
+
+    public void Show()
+    {
+        shown = true;
+        appearers.ForEach(a => a.ShowAfterDelay());
+    }
 
     public void Show(string levelName, string description)
     {
@@ -21,10 +29,10 @@ public class LevelInfo : MonoBehaviour
         }
 
         Manager.Instance.showInfo = false;
-        shown = true;
+        
         nameText.text = nameShadow.text = levelName;
         descText.text = descShadow.text = description;
-        appearers.ForEach(a => a.ShowAfterDelay());
+        Show();
     }
 
     public void Hide()
@@ -43,7 +51,7 @@ public class LevelInfo : MonoBehaviour
 
     private void Update()
     {
-        if(shown && Input.anyKeyDown)
+        if(shown && Input.anyKeyDown && closeWithAny && !clickDisabled)
         {
             Hide();
         }
@@ -52,5 +60,10 @@ public class LevelInfo : MonoBehaviour
     public bool IsShown()
     {
         return shown;
+    }
+
+    public void SetClicksDisabled(bool state)
+    {
+        clickDisabled = state;
     }
 }

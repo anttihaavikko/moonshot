@@ -5,6 +5,7 @@ public class DisableOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public Moon moon;
     public StartView startView;
+    public LevelInfo levelInfo;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -13,6 +14,9 @@ public class DisableOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         if (startView)
             startView.SetClicksDisabled(true);
+
+        if (levelInfo)
+            levelInfo.SetClicksDisabled(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -22,5 +26,8 @@ public class DisableOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         if (startView)
             startView.SetClicksDisabled(false);
+
+        if (levelInfo)
+            levelInfo.SetClicksDisabled(false);
     }
 }

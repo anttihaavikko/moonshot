@@ -3934,6 +3934,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moon: {fileID: 619370581}
+  startView: {fileID: 0}
+  levelInfo: {fileID: 2087338327}
 --- !u!1 &279759964
 GameObject:
   m_ObjectHideFlags: 0
@@ -4981,7 +4983,7 @@ RectTransform:
   - {fileID: 379301621}
   - {fileID: 260011752}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5537,6 +5539,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moon: {fileID: 619370581}
+  startView: {fileID: 0}
+  levelInfo: {fileID: 0}
 --- !u!1 &389486038
 GameObject:
   m_ObjectHideFlags: 0
@@ -6590,7 +6594,7 @@ RectTransform:
   m_Children:
   - {fileID: 1568822205}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10384,7 +10388,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &833265304
 GameObject:
@@ -19782,7 +19786,7 @@ PrefabInstance:
     - target: {fileID: 5089579902561069688, guid: 8ea6879cc535745719cc7fc8a56da4b2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5089579902561069688, guid: 8ea6879cc535745719cc7fc8a56da4b2,
         type: 3}
@@ -27351,6 +27355,8 @@ MonoBehaviour:
   appearer: {fileID: 411520984}
   startVisible: 0
   loops: 1
+  togglable: 1
+  levelInfo: {fileID: 2087338327}
 --- !u!1 &1570034599
 GameObject:
   m_ObjectHideFlags: 0
@@ -34808,7 +34814,7 @@ Transform:
   - {fileID: 226123993}
   - {fileID: 1361123498}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1812602595
 MonoBehaviour:
@@ -36705,7 +36711,7 @@ RectTransform:
   m_Children:
   - {fileID: 251238668}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -36734,6 +36740,7 @@ MonoBehaviour:
   - {fileID: 622901911}
   - {fileID: 205918654}
   levels: {fileID: 1812602595}
+  closeWithAny: 1
   nameText: {fileID: 1800357416}
   descText: {fileID: 18131980}
   nameShadow: {fileID: 622901912}
@@ -37442,7 +37449,7 @@ PrefabInstance:
     - target: {fileID: 2521857414542525142, guid: 2bc1c1a33fa0141d78ef40bf5dc26590,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2521857414542525142, guid: 2bc1c1a33fa0141d78ef40bf5dc26590,
         type: 3}

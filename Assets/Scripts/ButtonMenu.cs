@@ -9,6 +9,7 @@ public class ButtonMenu : MonoBehaviour
     public bool startVisible;
     public bool loops = true;
     public bool togglable = true;
+    public LevelInfo levelInfo;
 
     private int active;
     private bool state;
@@ -29,7 +30,13 @@ public class ButtonMenu : MonoBehaviour
         {
             appearer.Show();
 
-            if(focusFirst)
+            if (levelInfo)
+            {
+                levelInfo.closeWithAny = false;
+                levelInfo.Show();
+            }
+
+            if (focusFirst)
             {
                 Focus(0, 0);
             }
@@ -37,6 +44,9 @@ public class ButtonMenu : MonoBehaviour
         else
         {
             appearer.Hide();
+
+            if (levelInfo)
+                levelInfo.Hide();
         }
     }
 
