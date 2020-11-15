@@ -1,37 +1,33 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ButtonMenu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Demo.cs">
     <Files>
       <File FileName="Assets/Scripts/Moon.cs" Line="51" Column="10" />
-      <File FileName="Assets/Scripts/Level.cs" Line="8" Column="18" />
+      <File FileName="Assets/Scripts/Level.cs" />
       <File FileName="Assets/Scripts/Levels.cs" />
-      <File FileName="Assets/Scripts/Bubble.cs" />
+      <File FileName="Assets/Scripts/Bubble.cs" Line="27" Column="32" />
       <File FileName="Assets/Scripts/BubbleTrigger.cs" />
       <File FileName="Assets/Scripts/CustomButton.cs" />
-      <File FileName="Assets/Scripts/ButtonMenu.cs" Line="12" Column="16" />
+      <File FileName="Assets/Scripts/ButtonMenu.cs" />
       <File FileName="Assets/Scripts/Appearer.cs" />
-      <File FileName="Assets/Scripts/DisableOnHover.cs" Line="24" Column="40" />
-      <File FileName="Assets/Scripts/StartView.cs" Line="15" Column="73" />
-      <File FileName="Assets/Scripts/LevelSelect.cs" Line="57" Column="1" />
-      <File FileName="Assets/Scripts/LevelInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/DisableOnHover.cs" />
+      <File FileName="Assets/Scripts/StartView.cs" />
+      <File FileName="Assets/Scripts/LevelSelect.cs" />
+      <File FileName="Assets/Scripts/LevelInfo.cs" />
+      <File FileName="Assets/Scripts/Demo.cs" Line="39" Column="28" />
+      <File FileName="Assets/Scripts/Zoomer.cs" Line="31" Column="2" />
+      <File FileName="Assets/Scripts/EffectCamera.cs" Line="95" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Moonshot" expanded="True">
-            <Node name="Assets" expanded="True">
-              <Node name="SceneChanger" expanded="True" />
-              <Node name="Scripts" expanded="True">
-                <Node name="ButtonMenu.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
+          <Node name="Moonshot" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="182d0fbe-a55f-44e4-b023-3463ff3fdbe1" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="80896e5c-04b0-4405-9058-eedf0bce8dc9" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

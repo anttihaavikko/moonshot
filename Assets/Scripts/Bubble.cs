@@ -21,6 +21,13 @@ public class Bubble : MonoBehaviour
         wrapper.transform.localScale = Vector3.zero;
     }
 
+    public void ShowWithMirroring(string message, bool mirrored)
+    {
+        SetText(message);
+        SetMirroring(mirrored);
+        Show(false);
+    }
+
     public void Show(string message, bool permanent = false)
     {
         SetText(message);

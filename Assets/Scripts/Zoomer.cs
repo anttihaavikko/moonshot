@@ -23,7 +23,7 @@ public class Zoomer : MonoBehaviour
     {
         targetOrtho = target;
 
-        if(instant)
+        if(instant && cam)
         {
             cam.orthographicSize = targetOrtho;
         }

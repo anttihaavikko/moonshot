@@ -51,7 +51,7 @@ public class EffectCamera : MonoBehaviour {
 
     public void ResetOrigin()
     {
-        originalPosition = transform.position;
+        originalPosition = transform.localPosition;
     }
 
 	void Update() {
@@ -88,7 +88,7 @@ public class EffectCamera : MonoBehaviour {
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, originalPosition, Time.deltaTime * 20f);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, originalPosition, Time.deltaTime * 20f);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, Time.deltaTime);
         }
 
