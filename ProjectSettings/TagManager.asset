@@ -9,6 +9,7 @@ TagManager:
   - Bubble
   - Enemy
   - Breakable
+  - Pickup
   layers:
   - Default
   - TransparentFX

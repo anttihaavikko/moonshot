@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public abstract class Level : MonoBehaviour
 {
@@ -10,8 +11,13 @@ public abstract class Level : MonoBehaviour
     public bool hasLeftGun = true;
     public bool hasRightGun = true;
 
+    public LevelBonus[] bonuses;
+
     private bool completed;
     private LevelData info;
+    private int shotCount;
+    private float levelTime;
+    private bool timeOn;
 
     public void Restart()
     {
@@ -24,12 +30,13 @@ public abstract class Level : MonoBehaviour
         {
             completed = true;
             this.StartCoroutine(() => {
-                 if(!levels.moon.HasDied())
+                if(!levels.moon.HasDied())
                 {
                     levels.moon.bubble.Show(info.winMessage, true);
                 }
             }, 0.2f);
-            this.StartCoroutine(() => levels.ChangeLevel(), 1.7f);
+
+            this.StartCoroutine(levels.levelInfo.ShowEnd, 1.5f);
         }
     }
 
@@ -49,6 +56,7 @@ public abstract class Level : MonoBehaviour
     {
         if (levels.moon.HasDied()) return;
         levels.moon.bubble.Show(info.message);
+        timeOn = true;
     }
 
     public Vector3 GetCamPos()
@@ -56,5 +64,55 @@ public abstract class Level : MonoBehaviour
         return new Vector3(transform.position.x, transform.position.y, -10f);
     }
 
+    private void Update()
+    {
+        if(timeOn)
+        {
+            levelTime += Time.deltaTime;
+        }
+    }
+
     public abstract void CheckEnd(float time = 0f);
+
+    public bool IsBonusDone(LevelBonus bonus)
+    {
+        switch(bonus.type)
+        {
+            case BonusType.Moon:
+                return !bonus.moon.activeSelf;
+            case BonusType.Par:
+                return shotCount <= bonus.par;
+            case BonusType.Time:
+                print(levelTime + " vs " + bonus.time);
+                return levelTime <= bonus.time;
+            case BonusType.Extra:
+                return levels.moon.GetTime() <= bonus.time;
+        }
+
+        return false;
+    }
+
+    public void AddShot()
+    {
+        shotCount++;
+    }
+}
+
+[System.Serializable]
+public struct LevelBonus
+{
+    public BonusType type;
+    public string name;
+    public int par;
+    public float time;
+    public GameObject moon;
+}
+
+public enum BonusType
+{
+    None,
+    Moon,
+    Par,
+    Time,
+    Extra
 }

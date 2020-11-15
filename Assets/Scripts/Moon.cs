@@ -170,6 +170,8 @@ public class Moon : MonoBehaviour, IDier
 
         bubble.Hide();
 
+        level.AddShot();
+
         var hit = Physics2D.Raycast(pos, dir, 100f, collisionMask);
         if(hit)
         {
@@ -219,6 +221,14 @@ public class Moon : MonoBehaviour, IDier
         if(collision.gameObject.tag == "Flag" && level)
         {
             level.Complete();
+        }
+
+        if (collision.gameObject.tag == "Pickup" && level)
+        {
+            collision.gameObject.SetActive(false);
+
+            EffectManager.Instance.AddEffect(3, collision.gameObject.transform.position);
+            EffectManager.Instance.AddEffect(6, collision.gameObject.transform.position);
         }
 
         if (collision.gameObject.tag == "Bubble")
@@ -285,5 +295,10 @@ public class Moon : MonoBehaviour, IDier
         effectCam.BaseEffect(0.1f);
 
         return false;
+    }
+
+    public float GetTime()
+    {
+        return bestTime;
     }
 }
