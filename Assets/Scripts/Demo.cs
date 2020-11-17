@@ -9,6 +9,9 @@ public class Demo : MonoBehaviour
     public EffectCamera effectCam;
     public Zoomer zoomer;
     public Transform cam;
+    public DemoType type;
+    public Letter letter;
+    public List<Mover> bats;
 
     private Queue<DemoAction<Demo>> actions;
 
@@ -43,10 +46,18 @@ public class Demo : MonoBehaviour
     {
         actions = new Queue<DemoAction<Demo>>();
 
-        PopulateIntro();
+        switch(type)
+        {
+            case DemoType.Intro:
+                Intro();
+                break;
+            case DemoType.Kidnapping:
+                Kidnapping();
+                break;
+        }
     }
 
-    void PopulateIntro()
+    void Intro()
     {
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -140,6 +151,98 @@ public class Demo : MonoBehaviour
         }));
     }
 
+    void Kidnapping()
+    {
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            zoomer.ZoomTo(4);
+            demo.MoveCamTo(new Vector3(-7f, 0f, 0f), 0.75f);
+        }, 0.75f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.ShowWithMirroring("Hmm, what's going on over there...", true);
+        }, 2f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.MoveCamTo(new Vector3(2f, 0f, 0f), 0.5f);
+            zoomer.ZoomTo(7f);
+        }, 1f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.Hide();
+        }, 0.5f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.ShowWithMirroring("Hey guys, have you seen...", false);
+        }, 0.4f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            MoveBat(0, Vector3.right * 10f + Vector3.up, 0.3f, 0.1f);
+            MoveBat(1, Vector3.right * 12f, 0.35f, 0.15f);
+            MoveBat(2, Vector3.right * 9f + Vector3.up * 0.5f, 0.4f, 0.25f);
+            MoveBat(3, Vector3.right * 11f + Vector3.down, 0.3f, 0.3f);
+        }, 0.3f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.Hide();
+        }, 0.5f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.ShowWithMirroring("Sigh...", false);
+        }, 0.7f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.Hide();
+        }, 0.5f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            var bling = EffectManager.Instance.AddEffect(6, letter.transform.position);
+            bling.transform.localScale = Vector3.one * 0.5f;
+        }, 0.9f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.ShowWithMirroring("They seem to have dropped something!", false);
+        }, 2f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.Hide();
+            demo.moon.SetTrigger("Jump");
+            Tweener.Instance.ScaleTo(letter.transform, Vector3.one, 0.8f, 0, TweenEasings.BounceEaseOut);
+            Tweener.Instance.MoveTo(letter.transform, new Vector3(9f, 1.5f, 0), 0.6f, 0, TweenEasings.BounceEaseOut);
+        }, 1.2f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            letter.Open();
+        }, 4f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            SceneChanger.Instance.ChangeScene("LevelSelect");
+            demo.moonBubble.Hide();
+        }));
+    }
+
+    void MoveBat(int index, Vector3 dir, float duration, float delay)
+    {
+        this.StartCoroutine(() =>
+        {
+            bats[index].enabled = false;
+            Tweener.Instance.MoveFor(bats[index].transform, dir, duration, 0, TweenEasings.QuadraticEaseInOut);
+        }, delay);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -171,4 +274,10 @@ public class DemoAction<T>
     {
         return delay;
     }
+}
+
+public enum DemoType
+{
+    Intro,
+    Kidnapping
 }
