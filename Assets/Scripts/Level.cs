@@ -86,7 +86,7 @@ public abstract class Level : MonoBehaviour
                 print(levelTime + " vs " + bonus.time);
                 return levelTime <= bonus.time;
             case BonusType.Extra:
-                return levels.moon.GetTime() <= bonus.time;
+                return levels.moon.GetTime() >= bonus.time;
         }
 
         return false;

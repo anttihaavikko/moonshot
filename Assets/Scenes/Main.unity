@@ -26375,7 +26375,22 @@ MonoBehaviour:
   zoom: 8.5
   hasLeftGun: 1
   hasRightGun: 1
-  bonuses: []
+  bonuses:
+  - type: 4
+    name: 7 seconds
+    par: 0
+    time: 7
+    moon: {fileID: 0}
+  - type: 4
+    name: 9 seconds
+    par: 0
+    time: 9
+    moon: {fileID: 0}
+  - type: 4
+    name: 11 seconds
+    par: 0
+    time: 11
+    moon: {fileID: 0}
   par: 5
 --- !u!1 &1508271560 stripped
 GameObject:
@@ -36513,9 +36528,9 @@ MonoBehaviour:
     par: 0
     time: 4
     moon: {fileID: 0}
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 3 shots
+    par: 3
     time: 0
     moon: {fileID: 0}
 --- !u!1 &2031463785
