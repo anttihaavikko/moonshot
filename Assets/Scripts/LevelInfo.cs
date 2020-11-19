@@ -11,6 +11,7 @@ public class LevelInfo : MonoBehaviour
     public bool closeWithAny = true;
     public List<TickBox> bonuses;
     public ButtonMenu menu;
+    public Appearer completeText;
 
     public TMPro.TMP_Text nameText, descText, nameShadow, descShadow;
 
@@ -50,6 +51,7 @@ public class LevelInfo : MonoBehaviour
     public void Hide()
     {
         appearers.ForEach(a => a.Hide());
+        completeText.Hide();
         AfterHide();
     }
 
@@ -88,7 +90,10 @@ public class LevelInfo : MonoBehaviour
     {
         clickDisabled = true;
         Show();
+        menu.buttons[0].gameObject.SetActive(false);
+        menu.buttons.RemoveAt(0);
         this.StartCoroutine(menu.ShowEnd, 0.3f);
+        this.StartCoroutine(completeText.Show, 0.6f);
         CheckTickBoxes(true);
     }
 

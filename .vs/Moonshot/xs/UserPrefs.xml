@@ -1,15 +1,15 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LevelSelect.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LevelInfo.cs">
     <Files>
       <File FileName="Assets/Scripts/Moon.cs" Line="7" Column="1" />
       <File FileName="Assets/Scripts/Level.cs" Line="40" Column="14" />
       <File FileName="Assets/Scripts/Levels.cs" Line="35" Column="40" />
       <File FileName="Assets/Scripts/ButtonMenu.cs" Line="28" Column="19" />
-      <File FileName="Assets/Scripts/LevelInfo.cs" Line="95" Column="38" />
+      <File FileName="Assets/Scripts/LevelInfo.cs" Line="95" Column="51" />
       <File FileName="Assets/Scripts/Demo.cs" />
       <File FileName="Assets/Scripts/SaveManager.cs" Line="30" Column="42" />
-      <File FileName="Assets/Scripts/CustomButton.cs" Line="18" Column="37" />
-      <File FileName="Assets/Scripts/LevelSelect.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CustomButton.cs" Line="49" Column="52" />
+      <File FileName="Assets/Scripts/LevelSelect.cs" Line="38" Column="89" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
