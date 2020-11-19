@@ -11948,7 +11948,22 @@ MonoBehaviour:
   zoom: 8.5
   hasLeftGun: 1
   hasRightGun: 1
-  bonuses: []
+  bonuses:
+  - type: 2
+    name: 4 shots
+    par: 4
+    time: 0
+    moon: {fileID: 0}
+  - type: 0
+    name: 
+    par: 0
+    time: 0
+    moon: {fileID: 0}
+  - type: 0
+    name: 
+    par: 0
+    time: 0
+    moon: {fileID: 0}
 --- !u!1 &1022833454
 GameObject:
   m_ObjectHideFlags: 0
