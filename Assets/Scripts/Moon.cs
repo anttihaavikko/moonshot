@@ -241,6 +241,7 @@ public class Moon : MonoBehaviour, IDier
                     if(!hasDied)
                     {
                         bubble.Show(msg);
+                        trigger.appearers.ForEach(a => a.Show());
                     }
                 }, trigger.delay);
                 Manager.Instance.Add(msg);

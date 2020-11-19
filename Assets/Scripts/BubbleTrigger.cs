@@ -11,6 +11,7 @@ public class BubbleTrigger : MonoBehaviour
     public float delay;
     [HideInInspector]
     public bool shown;
+    public List<Appearer> appearers;
 
     public string GetMessage()
     {
