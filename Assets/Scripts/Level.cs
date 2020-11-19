@@ -54,6 +54,18 @@ public abstract class Level : MonoBehaviour
         info = levels.GetInfo(index);
 
         this.StartCoroutine(() => levels.levelInfo.Show(info.name, info.description), 0.6f);
+
+        var data = SaveManager.Instance.GetDataFor(index);
+        for(var i = 0; i < 3; i++)
+        {
+            if(bonuses.Length >= i + 1)
+            {
+                if (bonuses[i].type == BonusType.Moon && data.bonusesDone[i])
+                {
+                    bonuses[i].moon.SetActive(false);
+                }
+            }
+        }
     }
 
     public virtual void AfterInfo()

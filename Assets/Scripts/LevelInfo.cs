@@ -30,6 +30,8 @@ public class LevelInfo : MonoBehaviour
         {
             bonuses[i].text.text = bonusNames[i].name;
         }
+
+        CheckTickBoxes(false);
     }
 
     public void Show(string levelName, string description)
@@ -45,7 +47,6 @@ public class LevelInfo : MonoBehaviour
         nameText.text = nameShadow.text = levelName;
         descText.text = descShadow.text = description;
         Show();
-        CheckTickBoxes(false);
     }
 
     public void Hide()
