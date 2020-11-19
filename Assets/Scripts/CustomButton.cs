@@ -17,8 +17,7 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public int index;
     public List<GameObject> bonuses;
     public GameObject strike;
-
-    private Color fillColor, textColor;
+    public Color fillColor, textColor;
 
     private void Awake()
     {

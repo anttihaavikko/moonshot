@@ -25,7 +25,13 @@ public class LevelSelect : MonoBehaviour
             var info = SaveManager.Instance.GetDataFor(num - 1);
             var b = Instantiate(buttonPrefab, container);
             b.button.interactable = num <= points + 1;
-            b.text.text = b.button.interactable ? num + ". " + level.name : "???";
+            b.text.text = b.button.interactable ? num + ". " + level.name : "Earn " + (num - 1) + " to unlock";
+            if (!b.button.interactable)
+            {
+                b.text.fontSize = 20;
+                b.text.color = b.textColor = Color.gray;
+                b.extraFgs.ForEach(e => e.color = Color.gray);
+            }
             b.menu = menu;
             menu.buttons.Add(b);
             b.index = num - 1;
