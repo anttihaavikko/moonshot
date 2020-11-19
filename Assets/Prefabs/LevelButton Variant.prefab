@@ -532,7 +532,7 @@ GameObject:
   - component: {fileID: 7946619407489390068}
   - component: {fileID: 5567565629525440063}
   m_Layer: 5
-  m_Name: Bonus (2)
+  m_Name: Bonus (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -552,7 +552,7 @@ RectTransform:
   - {fileID: 7621490549528887823}
   - {fileID: 3284116019937146125}
   m_Father: {fileID: 2600060536468099638}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 6799088304246396061}
   - component: {fileID: 2662105065477160153}
   m_Layer: 5
-  m_Name: Bonus (1)
+  m_Name: Bonus (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -628,7 +628,7 @@ RectTransform:
   - {fileID: 2865618609150998180}
   - {fileID: 4361134468945330143}
   m_Father: {fileID: 2600060536468099638}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1002,12 +1002,12 @@ PrefabInstance:
         type: 3}
       propertyPath: bonuses.Array.data[1]
       value: 
-      objectReference: {fileID: 4004965406606892119}
+      objectReference: {fileID: 7282801161890575805}
     - target: {fileID: 7650013351602736765, guid: 0e74febc26fb54d069094f8adb73bd81,
         type: 3}
       propertyPath: bonuses.Array.data[2]
       value: 
-      objectReference: {fileID: 7282801161890575805}
+      objectReference: {fileID: 4004965406606892119}
     - target: {fileID: 7650013351602736765, guid: 0e74febc26fb54d069094f8adb73bd81,
         type: 3}
       propertyPath: strike
