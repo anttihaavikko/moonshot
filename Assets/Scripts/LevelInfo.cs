@@ -43,6 +43,7 @@ public class LevelInfo : MonoBehaviour
         nameText.text = nameShadow.text = levelName;
         descText.text = descShadow.text = description;
         Show();
+        CheckTickBoxes(false);
     }
 
     public void Hide()
@@ -85,15 +86,23 @@ public class LevelInfo : MonoBehaviour
     public void ShowEnd()
     {
         clickDisabled = true;
-
         Show();
+        CheckTickBoxes(true);
+    }
 
+    void CheckTickBoxes(bool recheck)
+    {
         var level = levels.GetCurrentLevel();
+        var save = SaveManager.Instance.GetDataFor(level.index);
         var bonusesDone = level.bonuses.Select(level.IsBonusDone).ToList();
         for (var i = 0; i < bonusesDone.Count(); i++)
         {
-            if(bonusesDone[i])
+            if (recheck && bonusesDone[i] || save.bonusesDone[i])
             {
+                if(recheck)
+                {
+                    SaveManager.Instance.CompleteBonus(level.index, i);
+                }
                 var idx = i;
                 this.StartCoroutine(() => bonuses[idx].Check(), 1f + 0.1f * i);
             }

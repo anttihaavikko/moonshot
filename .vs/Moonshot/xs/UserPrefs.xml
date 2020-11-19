@@ -1,23 +1,24 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Letter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SaveManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Moon.cs" Line="288" Column="1" />
-      <File FileName="Assets/Scripts/Level.cs" Line="92" Column="22" />
-      <File FileName="Assets/Scripts/Levels.cs" Line="135" Column="29" />
-      <File FileName="Assets/Scripts/Bubble.cs" Line="27" Column="32" />
+      <File FileName="Assets/Scripts/Moon.cs" Line="42" Column="27" />
+      <File FileName="Assets/Scripts/Level.cs" />
+      <File FileName="Assets/Scripts/Levels.cs" />
+      <File FileName="Assets/Scripts/Bubble.cs" />
       <File FileName="Assets/Scripts/BubbleTrigger.cs" />
       <File FileName="Assets/Scripts/CustomButton.cs" />
       <File FileName="Assets/Scripts/ButtonMenu.cs" />
       <File FileName="Assets/Scripts/Appearer.cs" />
       <File FileName="Assets/Scripts/DisableOnHover.cs" />
       <File FileName="Assets/Scripts/StartView.cs" />
-      <File FileName="Assets/Scripts/LevelSelect.cs" Line="57" Column="1" />
-      <File FileName="Assets/Scripts/LevelInfo.cs" Line="61" Column="34" />
-      <File FileName="Assets/Scripts/Demo.cs" Line="165" Column="55" />
-      <File FileName="Assets/Scripts/Zoomer.cs" Line="31" Column="2" />
-      <File FileName="Assets/Scripts/EffectCamera.cs" Line="95" Column="9" />
-      <File FileName="Assets/Scripts/TickBox.cs" Line="12" Column="56" />
-      <File FileName="Assets/Scripts/Letter.cs" Line="7" Column="38" />
+      <File FileName="Assets/Scripts/LevelSelect.cs" />
+      <File FileName="Assets/Scripts/LevelInfo.cs" />
+      <File FileName="Assets/Scripts/Demo.cs" />
+      <File FileName="Assets/Scripts/Zoomer.cs" />
+      <File FileName="Assets/Scripts/EffectCamera.cs" />
+      <File FileName="Assets/Scripts/TickBox.cs" />
+      <File FileName="Assets/Scripts/Letter.cs" />
+      <File FileName="Assets/Scripts/SaveManager.cs" Line="11" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -29,7 +30,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="80896e5c-04b0-4405-9058-eedf0bce8dc9" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="712314ba-1c9d-48f6-84be-788591d5f3c8" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

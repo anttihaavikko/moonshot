@@ -51,7 +51,7 @@ public class Levels : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        levels = GetComponentsInChildren<Level>(true).ToList();
+        levels = GetComponentsInChildren<Level>(true).OrderBy(lvl => lvl.index).ToList();
         zoomer.ZoomTo(farZoom, true);
 
         if (Manager.Instance.level > -1)

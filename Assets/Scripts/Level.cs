@@ -36,7 +36,11 @@ public abstract class Level : MonoBehaviour
                 }
             }, 0.2f);
 
-            this.StartCoroutine(levels.levelInfo.ShowEnd, 1.5f);
+            this.StartCoroutine(() =>
+            {
+                SaveManager.Instance.CompleteLevel(index);
+               levels.levelInfo.ShowEnd();
+            }, 1.5f);
         }
     }
 
