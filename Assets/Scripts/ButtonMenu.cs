@@ -93,7 +93,7 @@ public class ButtonMenu : MonoBehaviour
         Focus(prev, active);
     }
 
-    void Focus(int prev, int next)
+    public void Focus(int prev, int next)
     {
         active = next;
         buttons[prev].DeFocus();

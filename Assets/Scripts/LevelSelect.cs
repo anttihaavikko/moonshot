@@ -40,6 +40,12 @@ public class LevelSelect : MonoBehaviour
         });
 
         pointsText.text = pointsShadow.text = points + "/" + Levels.levelData.Length * 4;
+        var lvl = Manager.Instance.level;
+        if(lvl > 0)
+        {
+            this.StartCoroutine(() => menu.Focus(0, Manager.Instance.level), 0.3f);
+            scrollContent.anchoredPosition = new Vector2(scrollContent.anchoredPosition.x, lvl * 100f);
+        }
     }
 
     private void Update()
