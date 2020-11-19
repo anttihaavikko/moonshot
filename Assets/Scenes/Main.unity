@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3699,7 +3699,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 48, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &251238669
@@ -37203,6 +37203,7 @@ MonoBehaviour:
   - {fileID: 73361463}
   - {fileID: 1889487459}
   - {fileID: 307876081}
+  menu: {fileID: 1568822209}
   nameText: {fileID: 1800357416}
   descText: {fileID: 18131980}
   nameShadow: {fileID: 622901912}
@@ -37881,12 +37882,12 @@ PrefabInstance:
     - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.41
+      value: 11.85
       objectReference: {fileID: 0}
     - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.22
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
         type: 3}

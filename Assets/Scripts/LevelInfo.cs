@@ -10,6 +10,7 @@ public class LevelInfo : MonoBehaviour
     public Levels levels;
     public bool closeWithAny = true;
     public List<TickBox> bonuses;
+    public ButtonMenu menu;
 
     public TMPro.TMP_Text nameText, descText, nameShadow, descShadow;
 
@@ -87,6 +88,7 @@ public class LevelInfo : MonoBehaviour
     {
         clickDisabled = true;
         Show();
+        this.StartCoroutine(menu.ShowEnd, 0.3f);
         CheckTickBoxes(true);
     }
 

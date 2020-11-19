@@ -22,6 +22,12 @@ public class ButtonMenu : MonoBehaviour
         }
     }
 
+    public void ShowEnd()
+    {
+        Toggle(false);
+        Focus(0, 2);
+    }
+
     public void Toggle(bool focusFirst = false)
     {
         state = !state;

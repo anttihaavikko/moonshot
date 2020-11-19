@@ -11,15 +11,19 @@ public class LevelSelect : MonoBehaviour
     public ButtonMenu menu;
 
     private bool hasStarted;
+    private int points;
 
     // Start is called before the first frame update
     void Start()
     {
+        points = SaveManager.Instance.GetPoints();
+
         var num = 1;
         Levels.levelData.ToList().ForEach(level =>
         {
             var b = Instantiate(buttonPrefab, container);
-            b.text.text = num + ". " + level.name;
+            b.button.interactable = num <= points + 1;
+            b.text.text = b.button.interactable ? num + ". " + level.name : "???";
             b.menu = menu;
             menu.buttons.Add(b);
             b.index = num - 1;
@@ -27,6 +31,8 @@ public class LevelSelect : MonoBehaviour
             b.button.onClick.AddListener(() => StartLevel(b.index));
             num++;
         });
+
+        print("Total points: " + points);
     }
 
     private void Update()

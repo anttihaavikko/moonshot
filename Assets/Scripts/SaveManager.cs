@@ -29,6 +29,11 @@ public class SaveManager : SingletonManager<SaveManager>
     {
         return data.levelSaveData[level];
     }
+
+    public int GetPoints()
+    {
+        return data.levelSaveData.Where(lvl => lvl.completed).Select(lvl => 1 + lvl.bonusesDone.Count(b => b)).Sum();
+    }
 }
 
 [System.Serializable]
