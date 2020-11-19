@@ -9,6 +9,7 @@ public class LevelSelect : MonoBehaviour
     public Transform container;
     public RectTransform scroller, scrollContent;
     public ButtonMenu menu;
+    public TMPro.TMP_Text pointsText, pointsShadow;
 
     private bool hasStarted;
     private int points;
@@ -21,6 +22,7 @@ public class LevelSelect : MonoBehaviour
         var num = 1;
         Levels.levelData.ToList().ForEach(level =>
         {
+            var info = SaveManager.Instance.GetDataFor(num - 1);
             var b = Instantiate(buttonPrefab, container);
             b.button.interactable = num <= points + 1;
             b.text.text = b.button.interactable ? num + ". " + level.name : "???";
@@ -29,10 +31,15 @@ public class LevelSelect : MonoBehaviour
             b.index = num - 1;
             b.onFocus += () => ScrollTo(b.GetComponent<RectTransform>());
             b.button.onClick.AddListener(() => StartLevel(b.index));
+            b.bonuses[0].SetActive(info.bonusesDone[0]);
+            b.bonuses[1].SetActive(info.bonusesDone[1]);
+            b.bonuses[2].SetActive(info.bonusesDone[2]);
+            b.strike.SetActive(info.completed);
+            b.strike.transform.rotation = Quaternion.Euler(0, 0, Random.Range(-5f, 5f));
             num++;
         });
 
-        print("Total points: " + points);
+        pointsText.text = pointsShadow.text = points + "/" + Levels.levelData.Length * 4;
     }
 
     private void Update()

@@ -10,10 +10,13 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Button button;
     public TMPro.TMP_Text text;
     public Image fill;
+    public List<Image> extraFgs, extraBgs;
     public Color hoverFill, hoverText;
     public ButtonMenu menu;
     public UnityAction onFocus;
     public int index;
+    public List<GameObject> bonuses;
+    public GameObject strike;
 
     private Color fillColor, textColor;
 
@@ -29,8 +32,10 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, Random.Range(-3f, 3f)), 0.2f, 0, TweenEasings.BounceEaseOut);
         fill.color = hoverFill;
         text.color = hoverText;
+        extraBgs.ForEach(e => e.color = hoverFill);
+        extraFgs.ForEach(e => e.color = hoverText);
 
-        if(onFocus != null)
+        if (onFocus != null)
             onFocus.Invoke();
     }
 
@@ -40,11 +45,14 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, 0), 0.15f, 0, TweenEasings.BounceEaseOut);
         fill.color = fillColor;
         text.color = textColor;
+        extraBgs.ForEach(e => e.color = fillColor);
+        extraFgs.ForEach(e => e.color = textColor);
     }
 
     public void Trigger()
     {
-        button.onClick.Invoke();
+        if(button.interactable)
+            button.onClick.Invoke();
     }
 
     public void ChangeScene(string scene)
