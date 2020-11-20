@@ -25,7 +25,7 @@ public class LevelSelect : MonoBehaviour
             var info = SaveManager.Instance.GetDataFor(num - 1);
             var b = Instantiate(buttonPrefab, container);
             b.button.interactable = num <= points + 1;
-            b.text.text = b.button.interactable ? num + ". " + level.name : "Earn " + (num - 1) + " to unlock";
+            b.text.text = b.button.interactable ? num + ". " + level.name : "Earn <size=25>" + (num - 1) + "</size> to unlock";
             if (!b.button.interactable)
             {
                 b.text.fontSize = 20;

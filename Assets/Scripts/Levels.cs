@@ -22,8 +22,8 @@ public class Levels : MonoBehaviour
     public static readonly LevelData[] levelData = {
         new LevelData("Sinistrum", "Reach the goal", GetLeftHelp(), "Nice!"),
         new LevelData("Dextrum", "Reach the goal", GetRightHelp(), "Yahoo!"),
-        new LevelData("Uphill", "Reach the goal", "Okay, now I have (both) of my (guns)...", "Yay!"),
-        new LevelData("Get over the hump", "Reach the goal", "That looks kinda high...", "Yay!"),
+        new LevelData("Uphill", "Reach the goal", "Yea, now I have (both) of my (guns)...", "Yay!"),
+        new LevelData("Get over the hump", "Reach the goal", GetAltShotHelp(), "Yay!"),
         new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!", "Kidnapping"),
         new LevelData("Flappy Moon", "Reach the goal", "If (birds) can do it...", "And they call this hard..."),
         new LevelData("The floor is lava", "Survive 5 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."),
@@ -46,6 +46,11 @@ public class Levels : MonoBehaviour
     private static string GetRightHelp()
     {
         return Application.isMobilePlatform ? "Touch (right side of screen) to shoot right gun." : "Use (RMB) to shoot right hand gun.";
+    }
+
+    private static string GetAltShotHelp()
+    {
+        return Application.isMobilePlatform ? "That looks kinda high..." : "You can also shoot with (A/D) or (arrow keys).";
     }
 
     private void Start()
