@@ -22,6 +22,7 @@ public class Moon : MonoBehaviour, IDier
     public SpriteRenderer sprite;
     public List<GameObject> visibleObjects;
     public Flasher flasher;
+    public HingeJoint2D attachJoint;
 
     private Level level;
 

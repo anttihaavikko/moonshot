@@ -8,6 +8,7 @@ public abstract class Level : MonoBehaviour
     public Levels levels;
     public Transform spawn;
     public float zoom = 8.5f;
+    public Rigidbody2D moonConnectJoint;
 
     public bool hasLeftGun = true;
     public bool hasRightGun = true;
@@ -58,6 +59,12 @@ public abstract class Level : MonoBehaviour
         levels.backdrop.position = transform.position;
         levels.moon.transform.position = spawn.position;
         info = levels.GetInfo(index);
+
+        if(moonConnectJoint)
+        {
+            levels.moon.attachJoint.enabled = true;
+            levels.moon.attachJoint.connectedBody = moonConnectJoint;
+        }
 
         levels.levelInfo.SetNames(info.name, info.description);
 

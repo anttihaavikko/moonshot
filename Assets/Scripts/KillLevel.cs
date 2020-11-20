@@ -17,4 +17,17 @@ public class KillLevel : Level
             Complete();
         }
     }
+
+    public override void AfterInfo()
+    {
+        base.AfterInfo();
+        targets.ForEach(t =>
+        {
+            var bat = t.GetComponent<Bat>();
+            if(bat)
+            {
+                bat.isMoving = true;
+            }
+        });
+    }
 }
