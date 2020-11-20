@@ -85,6 +85,28 @@ public class SceneChanger : MonoBehaviour
         operation = SceneManager.LoadSceneAsync(sceneToLoad);
     }
 
+    public void StartLevel()
+    {
+        var lvl = Manager.Instance.level;
+        var demo = Levels.levelData[lvl].demo;
+        if (SaveManager.Instance.ShouldShowDemo(demo))
+        {
+            SaveManager.Instance.MarkDemoSeen(demo);
+            ChangeScene(demo);
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync("Main");
+        }        
+    }
+
+    public void StartLevel(int level)
+    {
+        Manager.Instance.level = level;
+        Manager.Instance.showInfo = true;
+        StartLevel();
+    }
+
     //[UnityEditor.Callbacks.DidReloadScripts]
     //private static void OnScriptsReloaded()
     //{

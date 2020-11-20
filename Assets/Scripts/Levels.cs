@@ -23,7 +23,7 @@ public class Levels : MonoBehaviour
         new LevelData("Sinistrum", "Reach the goal", GetLeftHelp(), "Nice!"), // 0
         new LevelData("Dextrum", "Reach the goal", GetRightHelp(), "Yahoo!"), // 1
         new LevelData("Get over the hump", "Reach the goal", "Okay, now I have (both) of my (guns)...", "Yay!"), // 8
-        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"), // 2
+        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!", "Kidnapping"), // 2
         new LevelData("Flappy Moon", "Reach the goal", "If (birds) can do it...", "And they call this hard..."), // 6
         new LevelData("The floor is lava", "Survive 5 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."), // 3
         new LevelData("Rush Hour", "Reach the goal", "Gotta blow past em!", "Ohh yeeah!"), // 9
@@ -144,7 +144,7 @@ public class Levels : MonoBehaviour
     {
         Manager.Instance.level = current;
         Manager.Instance.startPos = cam.transform.position;
-        SceneManager.LoadSceneAsync("Main");
+        SceneChanger.Instance.StartLevel();
     }
 
     public Level GetCurrentLevel()
@@ -159,12 +159,14 @@ public struct LevelData
     public string description;
     public string message;
     public string winMessage;
+    public string demo;
 
-    public LevelData(string name, string description, string message, string winMessage)
+    public LevelData(string name, string description, string message, string winMessage, string demo = null)
     {
         this.name = name;
         this.description = description;
         this.message = message;
         this.winMessage = winMessage;
+        this.demo = demo;
     }
 };

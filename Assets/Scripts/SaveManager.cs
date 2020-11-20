@@ -34,16 +34,28 @@ public class SaveManager : SingletonManager<SaveManager>
     {
         return data.levelSaveData.Where(lvl => lvl.completed).Select(lvl => 1 + lvl.bonusesDone.Count(b => b)).Sum();
     }
+
+    public void MarkDemoSeen(string demo)
+    {
+        data.seenDemos.Add(demo);
+    }
+
+    public bool ShouldShowDemo(string demo)
+    {
+        return demo != null && !data.seenDemos.Contains(demo);
+    }
 }
 
 [System.Serializable]
 public class SaveData
 {
     public List<LevelSaveData> levelSaveData;
+    public List<string> seenDemos;
 
     public SaveData()
     {
         levelSaveData = Levels.levelData.Select(lvl => new LevelSaveData()).ToList();
+        seenDemos = new List<string>();
     }
 }
 

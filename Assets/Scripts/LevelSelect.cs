@@ -81,8 +81,6 @@ public class LevelSelect : MonoBehaviour
         if (hasStarted) return;
 
         hasStarted = true;
-        Manager.Instance.level = index;
-        Manager.Instance.showInfo = true;
-        SceneChanger.Instance.ChangeScene("Main");
+        SceneChanger.Instance.StartLevel(index);
     }
 }

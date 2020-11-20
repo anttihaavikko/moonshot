@@ -21,7 +21,16 @@ public class StartView : MonoBehaviour
         if (Input.anyKeyDown && !hasStarted)
         {
             hasStarted = true;
-            SceneChanger.Instance.ChangeScene("LevelSelect");
+
+            if (SaveManager.Instance.ShouldShowDemo("Intro"))
+            {
+                SaveManager.Instance.MarkDemoSeen("Intro");
+                SceneChanger.Instance.ChangeScene("Intro");
+            }
+            else
+            {
+                SceneChanger.Instance.ChangeScene("LevelSelect");
+            }
         }
     }
 

@@ -161,7 +161,12 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.ShowWithMirroring("Hmm, what's going on over there...", true);
+            moon.SetTrigger("Jump");
+        }, 1f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.ShowWithMirroring("Hmm, what's (going on) over there...", true);
         }, 2f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -182,16 +187,16 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            MoveBat(0, Vector3.right * 10f + Vector3.up, 0.3f, 0.1f);
-            MoveBat(1, Vector3.right * 12f, 0.35f, 0.15f);
-            MoveBat(2, Vector3.right * 9f + Vector3.up * 0.5f, 0.4f, 0.25f);
-            MoveBat(3, Vector3.right * 11f + Vector3.down, 0.3f, 0.3f);
+            MoveBat(0, Vector3.right * 15f + Vector3.up, 0.3f, 0.1f);
+            MoveBat(1, Vector3.right * 17f, 0.35f, 0.15f);
+            MoveBat(2, Vector3.right * 14f + Vector3.up * 0.5f, 0.4f, 0.25f);
+            MoveBat(3, Vector3.right * 16f + Vector3.down, 0.3f, 0.3f);
         }, 0.3f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.Hide();
-        }, 0.5f));
+        }, 1f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -211,15 +216,22 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.ShowWithMirroring("They seem to have dropped something!", false);
+            demo.moonBubble.ShowWithMirroring("They seem to have (dropped) something!", false);
         }, 2f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.Hide();
+            var pos = demo.moon.transform.position + Vector3.right * 7f;
+            Tweener.Instance.MoveTo(demo.moon.transform, pos, 0.9f, 0, TweenEasings.BounceEaseOut);
+            demo.MoveCamTo(new Vector3(6f, 0f, 0f), 1f);
+        }, 1.1f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
             demo.moon.SetTrigger("Jump");
-            Tweener.Instance.ScaleTo(letter.transform, Vector3.one, 0.8f, 0, TweenEasings.BounceEaseOut);
-            Tweener.Instance.MoveTo(letter.transform, new Vector3(9f, 1.5f, 0), 0.6f, 0, TweenEasings.BounceEaseOut);
+            Tweener.Instance.ScaleTo(letter.transform, Vector3.one, 1.2f, 0, TweenEasings.BounceEaseOut);
+            Tweener.Instance.MoveTo(letter.transform, new Vector3(9f, 1.5f, 0), 0.8f, 0, TweenEasings.BounceEaseOut);
         }, 1.2f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -229,7 +241,17 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            SceneChanger.Instance.ChangeScene("LevelSelect");
+            demo.moonBubble.Hide();
+        }, 0.5f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moonBubble.ShowWithMirroring("Oh (hell) no!", true);
+        }, 2f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            SceneChanger.Instance.ChangeScene("Main");
             demo.moonBubble.Hide();
         }));
     }
