@@ -4696,7 +4696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &301084034
 Transform:
   m_ObjectHideFlags: 0
@@ -37415,8 +37415,8 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 93934852}
-  - type: 0
-    name: 
+  - type: 6
+    name: LRLRLR
     par: 0
     time: 0
     moon: {fileID: 0}
@@ -39373,8 +39373,8 @@ MonoBehaviour:
   hasLeftGun: 1
   hasRightGun: 1
   bonuses:
-  - type: 0
-    name: 
+  - type: 6
+    name: RRLL
     par: 0
     time: 0
     moon: {fileID: 0}

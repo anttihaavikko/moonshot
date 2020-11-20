@@ -131,6 +131,7 @@ public class Moon : MonoBehaviour, IDier
 
     private void ShootRight()
     {
+        level.AddShot("R");
         rightHand.AddForce(-rightHand.transform.right * amount, ForceMode2D.Impulse);
         var eff = EffectManager.Instance.AddEffect(0, rightMuzzle.position);
         eff.transform.parent = rightBarrel;
@@ -140,6 +141,7 @@ public class Moon : MonoBehaviour, IDier
 
     private void ShootLeft()
     {
+        level.AddShot("L");
         leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
         var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
         eff.transform.parent = leftBarrel;
@@ -169,8 +171,6 @@ public class Moon : MonoBehaviour, IDier
         hasTouched = false;
 
         bubble.Hide();
-
-        level.AddShot();
 
         var hit = Physics2D.Raycast(pos, dir, 100f, collisionMask);
         if(hit)

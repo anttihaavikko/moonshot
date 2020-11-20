@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Level : MonoBehaviour
@@ -19,6 +20,9 @@ public abstract class Level : MonoBehaviour
     private float levelTime;
     private bool timeOn;
     private bool bonusTriggered;
+    private Queue<string> code;
+    private string expectedCode;
+    private bool codeComplete;
 
     public void Restart()
     {
@@ -47,6 +51,7 @@ public abstract class Level : MonoBehaviour
 
     public virtual void Activate()
     {
+        code = new Queue<string>();
         levels.moon.SetGuns(hasLeftGun, hasRightGun);
         levels.moon.SetLevel(this);
         gameObject.SetActive(true);
@@ -64,6 +69,11 @@ public abstract class Level : MonoBehaviour
                 if (bonuses[i].type == BonusType.Moon && data.bonusesDone[i])
                 {
                     bonuses[i].moon.SetActive(false);
+                }
+
+                if (bonuses[i].type == BonusType.Code)
+                {
+                    expectedCode = bonuses[i].name;
                 }
             }
         }
@@ -106,14 +116,23 @@ public abstract class Level : MonoBehaviour
                 return levels.moon.GetTime() >= bonus.time;
             case BonusType.Trigger:
                 return bonusTriggered;
+            case BonusType.Code:
+                return codeComplete;
         }
 
         return false;
     }
      
-    public void AddShot()
+    public void AddShot(string letter)
     {
+        code.Enqueue(letter);
+        if (code.Count > expectedCode.Length)
+            code.Dequeue();
         shotCount++;
+        if(string.Join("", code) == expectedCode)
+        {
+            codeComplete = true;
+        }
     }
 
     public void TriggerBonus()
@@ -140,5 +159,6 @@ public enum BonusType
     Par,
     Time,
     Extra,
-    Trigger
+    Trigger,
+    Code
 }
