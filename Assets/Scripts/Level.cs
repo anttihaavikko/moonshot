@@ -59,6 +59,8 @@ public abstract class Level : MonoBehaviour
         levels.moon.transform.position = spawn.position;
         info = levels.GetInfo(index);
 
+        levels.levelInfo.SetNames(info.name, info.description);
+
         this.StartCoroutine(() => levels.levelInfo.Show(info.name, info.description), 0.6f);
 
         var data = SaveManager.Instance.GetDataFor(index);

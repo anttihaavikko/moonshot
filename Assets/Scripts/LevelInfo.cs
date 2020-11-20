@@ -34,6 +34,12 @@ public class LevelInfo : MonoBehaviour
         CheckTickBoxes(false);
     }
 
+    public void SetNames(string levelName, string description)
+    {
+        nameText.text = nameShadow.text = levelName;
+        descText.text = descShadow.text = description;
+    }
+
     public void Show(string levelName, string description)
     {
         if (!Manager.Instance.showInfo)

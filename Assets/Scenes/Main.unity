@@ -14074,7 +14074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1039748777
 Transform:
   m_ObjectHideFlags: 0
@@ -40164,7 +40164,7 @@ MonoBehaviour:
   hasRightGun: 1
   bonuses:
   - type: 6
-    name: RRLL
+    name: RRLLRR
     par: 0
     time: 0
     moon: {fileID: 0}
@@ -41990,7 +41990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2105452417
 Transform:
   m_ObjectHideFlags: 0
@@ -42034,7 +42034,22 @@ MonoBehaviour:
   zoom: 10
   hasLeftGun: 1
   hasRightGun: 1
-  bonuses: []
+  bonuses:
+  - type: 6
+    name: LLRR
+    par: 0
+    time: 0
+    moon: {fileID: 0}
+  - type: 0
+    name: 
+    par: 0
+    time: 0
+    moon: {fileID: 0}
+  - type: 0
+    name: 
+    par: 0
+    time: 0
+    moon: {fileID: 0}
 --- !u!1 &2111892498
 GameObject:
   m_ObjectHideFlags: 0
