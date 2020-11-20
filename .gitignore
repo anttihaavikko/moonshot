@@ -6,6 +6,7 @@ Library/
 Builds/
 Assets/_Ghosts/
 Scripts/Secrets.cs
+.vs/
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
