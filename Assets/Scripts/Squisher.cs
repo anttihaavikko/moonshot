@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Squisher : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Squisher : MonoBehaviour
     public List<Transform> spots;
     public List<float> radii;
     public LayerMask mask;
+    public UnityEvent onSquish;
 
     private float safeDuration;
 
@@ -44,7 +46,10 @@ public class Squisher : MonoBehaviour
                     enabled = false;
                 }
 
-                return;
+                if (onSquish != null)
+                    onSquish.Invoke();
+
+                    return;
             }
         }
     }

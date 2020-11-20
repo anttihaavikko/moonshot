@@ -47,7 +47,6 @@ public class Levels : MonoBehaviour
         return Application.isMobilePlatform ? "Touch (right side of screen) to shoot right gun." : "Use (RMB) to shoot right hand gun.";
     }
 
-
     private void Start()
     {
         Application.targetFrameRate = 60;

@@ -18,6 +18,7 @@ public abstract class Level : MonoBehaviour
     private int shotCount;
     private float levelTime;
     private bool timeOn;
+    private bool bonusTriggered;
 
     public void Restart()
     {
@@ -103,14 +104,22 @@ public abstract class Level : MonoBehaviour
                 return levelTime <= bonus.time;
             case BonusType.Extra:
                 return levels.moon.GetTime() >= bonus.time;
+            case BonusType.Trigger:
+                return bonusTriggered;
         }
 
         return false;
     }
-
+     
     public void AddShot()
     {
         shotCount++;
+    }
+
+    public void TriggerBonus()
+    {
+        print("Triggered bonus event!");
+        bonusTriggered = true;
     }
 }
 
@@ -130,5 +139,6 @@ public enum BonusType
     Moon,
     Par,
     Time,
-    Extra
+    Extra,
+    Trigger
 }
