@@ -126,13 +126,10 @@ public abstract class Level : MonoBehaviour
     public void AddShot(string letter)
     {
         code.Enqueue(letter);
-        if (code.Count > expectedCode.Length)
+        if (expectedCode != null && code.Count > expectedCode.Length)
             code.Dequeue();
         shotCount++;
-        if(string.Join("", code) == expectedCode)
-        {
-            codeComplete = true;
-        }
+        codeComplete |= string.Join("", code) == expectedCode;
     }
 
     public void TriggerBonus()

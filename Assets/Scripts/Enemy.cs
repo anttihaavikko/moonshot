@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour, IDier
     public GameObject customParticles;
     public SpriteRenderer sprite;
     public float moveForce = 1f;
+    public Transform spawnOnDeath;
 
     private EffectCamera cam;
 
@@ -44,6 +45,13 @@ public class Enemy : MonoBehaviour, IDier
 
     public void Die()
     {
+        if(spawnOnDeath)
+        {
+            EffectManager.Instance.AddEffect(3, transform.position);
+            EffectManager.Instance.AddEffect(1, transform.position);
+            spawnOnDeath.position = transform.position;
+        }
+
         if(!customParticles)
         {
             gameObject.SetActive(false);
