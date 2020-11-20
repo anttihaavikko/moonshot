@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour, IDier
     public bool bleeds = true;
     public GameObject customParticles;
     public SpriteRenderer sprite;
+    public float moveForce = 1f;
 
     private EffectCamera cam;
 
@@ -24,7 +25,7 @@ public class Enemy : MonoBehaviour, IDier
 
         if(body)
         {
-            body.AddForceAtPosition(dir * 10f, point, ForceMode2D.Impulse);
+            body.AddForceAtPosition(dir * 10f * moveForce, point, ForceMode2D.Impulse);
         }
 
         if(bleeds)

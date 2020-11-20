@@ -20,20 +20,21 @@ public class Levels : MonoBehaviour
     private readonly float farZoom = 14f;
 
     public static readonly LevelData[] levelData = {
-        new LevelData("Sinistrum", "Reach the goal", GetLeftHelp(), "Nice!"), // 0
-        new LevelData("Dextrum", "Reach the goal", GetRightHelp(), "Yahoo!"), // 1
-        new LevelData("Get over the hump", "Reach the goal", "Okay, now I have (both) of my (guns)...", "Yay!"), // 8
-        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!", "Kidnapping"), // 2
-        new LevelData("Flappy Moon", "Reach the goal", "If (birds) can do it...", "And they call this hard..."), // 6
-        new LevelData("The floor is lava", "Survive 5 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."), // 3
-        new LevelData("Rush Hour", "Reach the goal", "Gotta blow past em!", "Ohh yeeah!"), // 9
-        new LevelData("1-2", "Reach the goal", "It's me, (Moon)!", "No warps!"), // 7
-        new LevelData("Rise and Fall", "Reach the goal", "Oh no, looks dangerous.", "No problem!"), // 10
-        new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"), // 4
-        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"), // 2
-        new LevelData("The floor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."), // 5
-        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"), // 2
-        new LevelData("Stick the Landing", "Reach the goal", "Gotta be careful!", "Flawless!"), // 11
+        new LevelData("Sinistrum", "Reach the goal", GetLeftHelp(), "Nice!"),
+        new LevelData("Dextrum", "Reach the goal", GetRightHelp(), "Yahoo!"),
+        new LevelData("Get over the hump", "Reach the goal", "Okay, now I have (both) of my (guns)...", "Yay!"),
+        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!", "Kidnapping"),
+        new LevelData("Flappy Moon", "Reach the goal", "If (birds) can do it...", "And they call this hard..."),
+        new LevelData("The floor is lava", "Survive 5 seconds", "Time for\n(pistol ballet)!", "Could have done longer..."),
+        new LevelData("Rush Hour", "Reach the goal", "Gotta blow past em!", "Ohh yeeah!"),
+        new LevelData("1-2", "Reach the goal", "It's me, (Moon)!", "No warps!"),
+        new LevelData("Warehouse", "Reach the goal", "Hey hey!", "Yay yay!"),
+        new LevelData("Rise and Fall", "Reach the goal", "Oh no, looks dangerous.", "No problem!"),
+        new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"),
+        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
+        new LevelData("The floor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."),
+        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
+        new LevelData("Stick the Landing", "Reach the goal", "Gotta be careful!", "Flawless!"),
     };
 
     private static string GetLeftHelp()
@@ -51,7 +52,13 @@ public class Levels : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        levels = GetComponentsInChildren<Level>(true).OrderBy(lvl => lvl.index).ToList();
+        var idx = 0;
+        levels = GetComponentsInChildren<Level>(true).ToList();
+        levels.ForEach(lvl =>
+        {
+            lvl.index = idx;
+            idx++;
+        });
         zoomer.ZoomTo(farZoom, true);
 
         if (Manager.Instance.level > -1)
