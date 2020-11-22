@@ -1325,6 +1325,9 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 6455
+  onSquish:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8012495762986986318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6318,7 +6321,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
