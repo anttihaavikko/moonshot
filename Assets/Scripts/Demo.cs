@@ -289,11 +289,11 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.BatsLooksAt(demo.moon.transform.position, 0.4f);
-            demo.moonBubble.Hide();
         }, 1f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
+            demo.moonBubble.Hide();
             MoveBatRandomish(0, demo.moon.transform.position, 1.5f);
             MoveBatRandomish(1, demo.moon.transform.position, 1.5f);
             MoveBatRandomish(2, demo.moon.transform.position, 1.5f);
@@ -334,7 +334,7 @@ public class Demo : MonoBehaviour
         {
             bats[index].enabled = false;
             var dir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            var p = pos + dir.normalized * Random.Range(0f, 2f);
+            var p = pos + dir.normalized * Random.Range(0f, 1.5f);
             Tweener.Instance.MoveTo(bats[index].transform, p, Random.Range(0.25f, 0.5f) * speed, 0, TweenEasings.QuadraticEaseInOut);
             if(doEffects)
             {
