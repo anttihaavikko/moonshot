@@ -40,17 +40,17 @@ public class Levels : MonoBehaviour
 
     private static string GetLeftHelp()
     {
-        return Application.isMobilePlatform ? "Touch (left side of screen) to shoot left gun." : "Use (LMB) to shoot left hand gun.";
+        return Application.isMobilePlatform ? "Touch (left side of screen) to shoot left gun." : "Click <sprite=0> to shoot (left) hand gun...";
     }
 
     private static string GetRightHelp()
     {
-        return Application.isMobilePlatform ? "Touch (right side of screen) to shoot right gun." : "Use (RMB) to shoot right hand gun.";
+        return Application.isMobilePlatform ? "Touch (right side of screen) to shoot right gun." : "Click <sprite=1> to shoot (right) hand gun...";
     }
 
     private static string GetAltShotHelp()
     {
-        return Application.isMobilePlatform ? "That looks kinda high..." : "You can also shoot with (A/D) or (arrow keys).";
+        return Application.isMobilePlatform ? "That looks kinda high..." : "You can (also shoot) with <sprite=2> or <sprite=3>.";
     }
 
     private void Start()

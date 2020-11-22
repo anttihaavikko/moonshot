@@ -2,20 +2,20 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Levels.cs">
     <Files>
       <File FileName="Assets/Scripts/Moon.cs" Line="25" Column="37" />
-      <File FileName="Assets/Scripts/Level.cs" Line="95" Column="23" />
-      <File FileName="Assets/Scripts/Levels.cs" Line="153" Column="6" />
-      <File FileName="Assets/Scripts/ButtonMenu.cs" Line="96" Column="12" />
-      <File FileName="Assets/Scripts/LevelInfo.cs" Line="40" Column="55" />
-      <File FileName="Assets/Scripts/Demo.cs" Line="169" Column="70" />
-      <File FileName="Assets/Scripts/SaveManager.cs" Line="48" Column="1" />
-      <File FileName="Assets/Scripts/CustomButton.cs" Line="20" Column="39" />
-      <File FileName="Assets/Scripts/LevelSelect.cs" Line="28" Column="91" />
-      <File FileName="Assets/Scripts/StartView.cs" Line="32" Column="66" />
-      <File FileName="Assets/Scripts/Enemy.cs" Line="51" Column="47" />
-      <File FileName="Assets/Scripts/Squisher.cs" Line="4" Column="26" />
-      <File FileName="Assets/Scripts/Flasher.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Bat.cs" Line="30" Column="47" />
-      <File FileName="Assets/Scripts/KillLevel.cs" Line="33" Column="2" />
+      <File FileName="Assets/Scripts/Level.cs" />
+      <File FileName="Assets/Scripts/Levels.cs" Line="22" Column="68" />
+      <File FileName="Assets/Scripts/ButtonMenu.cs" />
+      <File FileName="Assets/Scripts/LevelInfo.cs" />
+      <File FileName="Assets/Scripts/Demo.cs" />
+      <File FileName="Assets/Scripts/SaveManager.cs" />
+      <File FileName="Assets/Scripts/CustomButton.cs" />
+      <File FileName="Assets/Scripts/LevelSelect.cs" />
+      <File FileName="Assets/Scripts/StartView.cs" />
+      <File FileName="Assets/Scripts/Enemy.cs" />
+      <File FileName="Assets/Scripts/Squisher.cs" />
+      <File FileName="Assets/Scripts/Flasher.cs" />
+      <File FileName="Assets/Scripts/Bat.cs" />
+      <File FileName="Assets/Scripts/KillLevel.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -28,7 +28,7 @@
   <MonoDevelop.Ide.ItemProperties.Cinemachine PreferredExecutionTarget="712314ba-1c9d-48f6-84be-788591d5f3c8" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="712314ba-1c9d-48f6-84be-788591d5f3c8" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="48c64d5b-f3ec-4559-907e-5eaae09e77df" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
