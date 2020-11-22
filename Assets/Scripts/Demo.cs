@@ -250,6 +250,7 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
+            demo.moon.SetTrigger("PullGun");
             demo.moonBubble.ShowWithMirroring("Oh (hell) no!", true);
         }, 2f));
 
