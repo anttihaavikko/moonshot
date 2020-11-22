@@ -25,6 +25,8 @@ public abstract class Level : MonoBehaviour
     private string expectedCode;
     private bool codeComplete;
 
+    private bool shotLeft, shotRight;
+
     public void Restart()
     {
         this.StartCoroutine(() => SceneChanger.Instance.ChangeScene("Main"), 2f);
@@ -127,6 +129,10 @@ public abstract class Level : MonoBehaviour
                 return bonusTriggered;
             case BonusType.Code:
                 return codeComplete;
+            case BonusType.LeftOnly:
+                return !shotRight;
+            case BonusType.RightOnly:
+                return !shotLeft;
         }
 
         return false;
@@ -139,6 +145,9 @@ public abstract class Level : MonoBehaviour
             code.Dequeue();
         shotCount++;
         codeComplete |= string.Join("", code) == expectedCode;
+
+        shotLeft |= letter == "L";
+        shotRight |= letter == "R";
     }
 
     public void TriggerBonus()
@@ -166,5 +175,7 @@ public enum BonusType
     Time,
     Extra,
     Trigger,
-    Code
+    Code,
+    LeftOnly,
+    RightOnly
 }

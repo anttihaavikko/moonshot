@@ -62,7 +62,7 @@ public class SceneChanger : MonoBehaviour
         Tweener.Instance.ScaleTo(spinner, Vector3.zero, 0.2f, 0f, TweenEasings.QuadraticEaseIn);
     }
 
-    public void ChangeScene(string sceneName, bool silent = false)
+    public void ChangeScene(string sceneName, bool silent = false, bool closeBlinders = true)
     {
          if(!silent)
         {
@@ -72,8 +72,11 @@ public class SceneChanger : MonoBehaviour
         if (startCam)
             startCam.SetActive(true);
 
-        blinders.Close();
-        Tweener.Instance.ScaleTo(spinner, Vector3.one, 0.2f, 0f, TweenEasings.BounceEaseOut);
+        if(closeBlinders)
+        {
+            blinders.Close();
+            Tweener.Instance.ScaleTo(spinner, Vector3.one, 0.2f, 0f, TweenEasings.BounceEaseOut);
+        }
         sceneToLoad = sceneName;
         CancelInvoke("DoChangeScene");
         Invoke("DoChangeScene", blinders.GetDuration());

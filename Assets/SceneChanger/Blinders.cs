@@ -17,8 +17,8 @@ public class Blinders : MonoBehaviour
 
         if (startsOpen) return;
 
-        left.transform.localScale = new Vector3(1f, 2f, 1f);
-        right.transform.localScale = new Vector3(1f, 2f, 1f);
+        left.transform.localScale = new Vector3(1f, 5f, 1f);
+        right.transform.localScale = new Vector3(1f, 5f, 1f);
 
         if(openAtStart)
             Invoke("Open", 0.5f);
