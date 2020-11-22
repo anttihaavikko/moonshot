@@ -30,7 +30,7 @@ public class Levels : MonoBehaviour
         new LevelData("1-2", "Reach the goal", "It's me, (Moon)!", "No warps!"),
         new LevelData("Warehouse", "Reach the goal", "Hey hey!", "Yay yay!"),
         new LevelData("Rise and Fall", "Reach the goal", "Oh no, looks dangerous.", "No problem!"),
-        new LevelData("Trapped!", "Survive...", "Quite a (sticky situation)!", "Nice nice!"),
+        new LevelData("Trapped!", "Survive...", "Quite a (sticky situation)!", "Nice nice!", "Trapped"),
         new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"),
         new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
         new LevelData("The floor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."),

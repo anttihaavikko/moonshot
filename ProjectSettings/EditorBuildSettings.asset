@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Kidnapping.unity
     guid: a259d26f432a9405fbab970859226d65
   - enabled: 1
+    path: Assets/Scenes/Trapped.unity
+    guid: 238239476138f42ba920ec54b797ef5b
+  - enabled: 1
     path: Assets/Scenes/LevelSelect.unity
     guid: 405e6c95b5e78487ca830449ed7f783a
   - enabled: 1

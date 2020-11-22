@@ -13,8 +13,13 @@ public class Mover : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		originalPosition = transform.localPosition;
-	}
+        SetOrigin();
+    }
+
+    public void SetOrigin()
+    {
+        originalPosition = transform.localPosition;
+    }
 
 	// Update is called once per frame
 	void Update () {

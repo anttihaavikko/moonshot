@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 5296666108354265099}
   - component: {fileID: 2655451311144573095}
   - component: {fileID: 2332925602468566004}
+  - component: {fileID: 7785376381969238290}
   m_Layer: 12
   m_Name: BatPuppet
   m_TagString: Enemy
@@ -151,6 +152,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 2655451311144573095}
+--- !u!210 &7785376381969238290
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296666108354265092}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &5296666108424963134
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5296666108424963133}
   - component: {fileID: 5296666108424963132}
+  - component: {fileID: 2206717002551195647}
   m_Layer: 0
   m_Name: Face
   m_TagString: Untagged
@@ -224,6 +237,18 @@ MonoBehaviour:
   mouthOpen: {fileID: 21300000, guid: 08d87aa405f784a368a6513134dcff91, type: 3}
   followMouse: 0
   cam: {fileID: 0}
+--- !u!114 &2206717002551195647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296666108424963134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e608892b0a1a4007b4fe770b33e53be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5296666108461535684
 GameObject:
   m_ObjectHideFlags: 0
@@ -5551,7 +5576,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0

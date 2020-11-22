@@ -12,6 +12,7 @@ public class Demo : MonoBehaviour
     public DemoType type;
     public Letter letter;
     public List<Mover> bats;
+    public List<BatFace> batFaces;
 
     private Queue<DemoAction<Demo>> actions;
 
@@ -54,6 +55,9 @@ public class Demo : MonoBehaviour
             case DemoType.Kidnapping:
                 Kidnapping();
                 break;
+            case DemoType.Trapped:
+                Trapped();
+                break;
         }
     }
 
@@ -61,7 +65,7 @@ public class Demo : MonoBehaviour
     {
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            zoomer.ZoomTo(4);
+            demo.zoomer.ZoomTo(4);
             demo.MoveCamTo(new Vector3(-7f, 0f, 0f), 0.75f);
         }, 0.75f));
 
@@ -74,7 +78,7 @@ public class Demo : MonoBehaviour
         {
             demo.moonBubble.Hide();
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 0.5f);
-            zoomer.ZoomTo(5);
+            demo.zoomer.ZoomTo(5);
         }, 0.5f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -91,7 +95,7 @@ public class Demo : MonoBehaviour
         {
             demo.moonBubble.Hide();
             demo.MoveCamTo(new Vector3(-7f, 0f, 0f), 0.5f);
-            zoomer.ZoomTo(4);
+            demo.zoomer.ZoomTo(4);
         }, 0.5f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -116,9 +120,9 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            Tweener.Instance.MoveTo(sun.transform, sun.transform.position + Vector3.right * 15f, 0.2f, 0f, TweenEasings.QuadraticEaseInOut);
+            Tweener.Instance.MoveTo(demo.sun.transform, sun.transform.position + Vector3.right * 15f, 0.2f, 0f, TweenEasings.QuadraticEaseInOut);
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 0.5f);
-            zoomer.ZoomTo(6);
+            demo.zoomer.ZoomTo(6);
         }, 2f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -129,7 +133,7 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("Where did so go to?", false);
-            zoomer.ZoomTo(5f);
+            demo.zoomer.ZoomTo(5f);
         }, 2f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -141,7 +145,7 @@ public class Demo : MonoBehaviour
         {
             demo.moonBubble.ShowWithMirroring("Guess I gotta go (after her)...", false);
             demo.MoveCamTo(new Vector3(2f, 0f, 0f), 0.5f);
-            zoomer.ZoomTo(4.5f);
+            demo.zoomer.ZoomTo(4.5f);
         }, 2f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -155,7 +159,7 @@ public class Demo : MonoBehaviour
     {
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            zoomer.ZoomTo(4);
+            demo.zoomer.ZoomTo(4);
             demo.MoveCamTo(new Vector3(-7f, 0f, 0f), 0.75f);
         }, 0.75f));
 
@@ -230,13 +234,13 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moon.SetTrigger("Jump");
-            Tweener.Instance.ScaleTo(letter.transform, Vector3.one, 1.2f, 0, TweenEasings.BounceEaseOut);
-            Tweener.Instance.MoveTo(letter.transform, new Vector3(9f, 1.5f, 0), 0.8f, 0, TweenEasings.BounceEaseOut);
+            Tweener.Instance.ScaleTo(demo.letter.transform, Vector3.one, 1.2f, 0, TweenEasings.BounceEaseOut);
+            Tweener.Instance.MoveTo(demo.letter.transform, new Vector3(9f, 1.5f, 0), 0.8f, 0, TweenEasings.BounceEaseOut);
         }, 1.2f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            letter.Open();
+            demo.letter.Open();
         }, 4f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
@@ -256,6 +260,89 @@ public class Demo : MonoBehaviour
         }));
     }
 
+    void Trapped()
+    {
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            MoveBat(0, Vector3.left * 5f, 0.3f, 0f);
+            MoveBat(1, Vector3.left * 6f, 0.35f, 0f);
+            MoveBat(2, Vector3.left * 7f, 0.4f, 0f);
+            MoveBat(3, Vector3.left * 5f, 0.3f, 0f);
+
+            demo.zoomer.ZoomTo(7);
+            demo.MoveCamTo(new Vector3(3f, 0f, 0f), 0.75f);
+        }, 0.75f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            moon.SetTrigger("Jump");
+            demo.BatsLooksAt(demo.moon.transform.position);
+        }, 1f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.moon.SetTrigger("PullGun");
+            demo.moonBubble.ShowWithMirroring("Keep coming at me you filthy sky rats!", true);
+        }, 2f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            demo.BatsLooksAt(demo.moon.transform.position, 0.4f);
+            demo.moonBubble.Hide();
+        }, 1f));
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            MoveBatRandomish(0, demo.moon.transform.position, 1.5f);
+            MoveBatRandomish(1, demo.moon.transform.position, 1.5f);
+            MoveBatRandomish(2, demo.moon.transform.position, 1.5f);
+            MoveBatRandomish(3, demo.moon.transform.position, 1.5f);
+        }, 0.75f));
+
+        for (var i = 0; i < 10; i++)
+        {
+            var step = i;
+            actions.Enqueue(new DemoAction<Demo>((demo) =>
+            {
+                demo.effectCam.BaseEffect(0.3f);
+                demo.zoomer.ZoomTo(7 - 0.3f * step);
+                demo.MoveCamTo(new Vector3(3f - 0.7f * step, 0f, 0f), 0.2f);
+                MoveBatRandomish(0, demo.moon.transform.position, 0.5f, true);
+                MoveBatRandomish(1, demo.moon.transform.position, 0.5f, true);
+                MoveBatRandomish(2, demo.moon.transform.position, 0.5f, true);
+                MoveBatRandomish(3, demo.moon.transform.position, 0.5f, true);
+                demo.BatsLooksAt(demo.moon.transform.position);
+            }, 0.25f));
+        }
+
+        actions.Enqueue(new DemoAction<Demo>((demo) =>
+        {
+            SceneChanger.Instance.ChangeScene("Main");
+            demo.moonBubble.Hide();
+        }));
+    }
+
+    void BatsLooksAt(Vector3 pos, float amount = 0.2f)
+    {
+        batFaces.ForEach(bf => bf.LookAt(pos, amount));
+    }
+
+    void MoveBatRandomish(int index, Vector3 pos, float speed = 1f, bool doEffects = false)
+    {
+        this.StartCoroutine(() =>
+        {
+            bats[index].enabled = false;
+            var dir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            var p = pos + dir.normalized * Random.Range(0f, 2f);
+            Tweener.Instance.MoveTo(bats[index].transform, p, Random.Range(0.25f, 0.5f) * speed, 0, TweenEasings.QuadraticEaseInOut);
+            if(doEffects)
+            {
+                EffectManager.Instance.AddEffect(3, bats[index].transform.position);
+                EffectManager.Instance.AddEffect(1, bats[index].transform.position);
+            }
+        }, Random.Range(0.1f, 0.3f) * speed);   
+    }
+
     void MoveBat(int index, Vector3 dir, float duration, float delay)
     {
         this.StartCoroutine(() =>
@@ -263,6 +350,12 @@ public class Demo : MonoBehaviour
             bats[index].enabled = false;
             Tweener.Instance.MoveFor(bats[index].transform, dir, duration, 0, TweenEasings.QuadraticEaseInOut);
         }, delay);
+
+        this.StartCoroutine(() =>
+        {
+            bats[index].SetOrigin();
+            bats[index].enabled = true;
+        }, delay + duration);
     }
 
     // Update is called once per frame
@@ -301,5 +394,6 @@ public class DemoAction<T>
 public enum DemoType
 {
     Intro,
-    Kidnapping
+    Kidnapping,
+    Trapped
 }
