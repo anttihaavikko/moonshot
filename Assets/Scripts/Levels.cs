@@ -31,6 +31,7 @@ public class Levels : MonoBehaviour
         new LevelData("Warehouse", "Reach the goal", "Hey hey!", "Yay yay!"),
         new LevelData("Rise and Fall", "Reach the goal", "Oh no, looks dangerous.", "No problem!"),
         new LevelData("Trapped!", "Survive...", "Quite a (sticky situation)!", "Nice nice!", "Trapped"),
+        new LevelData("Lopsided", "Survive 5 seconds.", "Looks like I (los)t my (second gun) in that hassle.", "Still got it!"),
         new LevelData("Revenge", "Beat it!", "That (meanie) has got my (second gun)!", "Finally!"),
         new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"),
         new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
@@ -41,12 +42,12 @@ public class Levels : MonoBehaviour
 
     private static string GetLeftHelp()
     {
-        return Application.isMobilePlatform ? "Touch (left side of screen) to shoot left gun." : "Click <sprite=0> to shoot (left) hand gun...";
+        return Application.isMobilePlatform ? "Touch (left side of screen) to shoot left gun." : "Click <sprite=0> to shoot\n(left) gun...";
     }
 
     private static string GetRightHelp()
     {
-        return Application.isMobilePlatform ? "Touch (right side of screen) to shoot right gun." : "Click <sprite=1> to shoot (right) hand gun...";
+        return Application.isMobilePlatform ? "Touch (right side of screen) to shoot right gun." : "Click <sprite=1> to shoot\n(right) gun...";
     }
 
     private static string GetAltShotHelp()
