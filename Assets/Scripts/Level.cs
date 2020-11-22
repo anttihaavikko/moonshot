@@ -26,6 +26,7 @@ public abstract class Level : MonoBehaviour
     private bool codeComplete;
 
     private bool shotLeft, shotRight;
+    private bool gotDamaged;
 
     public void Restart()
     {
@@ -133,9 +134,16 @@ public abstract class Level : MonoBehaviour
                 return !shotRight;
             case BonusType.RightOnly:
                 return !shotLeft;
+            case BonusType.Flawless:
+                return !gotDamaged;
         }
 
         return false;
+    }
+
+    public void GotDamaged()
+    {
+        gotDamaged = true;
     }
      
     public void AddShot(string letter)
@@ -177,5 +185,6 @@ public enum BonusType
     Trigger,
     Code,
     LeftOnly,
-    RightOnly
+    RightOnly,
+    Flawless
 }

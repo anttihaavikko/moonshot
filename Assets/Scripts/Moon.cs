@@ -284,6 +284,7 @@ public class Moon : MonoBehaviour, IDier
 
     public bool Hurt()
     {
+        level.GotDamaged();
         flasher.Flash();
 
         hp--;

@@ -1163,7 +1163,7 @@ GameObject:
   - component: {fileID: 50419082}
   m_Layer: 13
   m_Name: Arm Upper
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4701,6 +4701,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9101469229199207199, guid: 0b471fe4eee2b42b2a9bfd714625c527,
     type: 3}
   m_PrefabInstance: {fileID: 234785866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &247399856 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 1062592299096240998, guid: 244bd7ad318bd4e46b8d46c746337b62,
+    type: 3}
+  m_PrefabInstance: {fileID: 1668615402}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &251238667
 GameObject:
@@ -10277,7 +10283,7 @@ GameObject:
   - component: {fileID: 619370587}
   m_Layer: 13
   m_Name: Moon
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11489,6 +11495,7 @@ GameObject:
   - component: {fileID: 694396355}
   - component: {fileID: 694396357}
   - component: {fileID: 694396356}
+  - component: {fileID: 694396358}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -11504,7 +11511,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694396354}
   m_LocalRotation: {x: -0, y: -0, z: -0.28349277, w: 0.95897436}
-  m_LocalPosition: {x: 0.1, y: -1.44, z: 0}
+  m_LocalPosition: {x: 0.1, y: -1.27, z: 0}
   m_LocalScale: {x: -0.19259, y: 0.19259, z: 0.19259}
   m_Children:
   - {fileID: 526231673}
@@ -11599,6 +11606,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &694396358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694396354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94380e348b72d4788a44ef11e43fd6d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barrel: {fileID: 526231673}
+  muzzle: {fileID: 1106762186}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 12545
+  effectCam: {fileID: 519420033}
+  moon: {fileID: 619370581}
+  targetTag: Player
+  body: {fileID: 247399856}
 --- !u!1001 &694946029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12557,7 +12588,22 @@ MonoBehaviour:
   moonConnectJoint: {fileID: 0}
   hasLeftGun: 1
   hasRightGun: 0
-  bonuses: []
+  bonuses:
+  - type: 9
+    name: Flawless
+    par: 0
+    time: 0
+    moon: {fileID: 0}
+  - type: 0
+    name: 
+    par: 0
+    time: 0
+    moon: {fileID: 0}
+  - type: 0
+    name: 
+    par: 0
+    time: 0
+    moon: {fileID: 0}
   targets:
   - {fileID: 1668615404}
 --- !u!1 &744721012
@@ -23934,7 +23980,7 @@ GameObject:
   - component: {fileID: 1261305336}
   m_Layer: 13
   m_Name: Arm Upper
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24319,7 +24365,7 @@ GameObject:
   - component: {fileID: 1267981299}
   m_Layer: 13
   m_Name: Arm Lower
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30132,7 +30178,7 @@ GameObject:
   - component: {fileID: 1327280364}
   m_Layer: 13
   m_Name: Arm Lower
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35967,7 +36013,7 @@ PrefabInstance:
     - target: {fileID: 406898252815625321, guid: 244bd7ad318bd4e46b8d46c746337b62,
         type: 3}
       propertyPath: hp
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 406898252815625321, guid: 244bd7ad318bd4e46b8d46c746337b62,
         type: 3}
