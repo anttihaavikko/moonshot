@@ -32,6 +32,7 @@ public class Levels : MonoBehaviour
         new LevelData("Rise and Fall", "Reach the goal", "Oh no, looks dangerous.", "No problem!"),
         new LevelData("Trapped!", "Survive...", "Quite a (sticky situation)!", "Nice nice!", "Trapped"),
         new LevelData("Lopsided", "Survive 5 seconds.", "Looks like I (los)t my (second gun) in that hassle.", "Still got it!"),
+        new LevelData("Half-pipe", "Reach the goal", "Gotta keep moving...", "Nice nice!"),
         new LevelData("Revenge", "Beat it!", "That (meanie) has got my (second gun)!", "Finally!"),
         new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"),
         new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
