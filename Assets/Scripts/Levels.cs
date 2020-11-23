@@ -35,9 +35,9 @@ public class Levels : MonoBehaviour
         new LevelData("Half-pipe", "Reach the goal", "Gotta keep moving...", "Nice nice!"),
         new LevelData("Revenge", "Beat it!", "That (meanie) has got my (second gun)!", "Finally!"),
         new LevelData("Breakthrough", "Reach the goal", "I bet I could (blast) through that wall.", "Easy pickings!"),
-        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
-        new LevelData("The floor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."),
-        new LevelData("Genocide", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
+        new LevelData("Crouching and Hiding", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
+        new LevelData("Corridor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."),
+        new LevelData("Final Bout", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
         new LevelData("Stick the Landing", "Reach the goal", "Gotta be careful!", "Flawless!"),
     };
 

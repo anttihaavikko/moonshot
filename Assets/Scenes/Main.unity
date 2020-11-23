@@ -3082,9 +3082,9 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 1235368858}
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 4 shots
+    par: 4
     time: 0
     moon: {fileID: 0}
   - type: 1
@@ -4882,9 +4882,9 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 2058102683}
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 12 shots
+    par: 12
     time: 0
     moon: {fileID: 0}
   - type: 1
@@ -6167,9 +6167,9 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 4 shots
+    par: 4
     time: 0
     moon: {fileID: 0}
   - type: 1
@@ -17505,7 +17505,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1039748777
 Transform:
   m_ObjectHideFlags: 0
@@ -31934,7 +31934,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1361123498
 Transform:
   m_ObjectHideFlags: 0
@@ -31986,9 +31986,9 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 1386206444}
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 2 shots
+    par: 2
     time: 0
     moon: {fileID: 0}
   - type: 1
@@ -32212,20 +32212,20 @@ MonoBehaviour:
   hasLeftGun: 1
   hasRightGun: 0
   bonuses:
-  - type: 0
-    name: 
+  - type: 4
+    name: 7 seconds
     par: 0
-    time: 0
+    time: 7
     moon: {fileID: 0}
-  - type: 0
-    name: 
+  - type: 4
+    name: 9 seconds
     par: 0
-    time: 0
+    time: 9
     moon: {fileID: 0}
-  - type: 0
-    name: 
+  - type: 4
+    name: 11 seconds
     par: 0
-    time: 0
+    time: 11
     moon: {fileID: 0}
   par: 5
 --- !u!1 &1382697446
@@ -37741,22 +37741,7 @@ MonoBehaviour:
   moonConnectJoint: {fileID: 0}
   hasLeftGun: 1
   hasRightGun: 0
-  bonuses:
-  - type: 2
-    name: Three shots
-    par: 3
-    time: 0
-    moon: {fileID: 0}
-  - type: 2
-    name: Two shots
-    par: 2
-    time: 0
-    moon: {fileID: 0}
-  - type: 1
-    name: Grab Moon
-    par: 0
-    time: 0
-    moon: {fileID: 0}
+  bonuses: []
 --- !u!114 &1688640948 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7650013351602736765, guid: 0e74febc26fb54d069094f8adb73bd81,
@@ -38293,7 +38278,22 @@ MonoBehaviour:
   moonConnectJoint: {fileID: 0}
   hasLeftGun: 1
   hasRightGun: 1
-  bonuses: []
+  bonuses:
+  - type: 7
+    name: Sinistrum
+    par: 0
+    time: 0
+    moon: {fileID: 0}
+  - type: 4
+    name: 12 seconds
+    par: 0
+    time: 0
+    moon: {fileID: 0}
+  - type: 8
+    name: Dextrum
+    par: 0
+    time: 0
+    moon: {fileID: 0}
   par: 7
 --- !u!1 &1732928593
 GameObject:
@@ -43336,10 +43336,10 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
-  - type: 0
-    name: 
+  - type: 3
+    name: 12 seconds
     par: 0
-    time: 0
+    time: 12
     moon: {fileID: 0}
 --- !u!1 &1747602077
 GameObject:
@@ -45199,15 +45199,15 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 1985402116}
-  - type: 0
-    name: 
+  - type: 6
+    name: LLLLRRRLLR
     par: 0
     time: 0
     moon: {fileID: 0}
-  - type: 0
-    name: 
+  - type: 3
+    name: 10 seconds
     par: 0
-    time: 0
+    time: 10
     moon: {fileID: 0}
 --- !u!1 &1849342893
 GameObject:
@@ -46213,9 +46213,9 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 428796148}
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 5 shots
+    par: 5
     time: 0
     moon: {fileID: 0}
 --- !u!1 &1942369838
