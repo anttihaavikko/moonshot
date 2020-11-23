@@ -16,13 +16,13 @@ public class SaveManager : SingletonManager<SaveManager>
     public void CompleteLevel(int level)
     {
         data.levelSaveData[level].completed = true;
-        print(JsonUtility.ToJson(data));
+        //print(JsonUtility.ToJson(data));
     }
 
     public void CompleteBonus(int level, int bonus)
     {
         data.levelSaveData[level].bonusesDone[bonus] = true;
-        print(JsonUtility.ToJson(data));
+        //print(JsonUtility.ToJson(data));
     }
 
     public LevelSaveData GetDataFor(int level)

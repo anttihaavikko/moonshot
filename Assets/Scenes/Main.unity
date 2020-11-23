@@ -2484,15 +2484,15 @@ MonoBehaviour:
   hasLeftGun: 1
   hasRightGun: 1
   bonuses:
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 20 shots
+    par: 20
     time: 0
     moon: {fileID: 0}
-  - type: 0
-    name: 
+  - type: 3
+    name: 25 seconds
     par: 0
-    time: 0
+    time: 25
     moon: {fileID: 0}
   - type: 1
     name: Grab Moon
@@ -32918,14 +32918,14 @@ MonoBehaviour:
     time: 7
     moon: {fileID: 0}
   - type: 4
-    name: 9 seconds
+    name: 10 seconds
     par: 0
     time: 9
     moon: {fileID: 0}
-  - type: 4
-    name: 11 seconds
+  - type: 6
+    name: LRLRLRLR
     par: 0
-    time: 11
+    time: 0
     moon: {fileID: 0}
   par: 5
 --- !u!1 &1508271560 stripped

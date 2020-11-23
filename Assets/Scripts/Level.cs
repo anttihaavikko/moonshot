@@ -50,6 +50,8 @@ public abstract class Level : MonoBehaviour
                 SaveManager.Instance.CompleteLevel(index);
                 levels.levelInfo.ShowEnd();
             }, 1.5f);
+
+            print("Level completed in: " + levelTime + " (" + shotCount + " shots).");
         }
     }
 
@@ -122,7 +124,6 @@ public abstract class Level : MonoBehaviour
             case BonusType.Par:
                 return shotCount <= bonus.par;
             case BonusType.Time:
-                print(levelTime + " vs " + bonus.time);
                 return levelTime <= bonus.time;
             case BonusType.Extra:
                 return levels.moon.GetTime() >= bonus.time;
