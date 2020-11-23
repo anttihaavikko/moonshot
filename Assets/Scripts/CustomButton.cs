@@ -18,6 +18,7 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public List<GameObject> bonuses;
     public GameObject strike;
     public Color fillColor, textColor;
+    public bool isNextLevelButton;
 
     private void Awake()
     {
@@ -29,10 +30,14 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         Tweener.Instance.ScaleTo(transform, Vector3.one * 1.2f, 0.2f, 0, TweenEasings.BounceEaseOut);
         Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, Random.Range(-3f, 3f)), 0.2f, 0, TweenEasings.BounceEaseOut);
-        fill.color = hoverFill;
-        text.color = hoverText;
-        extraBgs.ForEach(e => e.color = hoverFill);
-        extraFgs.ForEach(e => e.color = hoverText);
+
+        if(button.interactable)
+        {
+            fill.color = hoverFill;
+            extraBgs.ForEach(e => e.color = hoverFill);
+            extraFgs.ForEach(e => e.color = hoverText);
+            text.color = hoverText;
+        }
 
         if (onFocus != null)
             onFocus.Invoke();
@@ -42,10 +47,14 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         Tweener.Instance.ScaleTo(transform, Vector3.one, 0.15f, 0, TweenEasings.BounceEaseOut);
         Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, 0), 0.15f, 0, TweenEasings.BounceEaseOut);
-        fill.color = fillColor;
-        text.color = textColor;
-        extraBgs.ForEach(e => e.color = fillColor);
-        extraFgs.ForEach(e => e.color = textColor);
+
+        if(button.interactable)
+        {
+            fill.color = fillColor;
+            extraBgs.ForEach(e => e.color = fillColor);
+            text.color = textColor;
+            extraFgs.ForEach(e => e.color = textColor);
+        }
     }
 
     public void Trigger()
@@ -80,4 +89,13 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         Application.Quit();
     }
+
+    public void DisableOrEnable()
+    {
+        if(isNextLevelButton)
+        {
+            button.interactable = SaveManager.Instance.GetPoints() > Manager.Instance.level;
+            text.color = button.interactable ? Color.white : Color.gray;
+        }
+    } 
 }

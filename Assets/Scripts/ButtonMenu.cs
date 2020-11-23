@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ButtonMenu : MonoBehaviour
@@ -35,6 +36,8 @@ public class ButtonMenu : MonoBehaviour
         if(state)
         {
             appearer.Show();
+
+            buttons.FirstOrDefault(b => b.isNextLevelButton)?.DisableOrEnable();
 
             if (levelInfo)
             {

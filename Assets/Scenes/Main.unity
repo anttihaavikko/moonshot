@@ -14101,6 +14101,11 @@ PrefabInstance:
       propertyPath: menu
       value: 
       objectReference: {fileID: 1568822209}
+    - target: {fileID: 7650013351602736765, guid: 0e74febc26fb54d069094f8adb73bd81,
+        type: 3}
+      propertyPath: isNextLevelButton
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e74febc26fb54d069094f8adb73bd81, type: 3}
 --- !u!224 &772530690 stripped
