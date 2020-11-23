@@ -2637,6 +2637,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 1037844621}
+  endDelay: 2
   targets:
   - {fileID: 511012030}
   - {fileID: 188201589}
@@ -3092,6 +3093,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 2127007655}
+  endDelay: 2
 --- !u!1 &175621740
 GameObject:
   m_ObjectHideFlags: 0
@@ -4892,6 +4894,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 421957156}
+  endDelay: 2
   targets:
   - {fileID: 1840200661}
   - {fileID: 4765657}
@@ -6177,6 +6180,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 389463509}
+  endDelay: 2
 --- !u!1001 &307876079
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13412,6 +13416,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
+  endDelay: 2
   targets:
   - {fileID: 1668615404}
 --- !u!1 &744721012
@@ -13646,6 +13651,7 @@ MonoBehaviour:
     par: 0
     time: 30
     moon: {fileID: 0}
+  endDelay: 2
   targets:
   - {fileID: 892280214}
   - {fileID: 702550751}
@@ -16988,6 +16994,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 876914122}
+  endDelay: 2
 --- !u!1 &1022833454
 GameObject:
   m_ObjectHideFlags: 0
@@ -17564,6 +17571,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 1508271560}
+  endDelay: 2
 --- !u!1 &1043353542
 GameObject:
   m_ObjectHideFlags: 0
@@ -31996,6 +32004,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 724250454}
+  endDelay: 4
 --- !u!1 &1367674186
 GameObject:
   m_ObjectHideFlags: 0
@@ -32227,6 +32236,7 @@ MonoBehaviour:
     par: 0
     time: 11
     moon: {fileID: 0}
+  endDelay: 2
   par: 5
 --- !u!1 &1382697446
 GameObject:
@@ -33793,6 +33803,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
+  endDelay: 2
   par: 5
 --- !u!1 &1508271560 stripped
 GameObject:
@@ -35001,6 +35012,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
+  endDelay: 2
 --- !u!1 &1567273352
 GameObject:
   m_ObjectHideFlags: 0
@@ -35319,6 +35331,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 1662163005}
+  endDelay: 2
   targets:
   - {fileID: 694946031}
   - {fileID: 1334149383}
@@ -37742,6 +37755,7 @@ MonoBehaviour:
   hasLeftGun: 1
   hasRightGun: 0
   bonuses: []
+  endDelay: 2
 --- !u!114 &1688640948 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7650013351602736765, guid: 0e74febc26fb54d069094f8adb73bd81,
@@ -38294,6 +38308,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
+  endDelay: 2
   par: 7
 --- !u!1 &1732928593
 GameObject:
@@ -43341,6 +43356,7 @@ MonoBehaviour:
     par: 0
     time: 12
     moon: {fileID: 0}
+  endDelay: 2
 --- !u!1 &1747602077
 GameObject:
   m_ObjectHideFlags: 0
@@ -45209,6 +45225,7 @@ MonoBehaviour:
     par: 0
     time: 10
     moon: {fileID: 0}
+  endDelay: 2
 --- !u!1 &1849342893
 GameObject:
   m_ObjectHideFlags: 0
@@ -46218,6 +46235,7 @@ MonoBehaviour:
     par: 5
     time: 0
     moon: {fileID: 0}
+  endDelay: 2
 --- !u!1 &1942369838
 GameObject:
   m_ObjectHideFlags: 0
@@ -47267,6 +47285,7 @@ MonoBehaviour:
     par: 3
     time: 0
     moon: {fileID: 0}
+  endDelay: 2
 --- !u!1 &2031463785
 GameObject:
   m_ObjectHideFlags: 0
@@ -48839,6 +48858,7 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
+  endDelay: 2
 --- !u!1 &2111892498
 GameObject:
   m_ObjectHideFlags: 0

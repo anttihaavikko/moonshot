@@ -14,6 +14,7 @@ public abstract class Level : MonoBehaviour
     public bool hasRightGun = true;
 
     public LevelBonus[] bonuses;
+    public float endDelay = 1.5f;
 
     private bool completed;
     private LevelData info;
@@ -45,14 +46,21 @@ public abstract class Level : MonoBehaviour
                 }
             }, 0.2f);
 
-            this.StartCoroutine(() =>
-            {
-                SaveManager.Instance.CompleteLevel(index);
-                levels.levelInfo.ShowEnd();
-            }, 1.5f);
+            Invoke("ShowEnd", endDelay);
 
             print("Level completed in: " + levelTime + " (" + shotCount + " shots).");
         }
+    }
+
+    public void CancelEnd()
+    {
+        CancelInvoke("ShowEnd");
+    }
+
+    void ShowEnd()
+    {
+        SaveManager.Instance.CompleteLevel(index);
+        levels.levelInfo.ShowEnd();
     }
 
     public virtual void Activate()
