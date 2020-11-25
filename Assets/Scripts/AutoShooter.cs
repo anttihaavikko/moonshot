@@ -10,6 +10,7 @@ public class AutoShooter : MonoBehaviour
     public Moon moon;
     public string targetTag;
     public Rigidbody2D body;
+    public ShellManager shellManager;
 
     private float autoShotDelay;
 
@@ -39,6 +40,8 @@ public class AutoShooter : MonoBehaviour
         var hit = Physics2D.Raycast(pos, dir, 100f, hitMask);
         if (hit)
         {
+            shellManager.Add(pos, Quaternion.Euler(0, 0, 90) * dir);
+
             EffectManager.Instance.AddEffect(0, hit.point);
             EffectManager.Instance.AddEffect(1, hit.point);
 

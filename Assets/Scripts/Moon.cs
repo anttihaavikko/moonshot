@@ -23,6 +23,7 @@ public class Moon : MonoBehaviour, IDier
     public List<GameObject> visibleObjects;
     public Flasher flasher;
     public HingeJoint2D attachJoint;
+    public ShellManager shellManager;
 
     private Level level;
 
@@ -176,6 +177,8 @@ public class Moon : MonoBehaviour, IDier
         var hit = Physics2D.Raycast(pos, dir, 100f, collisionMask);
         if(hit)
         {
+            shellManager.Add(pos, Quaternion.Euler(0, 0, 90) * dir);
+
             EffectManager.Instance.AddEffect(0, hit.point);
             EffectManager.Instance.AddEffect(1, hit.point);
 
