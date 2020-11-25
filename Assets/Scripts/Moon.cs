@@ -269,6 +269,8 @@ public class Moon : MonoBehaviour, IDier
     {
         if (hasDied) return;
 
+        AudioManager.Instance.curMusic.pitch = 0.8f;
+
         level.CancelEnd();
 
         hasDied = true;
@@ -289,6 +291,8 @@ public class Moon : MonoBehaviour, IDier
         EffectManager.Instance.AddEffect(4, transform.position);
         EffectManager.Instance.AddEffect(5, transform.position);
         EffectManager.Instance.AddEffect(6, transform.position);
+
+        effectCam.BaseEffect(0.5f);
 
         this.StartCoroutine(() =>
         {
