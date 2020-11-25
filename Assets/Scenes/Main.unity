@@ -13483,14 +13483,14 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 0}
-  - type: 0
-    name: 
+  - type: 3
+    name: 20 seconds
     par: 0
-    time: 0
+    time: 20
     moon: {fileID: 0}
-  - type: 0
-    name: 
-    par: 0
+  - type: 2
+    name: 6 shots
+    par: 6
     time: 0
     moon: {fileID: 0}
   endDelay: 2
@@ -17629,7 +17629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1039748777
 Transform:
   m_ObjectHideFlags: 0
@@ -31990,6 +31990,87 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1355559338
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1685839701}
+    m_Modifications:
+    - target: {fileID: 2237982775004534274, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_Name
+      value: Bonus Moon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6d5a810c7c974d78a152a26c5a89ef5, type: 3}
+--- !u!4 &1355559339 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1355559338}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1355559340 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2237982775004534274, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1355559338}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1360543026
 GameObject:
   m_ObjectHideFlags: 0
@@ -35194,15 +35275,15 @@ MonoBehaviour:
     par: 0
     time: 0
     moon: {fileID: 1842854523}
-  - type: 0
-    name: 
+  - type: 6
+    name: RLLRLLRLL
     par: 0
     time: 0
     moon: {fileID: 0}
-  - type: 0
-    name: 
+  - type: 3
+    name: 15 seconds
     par: 0
-    time: 0
+    time: 15
     moon: {fileID: 0}
   endDelay: 2
 --- !u!1 &1567273352
@@ -36664,6 +36745,87 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1621429666
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1685839701}
+    m_Modifications:
+    - target: {fileID: 2237982775004534274, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_Name
+      value: Bonus Moon
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6d5a810c7c974d78a152a26c5a89ef5, type: 3}
+--- !u!4 &1621429667 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2237982775004534275, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1621429666}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1621429668 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2237982775004534274, guid: e6d5a810c7c974d78a152a26c5a89ef5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1621429666}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1622651020
 GameObject:
   m_ObjectHideFlags: 0
@@ -37924,6 +38086,8 @@ Transform:
   - {fileID: 790908798}
   - {fileID: 263761021}
   - {fileID: 805261983}
+  - {fileID: 1621429667}
+  - {fileID: 1355559339}
   m_Father: {fileID: 1812602594}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -37946,7 +38110,22 @@ MonoBehaviour:
   moonConnectJoint: {fileID: 0}
   hasLeftGun: 1
   hasRightGun: 0
-  bonuses: []
+  bonuses:
+  - type: 3
+    name: 10 seconds
+    par: 0
+    time: 10
+    moon: {fileID: 0}
+  - type: 1
+    name: Grab Moon
+    par: 0
+    time: 0
+    moon: {fileID: 1621429668}
+  - type: 1
+    name: Grab Moon
+    par: 0
+    time: 0
+    moon: {fileID: 1355559340}
   endDelay: 2
 --- !u!114 &1688640948 stripped
 MonoBehaviour:
