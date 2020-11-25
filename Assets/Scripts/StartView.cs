@@ -7,6 +7,10 @@ public class StartView : MonoBehaviour
     private bool disableStart;
     private bool hasStarted;
 
+    private void Start()
+    {
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -1,17 +1,18 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CustomButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AudioManager.cs">
     <Files>
       <File FileName="Assets/Scripts/Moon.cs" Line="290" Column="14" />
-      <File FileName="Assets/Scripts/Level.cs" Line="38" Column="23" />
-      <File FileName="Assets/Scripts/Levels.cs" Line="35" Column="75" />
+      <File FileName="Assets/Scripts/Level.cs" />
+      <File FileName="Assets/Scripts/Levels.cs" />
       <File FileName="Assets/Scripts/ButtonMenu.cs" />
       <File FileName="Assets/Scripts/LevelInfo.cs" />
-      <File FileName="Assets/Scripts/Demo.cs" Line="399" Column="12" />
-      <File FileName="Assets/Scripts/SaveManager.cs" Line="21" Column="1" />
-      <File FileName="Assets/Scripts/LevelSelect.cs" Line="28" Column="91" />
+      <File FileName="Assets/Scripts/Demo.cs" />
+      <File FileName="Assets/Scripts/SaveManager.cs" />
+      <File FileName="Assets/Scripts/LevelSelect.cs" />
       <File FileName="Assets/Scripts/StartView.cs" />
-      <File FileName="Assets/Scripts/AutoShooter.cs" Line="31" Column="37" />
+      <File FileName="Assets/Scripts/AutoShooter.cs" />
       <File FileName="Assets/Scripts/CustomButton.cs" Line="21" Column="15" />
+      <File FileName="Assets/Scripts/AudioManager.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,7 +21,7 @@
             <Node name="Assets" expanded="True">
               <Node name="SceneChanger" expanded="True" />
               <Node name="Scripts" expanded="True">
-                <Node name="CustomButton.cs" selected="True" />
+                <Node name="AudioManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -31,7 +32,7 @@
   <MonoDevelop.Ide.ItemProperties.Cinemachine PreferredExecutionTarget="712314ba-1c9d-48f6-84be-788591d5f3c8" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="48c64d5b-f3ec-4559-907e-5eaae09e77df" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="5a34a9d4-340a-482a-a17a-ab61746ed8f2" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

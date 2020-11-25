@@ -194,6 +194,8 @@ public class Moon : MonoBehaviour, IDier
             line.SetPosition(1, hit.point);
 
             this.StartCoroutine(() => linePool.ReturnToPool(line), 0.1f);
+
+            AudioManager.Instance.PlayEffectAt(0, pos, 1f);
         }
     }
 
