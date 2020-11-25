@@ -1,23 +1,18 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ShellManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AudioManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Moon.cs" Line="182" Column="60" />
+      <File FileName="Assets/Scripts/Moon.cs" Line="180" Column="13" />
       <File FileName="Assets/Scripts/Level.cs" />
       <File FileName="Assets/Scripts/Levels.cs" />
-      <File FileName="Assets/Scripts/ButtonMenu.cs" />
-      <File FileName="Assets/Scripts/LevelInfo.cs" />
+      <File FileName="Assets/Scripts/ButtonMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/LevelInfo.cs" Line="63" Column="42" />
       <File FileName="Assets/Scripts/Demo.cs" />
       <File FileName="Assets/Scripts/SaveManager.cs" />
       <File FileName="Assets/Scripts/LevelSelect.cs" />
       <File FileName="Assets/Scripts/StartView.cs" Line="11" Column="6" />
-      <File FileName="Assets/Scripts/AutoShooter.cs" Line="54" Column="23" />
+      <File FileName="Assets/Scripts/AutoShooter.cs" Line="45" Column="60" />
       <File FileName="Assets/Scripts/CustomButton.cs" Line="21" Column="15" />
-      <File FileName="Assets/Scripts/AudioManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Editor/SoundDesigner.cs" Line="24" Column="36" />
-      <File FileName="Assets/Scripts/Bat.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Enemy.cs" Line="97" Column="16" />
-      <File FileName="Assets/Scripts/CollisionSoundSource.cs" Line="28" Column="93" />
-      <File FileName="Assets/Scripts/ShellManager.cs" Line="15" Column="35" />
+      <File FileName="Assets/Scripts/AudioManager.cs" Line="100" Column="91" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -27,7 +22,7 @@
               <Node name="Editor" expanded="True" />
               <Node name="SceneChanger" expanded="True" />
               <Node name="Scripts" expanded="True">
-                <Node name="ShellManager.cs" selected="True" />
+                <Node name="AudioManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>

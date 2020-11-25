@@ -93,12 +93,12 @@ public class AudioManager : MyObjectPool<SoundEffect> {
 
 		float targetPitch = 1f;
 		float targetLowpass = (doingLowpass) ? 5000f : 22000;
-		float targetHighpass = (doingHighpass) ? 400f : 10f;
+		float targetHighpass = (doingHighpass) ? 600f : 10f;
 		float changeSpeed = 0.075f;
 
 		curMusic.pitch = Mathf.MoveTowards (curMusic.pitch, targetPitch, 0.005f * changeSpeed);
-		lowpass.cutoffFrequency = Mathf.MoveTowards (lowpass.cutoffFrequency, targetLowpass, 750f * changeSpeed);
-		highpass.cutoffFrequency = Mathf.MoveTowards (highpass.cutoffFrequency, targetHighpass, 50f * changeSpeed);
+		lowpass.cutoffFrequency = Mathf.MoveTowards (lowpass.cutoffFrequency, targetLowpass, 1500f * changeSpeed * Time.deltaTime * 60f);
+		highpass.cutoffFrequency = Mathf.MoveTowards (highpass.cutoffFrequency, targetHighpass, 200f * changeSpeed * Time.deltaTime * 60f);
 	}
 
 	public void PlayEffectAt(AudioClip clip, Vector3 pos, float volume, bool pitchShift = true) {

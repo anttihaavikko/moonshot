@@ -32,6 +32,9 @@ public class LevelInfo : MonoBehaviour
         }
 
         CheckTickBoxes(false);
+
+        AudioManager.Instance.Highpass(true);
+        //AudioManager.Instance.Lowpass(true);
     }
 
     public void SetNames(string levelName, string description)
@@ -60,6 +63,8 @@ public class LevelInfo : MonoBehaviour
         appearers.ForEach(a => a.Hide());
         completeText.Hide();
         AfterHide();
+        AudioManager.Instance.Highpass(false);
+        //AudioManager.Instance.Lowpass(false);
     }
 
     void AfterHide()
