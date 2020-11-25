@@ -196,6 +196,15 @@ public class Moon : MonoBehaviour, IDier
             this.StartCoroutine(() => linePool.ReturnToPool(line), 0.1f);
 
             AudioManager.Instance.PlayEffectAt(0, pos, 1f);
+            AudioManager.Instance.PlayEffectAt(1, pos, 0.7f);
+
+            this.StartCoroutine(() =>
+            {
+                AudioManager.Instance.PlayEffectAt(14, hit.point, 0.898f);
+                AudioManager.Instance.PlayEffectAt(21, hit.point, 0.694f);
+                AudioManager.Instance.PlayEffectAt(11, hit.point, 0.588f);
+                AudioManager.Instance.PlayEffectAt(2, hit.point, 0.8f);
+            }, 0.07f);
         }
     }
 
@@ -277,6 +286,15 @@ public class Moon : MonoBehaviour, IDier
         EffectManager.Instance.AddEffect(4, transform.position);
         EffectManager.Instance.AddEffect(5, transform.position);
         EffectManager.Instance.AddEffect(6, transform.position);
+
+        this.StartCoroutine(() =>
+        {
+            AudioManager.Instance.PlayEffectAt(1, transform.position, 0.669f);
+            AudioManager.Instance.PlayEffectAt(6, transform.position, 1.233f);
+            AudioManager.Instance.PlayEffectAt(5, transform.position, 1.005f);
+            AudioManager.Instance.PlayEffectAt(4, transform.position, 1.204f);
+            AudioManager.Instance.PlayEffectAt(13, transform.position, 1.192f);
+        }, 0.07f);
     }
 
     void ThrowBody(Joint2D joint)
@@ -297,6 +315,18 @@ public class Moon : MonoBehaviour, IDier
         {
             Die();
             return true;
+        }
+        else
+        {
+            this.StartCoroutine(() =>
+            {
+                AudioManager.Instance.PlayEffectAt(8, transform.position, 1f);
+                AudioManager.Instance.PlayEffectAt(12, transform.position, 0.767f);
+                AudioManager.Instance.PlayEffectAt(14, transform.position, 1.184f);
+                AudioManager.Instance.PlayEffectAt(16, transform.position, 0.384f);
+                AudioManager.Instance.PlayEffectAt(11, transform.position, 0.588f);
+                AudioManager.Instance.PlayEffectAt(15, transform.position, 0.457f);
+            }, 0.1f);
         }
 
         effectCam.BaseEffect(0.1f);

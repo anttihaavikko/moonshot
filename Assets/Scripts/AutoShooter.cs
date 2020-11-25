@@ -42,6 +42,17 @@ public class AutoShooter : MonoBehaviour
             EffectManager.Instance.AddEffect(0, hit.point);
             EffectManager.Instance.AddEffect(1, hit.point);
 
+            AudioManager.Instance.PlayEffectAt(0, pos, 1f);
+            AudioManager.Instance.PlayEffectAt(1, pos, 0.7f);
+
+            this.StartCoroutine(() =>
+            {
+                AudioManager.Instance.PlayEffectAt(14, hit.point, 0.898f);
+                AudioManager.Instance.PlayEffectAt(21, hit.point, 0.694f);
+                AudioManager.Instance.PlayEffectAt(11, hit.point, 0.588f);
+                AudioManager.Instance.PlayEffectAt(2, hit.point, 0.8f);
+            }, 0.07f);
+
             if (hit.collider.gameObject.tag == "Player" && targetTag == "Player")
             {
                 moon.Hurt();

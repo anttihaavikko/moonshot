@@ -695,6 +695,7 @@ GameObject:
   - component: {fileID: 406898252815625321}
   - component: {fileID: 8246059011624676318}
   - component: {fileID: 4225268045826197265}
+  - component: {fileID: 4811370762008904307}
   m_Layer: 12
   m_Name: Bat
   m_TagString: Enemy
@@ -774,6 +775,7 @@ MonoBehaviour:
   body: {fileID: 1062592299096240998}
   target: {fileID: 1062592297837174322}
   speed: 7
+  isMoving: 1
 --- !u!95 &7198037766597438408
 Animator:
   serializedVersion: 3
@@ -824,6 +826,8 @@ MonoBehaviour:
   bleeds: 1
   customParticles: {fileID: 0}
   sprite: {fileID: 0}
+  moveForce: 1
+  spawnOnDeath: {fileID: 0}
 --- !u!114 &8246059011624676318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -865,6 +869,23 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 2359
+  onSquish:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4811370762008904307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062592299096241003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05ee11adf09b43e0b6b8287ac2400b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  treshold: 3
 --- !u!1 &1062592299159631697
 GameObject:
   m_ObjectHideFlags: 0

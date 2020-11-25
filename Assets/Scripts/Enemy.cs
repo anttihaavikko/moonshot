@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour, IDier
     public Transform spawnOnDeath;
 
     private EffectCamera cam;
+    private bool hasDied;
 
     private void Start()
     {
@@ -32,6 +33,19 @@ public class Enemy : MonoBehaviour, IDier
         if(bleeds)
         {
             EffectManager.Instance.AddEffect(2, point);
+
+            if(hp > 0)
+            {
+                this.StartCoroutine(() =>
+                {
+                    AudioManager.Instance.PlayEffectAt(8, transform.position, 1f);
+                    AudioManager.Instance.PlayEffectAt(12, transform.position, 0.767f);
+                    AudioManager.Instance.PlayEffectAt(14, transform.position, 1.184f);
+                    AudioManager.Instance.PlayEffectAt(16, transform.position, 0.384f);
+                    AudioManager.Instance.PlayEffectAt(11, transform.position, 0.588f);
+                    AudioManager.Instance.PlayEffectAt(15, transform.position, 0.457f);
+                }, 0.1f);
+            }
         }
 
         cam.BaseEffect(0.3f);
@@ -45,22 +59,13 @@ public class Enemy : MonoBehaviour, IDier
 
     public void Die()
     {
+        if (hasDied) return;
+
         if(spawnOnDeath)
         {
             EffectManager.Instance.AddEffect(3, transform.position);
             EffectManager.Instance.AddEffect(1, transform.position);
             spawnOnDeath.position = transform.position;
-        }
-
-        if(!customParticles)
-        {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            sprite.enabled = false;
-            gameObject.layer = 10;
-            customParticles.SetActive(true);
         }
 
         if(bleeds)
@@ -70,6 +75,26 @@ public class Enemy : MonoBehaviour, IDier
             EffectManager.Instance.AddEffect(5, transform.position);
             EffectManager.Instance.AddEffect(6, transform.position);
         }
+
+        this.StartCoroutine(() =>
+        {
+            AudioManager.Instance.PlayEffectAt(1, transform.position, 0.669f);
+            AudioManager.Instance.PlayEffectAt(6, transform.position, 1.233f);
+            AudioManager.Instance.PlayEffectAt(5, transform.position, 1.005f);
+            AudioManager.Instance.PlayEffectAt(4, transform.position, 1.204f);
+            AudioManager.Instance.PlayEffectAt(13, transform.position, 1.192f);
+
+            if (!customParticles)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                sprite.enabled = false;
+                gameObject.layer = 10;
+                customParticles.SetActive(true);
+            }
+        }, 0.07f);
 
         cam.BaseEffect(0.5f);
     }

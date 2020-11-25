@@ -51,6 +51,30 @@ MonoBehaviour:
   volume: 0.5
   effects:
   - {fileID: 8300000, guid: 3fffd7d62c7a14f789581d28797ff9cc, type: 3}
+  - {fileID: 8300000, guid: 5079d71c63325407c865417b7d4064e1, type: 3}
+  - {fileID: 8300000, guid: 0366840353e2745e0bf793eadb658a46, type: 3}
+  - {fileID: 8300000, guid: 7b8db430575444da2b246f12e261eba7, type: 3}
+  - {fileID: 8300000, guid: 4336ace4728234de99836d0bb20427cf, type: 3}
+  - {fileID: 8300000, guid: 8f81991c0278241d097cfc7963b68786, type: 3}
+  - {fileID: 8300000, guid: b042076991c334882870c608d5caa2fc, type: 3}
+  - {fileID: 8300000, guid: 29f165cdeda894197875994cfc4efd2a, type: 3}
+  - {fileID: 8300000, guid: 2defc237e19674647a0bed90c5508ba3, type: 3}
+  - {fileID: 8300000, guid: 9a1ec52515aee4e86b2a3b8e29cc00df, type: 3}
+  - {fileID: 8300000, guid: 6cf2bea9e32de423d81b6349764b43a0, type: 3}
+  - {fileID: 8300000, guid: 767accf2fa97b4d628179ba4d3c91c37, type: 3}
+  - {fileID: 8300000, guid: c440871c05f07469ab035af12ef89e51, type: 3}
+  - {fileID: 8300000, guid: 2a3166043484f43d2acdc9e9bca7ae1d, type: 3}
+  - {fileID: 8300000, guid: 5653bf070805d4ed391cf3e01e5c067e, type: 3}
+  - {fileID: 8300000, guid: a9e9ca126852749a4a99bb9d9c6c97e5, type: 3}
+  - {fileID: 8300000, guid: 32329cd7771ca4cb8a8080d8416f7e0e, type: 3}
+  - {fileID: 8300000, guid: 76d96c13f79064786ac4a924c89d6154, type: 3}
+  - {fileID: 8300000, guid: 8b7f268f5ea884504be1cc868695d1ba, type: 3}
+  - {fileID: 8300000, guid: dd552ee19a6324df4b7cd85d982188c5, type: 3}
+  - {fileID: 8300000, guid: 5c1591cc090d64575a9fd24e78f9460a, type: 3}
+  - {fileID: 8300000, guid: 433b5a0628fc349c1bd8aed147402739, type: 3}
+  - {fileID: 8300000, guid: 35396a6b5ea44490fa4b135d930e5e75, type: 3}
+  - {fileID: 8300000, guid: cce144a84835c481cb6de763ee03ce55, type: 3}
+  - {fileID: 8300000, guid: ded467bdd04614ff6b57d48f4972453c, type: 3}
   lowpass: {fileID: 2977854075028594206}
   highpass: {fileID: 2977854075028594209}
 --- !u!1 &2977854075028594210
