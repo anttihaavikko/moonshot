@@ -14,6 +14,9 @@ public class Bubble : MonoBehaviour
     private string hiliteColorHex;
     private bool locked;
 
+    private int messagePos;
+    private string message;
+
     private void Start()
     {
         hiliteColorHex = "#" + ColorUtility.ToHtmlStringRGB(hiliteColor);
@@ -64,8 +67,31 @@ public class Bubble : MonoBehaviour
         this.StartCoroutine(() => wrapper.SetActive(false), showDuration);
     }
 
-    private void SetText(string message)
+    private void SetText(string msg)
     {
-        text.text = message.Replace("(", "<color=" + hiliteColorHex + ">").Replace(")", "</color>");
+        messagePos = 0;
+        message = msg;
+        text.text = "";
+        Invoke("StartShowing", 0.25f);
+    }
+
+    void StartShowing()
+    {
+        StartCoroutine(UpdateMessage());
+    }
+
+    IEnumerator UpdateMessage()
+    {
+        while(messagePos < message.Length - 1)
+        {
+            messagePos++;
+            if (message[messagePos] == '<')
+            {
+                messagePos = message.IndexOf(">", messagePos, System.StringComparison.CurrentCulture) + 1;
+            }
+            text.text = message.Substring(0, messagePos).Replace("(", "<color=" + hiliteColorHex + ">").Replace(")", "</color>");
+            var delay = message[messagePos] == ' ' ? 0.06f : 0.02f;
+            yield return new WaitForSeconds(delay);
+        }
     }
 }
