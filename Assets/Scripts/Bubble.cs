@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Bubble : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Bubble : MonoBehaviour
     public GameObject wrapper;
     public Color hiliteColor;
     public Levels levels;
+    public UnityAction afterHide;
 
     private bool shown;
     private string hiliteColorHex;
@@ -16,7 +18,7 @@ public class Bubble : MonoBehaviour
 
     private int messagePos;
     private string message;
-    private bool skipped;
+    private bool endReached;
 
     private void Start()
     {
@@ -71,6 +73,7 @@ public class Bubble : MonoBehaviour
     private void SetText(string msg)
     {
         messagePos = 0;
+        endReached = false;
         message = msg;
         text.text = "";
         Invoke("StartShowing", 0.25f);
@@ -93,30 +96,36 @@ public class Bubble : MonoBehaviour
     {
         if(shown)
         {
-            if(!skipped)
+            if(!endReached)
             {
                 messagePos = message.Length - 2;
-                skipped = true;
+                endReached = true;
             }
             else
             {
                 Hide();
+                afterHide?.Invoke();
             }
         }
     }
 
     IEnumerator UpdateMessage()
     {
-        while(messagePos < message.Length - 1)
+        while(messagePos < message.Length)
         {
-            messagePos++;
             if (message[messagePos] == '<')
             {
                 messagePos = message.IndexOf(">", messagePos, System.StringComparison.CurrentCulture) + 1;
             }
+            else
+            {
+                messagePos++;
+            }
             text.text = message.Substring(0, messagePos).Replace("(", "<color=" + hiliteColorHex + ">").Replace(")", "</color>");
-            var delay = message[messagePos] == ' ' ? 0.06f : 0.02f;
+            var delay = message[messagePos - 1] == ' ' ? 0.06f : 0.02f;
             yield return new WaitForSeconds(delay);
         }
+
+        endReached = true;
     }
 }

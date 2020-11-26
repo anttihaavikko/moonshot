@@ -26,9 +26,17 @@ public class Demo : MonoBehaviour
     {
         Populate();
         Invoke("InvokeAction", 0.75f);
+
+        moonBubble.afterHide += Skip;
+        sunBubble.afterHide += Skip;
     }
 
-    private void InvokeAction()
+    void Skip()
+    {
+        Invoke("InvokeAction", 0.5f);
+    }
+
+    public void InvokeAction()
     {
         if(actions.Count > 0)
         {
@@ -72,11 +80,10 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("Hiya, I'm (Monsieur Moon)!", true);
-        }, 3f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.Hide();
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 0.5f);
             demo.zoomer.ZoomTo(5);
         }, 0.5f));
@@ -84,16 +91,11 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("And this is my girlfriend, (Madame Sun)!", false);
-        }, 1f));
-
-        actions.Enqueue(new DemoAction<Demo>((demo) =>
-        {
             demo.sun.SetTrigger("Jump");
-        }, 2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.Hide();
             demo.MoveCamTo(new Vector3(-7f, 0f, 0f), 0.5f);
             demo.zoomer.ZoomTo(4);
         }, 0.5f));
@@ -101,7 +103,7 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("I'm a bit of a gun nut...", true);
-        }, 0.2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -110,13 +112,8 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.Hide();
-        }, 0.5f));
-
-        actions.Enqueue(new DemoAction<Demo>((demo) =>
-        {
             demo.moonBubble.ShowWithMirroring("She isn't a big fan of them though...", true);
-        }, 2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -127,26 +124,16 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.Hide();
-        }, 0.5f));
-
-        actions.Enqueue(new DemoAction<Demo>((demo) =>
-        {
             demo.moonBubble.ShowWithMirroring("Where did so go to?", false);
             demo.zoomer.ZoomTo(5f);
-        }, 2f));
-
-        actions.Enqueue(new DemoAction<Demo>((demo) =>
-        {
-            demo.moonBubble.Hide();
-        }, 0.5f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("Guess I gotta go (after her)...", false);
             demo.MoveCamTo(new Vector3(2f, 0f, 0f), 0.5f);
             demo.zoomer.ZoomTo(4.5f);
-        }, 2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -171,7 +158,7 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("Hmm, what's (going on) over there...", true);
-        }, 2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -187,7 +174,7 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("Hey guys, have you seen...", false);
-        }, 0.4f));
+        }, 0.8f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -199,18 +186,8 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.Hide();
-        }, 1f));
-
-        actions.Enqueue(new DemoAction<Demo>((demo) =>
-        {
             demo.moonBubble.ShowWithMirroring("Sigh...", false);
-        }, 0.7f));
-
-        actions.Enqueue(new DemoAction<Demo>((demo) =>
-        {
-            demo.moonBubble.Hide();
-        }, 0.5f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -221,7 +198,7 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("They seem to have (dropped) something!", false);
-        }, 2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -241,23 +218,17 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.letter.Open();
-        }, 4f));
-
-        actions.Enqueue(new DemoAction<Demo>((demo) =>
-        {
-            demo.moonBubble.Hide();
-        }, 0.5f));
+        }, 2.5f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moon.SetTrigger("PullGun");
             demo.moonBubble.ShowWithMirroring("Oh (hell) no!", true);
-        }, 2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             SceneChanger.Instance.ChangeScene("Main");
-            demo.moonBubble.Hide();
         }));
     }
 
@@ -284,7 +255,7 @@ public class Demo : MonoBehaviour
         {
             demo.moon.SetTrigger("PullGun");
             demo.moonBubble.ShowWithMirroring("Keep coming at me you filthy sky rats!", true);
-        }, 2f));
+        }));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
@@ -357,12 +328,6 @@ public class Demo : MonoBehaviour
             bats[index].SetOrigin();
             bats[index].enabled = true;
         }, delay + duration);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void MoveCamTo(Vector3 pos, float duration)
