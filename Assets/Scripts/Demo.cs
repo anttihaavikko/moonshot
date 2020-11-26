@@ -174,7 +174,7 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             demo.moonBubble.ShowWithMirroring("Hey guys, have you seen...", false);
-        }, 0.8f));
+        }, 0.85f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
