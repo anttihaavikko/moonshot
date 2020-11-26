@@ -190,7 +190,13 @@ public class Moon : MonoBehaviour, IDier
                 }
             }
 
-            var line = linePool.Get();
+			if (hit.collider.gameObject.tag == "BatLimb")
+			{
+                var limb = hit.collider.GetComponent<BatLimb>();
+                limb.Break();
+			}
+
+			var line = linePool.Get();
             line.SetPosition(0, pos);
             line.SetPosition(1, hit.point);
 
@@ -342,5 +348,10 @@ public class Moon : MonoBehaviour, IDier
     public float GetTime()
     {
         return bestTime;
+    }
+
+    public void Heal()
+    {
+        hp += 3;
     }
 }

@@ -1,20 +1,22 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Bat.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Enemy.cs">
     <Files>
-      <File FileName="Assets/Scripts/Moon.cs" Line="173" Column="28" />
-      <File FileName="Assets/Scripts/Level.cs" Line="67" Column="6" />
-      <File FileName="Assets/Scripts/Levels.cs" Line="42" Column="87" />
-      <File FileName="Assets/Scripts/ButtonMenu.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/LevelInfo.cs" Line="67" Column="48" />
-      <File FileName="Assets/Scripts/Demo.cs" Line="191" Column="1" />
+      <File FileName="Assets/Scripts/Moon.cs" Line="196" Column="30" />
+      <File FileName="Assets/Scripts/Level.cs" />
+      <File FileName="Assets/Scripts/Levels.cs" />
+      <File FileName="Assets/Scripts/ButtonMenu.cs" />
+      <File FileName="Assets/Scripts/LevelInfo.cs" />
+      <File FileName="Assets/Scripts/Demo.cs" />
       <File FileName="Assets/Scripts/SaveManager.cs" />
       <File FileName="Assets/Scripts/LevelSelect.cs" />
-      <File FileName="Assets/Scripts/StartView.cs" Line="11" Column="6" />
-      <File FileName="Assets/Scripts/AutoShooter.cs" Line="45" Column="60" />
-      <File FileName="Assets/Scripts/CustomButton.cs" Line="16" Column="5" />
-      <File FileName="Assets/Scripts/AudioManager.cs" Line="98" Column="72" />
-      <File FileName="Assets/Scripts/Bubble.cs" Line="102" Column="35" />
-      <File FileName="Assets/Scripts/Bat.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StartView.cs" />
+      <File FileName="Assets/Scripts/AutoShooter.cs" />
+      <File FileName="Assets/Scripts/CustomButton.cs" />
+      <File FileName="Assets/Scripts/AudioManager.cs" />
+      <File FileName="Assets/Scripts/Bubble.cs" />
+      <File FileName="Assets/Scripts/Bat.cs" />
+      <File FileName="Assets/Scripts/BatLimb.cs" Line="9" Column="1" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,7 +24,7 @@
           <Node name="Moonshot" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Bat.cs" selected="True" />
+                <Node name="Enemy.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -33,7 +35,7 @@
   <MonoDevelop.Ide.ItemProperties.Cinemachine PreferredExecutionTarget="712314ba-1c9d-48f6-84be-788591d5f3c8" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="5a34a9d4-340a-482a-a17a-ab61746ed8f2" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="c597ac17-44f3-41b0-b8c1-572d40504c3a" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

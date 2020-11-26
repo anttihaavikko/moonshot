@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Breakable
   - Pickup
+  - BatLimb
   layers:
   - Default
   - TransparentFX

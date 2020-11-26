@@ -23,8 +23,6 @@ public class Enemy : MonoBehaviour, IDier
 
     public void Hurt(Vector3 point, Vector3 dir)
     {
-        hp--;
-
         if(body)
         {
             body.AddForceAtPosition(dir * 10f * moveForce, point, ForceMode2D.Impulse);
@@ -47,6 +45,13 @@ public class Enemy : MonoBehaviour, IDier
                 }, 0.1f);
             }
         }
+
+        Damage(1);
+    }
+
+    public void Damage(int amount)
+    {
+        hp -= amount;
 
         cam.BaseEffect(0.3f);
 
