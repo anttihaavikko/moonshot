@@ -16,6 +16,7 @@ public class Bubble : MonoBehaviour
 
     private int messagePos;
     private string message;
+    private bool skipped;
 
     private void Start()
     {
@@ -78,6 +79,30 @@ public class Bubble : MonoBehaviour
     void StartShowing()
     {
         StartCoroutine(UpdateMessage());
+    }
+
+    private void Update()
+    {
+        if(Input.anyKeyDown)
+        {
+            SkipOrHide();
+        }
+    }
+
+    public void SkipOrHide()
+    {
+        if(shown)
+        {
+            if(!skipped)
+            {
+                messagePos = message.Length - 2;
+                skipped = true;
+            }
+            else
+            {
+                Hide();
+            }
+        }
     }
 
     IEnumerator UpdateMessage()

@@ -172,8 +172,6 @@ public class Moon : MonoBehaviour, IDier
     {
         hasTouched = false;
 
-        bubble.Hide();
-
         var hit = Physics2D.Raycast(pos, dir, 100f, collisionMask);
         if(hit)
         {
