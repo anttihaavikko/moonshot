@@ -131,7 +131,7 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            demo.moonBubble.ShowWithMirroring("Where did so go to?", false);
+            demo.moonBubble.ShowWithMirroring("Where did she go to?", false);
             demo.zoomer.ZoomTo(5f);
         }));
 
