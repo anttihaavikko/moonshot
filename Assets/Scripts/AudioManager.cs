@@ -74,6 +74,8 @@ public class AudioManager : MyObjectPool<SoundEffect> {
 		prevMusic = curMusic;
 		curMusic = musics [next];
 
+        print("Changing music to " + musics[next].name);
+
 		prevMusic.time = 0f;
 
 		Invoke ("StartNext", startDelay);
@@ -98,7 +100,32 @@ public class AudioManager : MyObjectPool<SoundEffect> {
 		curMusic.pitch = Mathf.MoveTowards (curMusic.pitch, targetPitch, 0.01f * changeSpeed * Time.deltaTime * 60f);
 		lowpass.cutoffFrequency = Mathf.MoveTowards (lowpass.cutoffFrequency, targetLowpass, 1500f * changeSpeed * Time.deltaTime * 60f);
 		highpass.cutoffFrequency = Mathf.MoveTowards (highpass.cutoffFrequency, targetHighpass, 200f * changeSpeed * Time.deltaTime * 60f);
-	}
+
+        if (fadeInPos < 1f)
+        {
+            fadeInPos += Time.unscaledDeltaTime / fadeInDuration;
+        }
+
+        if (fadeOutPos < 1f)
+        {
+            fadeOutPos += Time.unscaledDeltaTime / fadeOutDuration;
+        }
+
+        if (curMusic && fadeInPos >= 0f)
+        {
+            curMusic.volume = Mathf.Lerp(0f, musVolume, fadeInPos);
+        }
+
+        if (prevMusic)
+        {
+            prevMusic.volume = Mathf.Lerp(musVolume, 0f, fadeOutPos);
+
+            if (prevMusic.volume <= 0f)
+            {
+                prevMusic.Stop();
+            }
+        }
+    }
 
 	public void PlayEffectAt(AudioClip clip, Vector3 pos, float volume, bool pitchShift = true) {
 		SoundEffect se = Get();

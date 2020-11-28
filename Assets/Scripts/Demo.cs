@@ -29,6 +29,8 @@ public class Demo : MonoBehaviour
 
         moonBubble.afterHide += Skip;
         sunBubble.afterHide += Skip;
+
+        AudioManager.Instance.ChangeMusic(1, 0.5f, 0.5f, 0f);
     }
 
     void Skip()
@@ -67,6 +69,11 @@ public class Demo : MonoBehaviour
                 Trapped();
                 break;
         }
+    }
+
+    void ChangeMusic()
+    {
+        AudioManager.Instance.ChangeMusic(0, 0.5f, 0.5f, 0f);
     }
 
     void Intro()
@@ -139,6 +146,7 @@ public class Demo : MonoBehaviour
         {
             SceneChanger.Instance.ChangeScene("LevelSelect");
             demo.moonBubble.Hide();
+            ChangeMusic();
         }));
     }
 
@@ -229,6 +237,7 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
             SceneChanger.Instance.ChangeScene("Main");
+            ChangeMusic();
         }));
     }
 
@@ -291,6 +300,7 @@ public class Demo : MonoBehaviour
         {
             SceneChanger.Instance.ChangeScene("Main");
             demo.moonBubble.Hide();
+            ChangeMusic();
         }));
     }
 
