@@ -38,6 +38,8 @@ public abstract class Level : MonoBehaviour
     {
         if(!completed)
         {
+            AudioManager.Instance.PlayEffectAt(28, levels.moon.transform.position, 3f);
+
             completed = true;
             this.StartCoroutine(() => {
                 if(!levels.moon.HasDied())

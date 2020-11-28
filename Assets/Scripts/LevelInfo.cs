@@ -120,10 +120,18 @@ public class LevelInfo : MonoBehaviour
             {
                 if(recheck)
                 {
-                    SaveManager.Instance.CompleteBonus(level.index, i);
+                    if(!SaveManager.Instance.CompleteBonus(level.index, i))
+                    {
+                        var idx = i;
+                        bonuses[idx].MarkDone();
+                        this.StartCoroutine(() => bonuses[idx].Check(), 1f + 0.1f * idx);
+                    }
                 }
-                var idx = i;
-                this.StartCoroutine(() => bonuses[idx].Check(), 1f + 0.1f * i);
+                else
+                {
+                    var idx = i;
+                    bonuses[idx].Mark();
+                }
             }
         }
     }

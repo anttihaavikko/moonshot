@@ -96,7 +96,7 @@ public class SoundDesigner : EditorWindow
                 {
                     for (int i = 0; i < sounds.Count; i++)
                     {
-                        am.PlayEffectAt(sounds[i], Vector3.zero, soundVolumes[i]);
+                        am.PlayEffectAt(sounds[i], Camera.main.transform.position, soundVolumes[i]);
                     }
                 }
             }
@@ -131,7 +131,7 @@ public class SoundDesigner : EditorWindow
     {
         if (EditorApplication.isPlaying)
         {
-            am.PlayEffectAt(i, Vector3.zero, 1f);
+            am.PlayEffectAt(i, Camera.main.transform.position, 1f);
             return;
         }
 

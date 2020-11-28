@@ -8,9 +8,8 @@ public class Appearer : MonoBehaviour
     public bool autoShow = true;
 	public float appearAfter = -1f;
 	public float hideDelay;
-    public bool silent;
     public bool hiddenOnWeb;
-    public bool soundOnZero;
+    public bool isNotUi;
     public float volume = 0.6f;
     public Vector3 hiddenSize;
     public float showDuration = 0.3f;
@@ -31,7 +30,12 @@ public class Appearer : MonoBehaviour
 
     private Vector3 SoundPos()
     {
-        return soundOnZero ? Vector3.zero : transform.position;
+        return isNotUi ? transform.position : GetPosFromUi();
+    }
+
+    private Vector3 GetPosFromUi()
+    {
+        return Camera.main.ScreenToWorldPoint(transform.position);
     }
 
     public void Show()
@@ -46,14 +50,10 @@ public class Appearer : MonoBehaviour
 
     public void Show(bool autoHide)
     {
-        if(!silent)
-        {
-            var p = SoundPos();
-            //AudioManager.Instance.PlayEffectAt(1, transform.position, 1f * volume);
-            //AudioManager.Instance.PlayEffectAt(4, transform.position, 0.669f * volume);
-            //AudioManager.Instance.PlayEffectAt(9, transform.position, 0.506f * volume);
-            //AudioManager.Instance.PlayEffectAt(22, transform.position, 0.735f * volume);
-        }
+        var p = SoundPos();
+        var vol = 0.7f;
+        AudioManager.Instance.PlayEffectAt(22, p, 1.322f * vol);
+        AudioManager.Instance.PlayEffectAt(21, p, 0.58f * vol);
 
         // Debug.Log("Showing " + name);
         gameObject.SetActive(true);
@@ -69,14 +69,10 @@ public class Appearer : MonoBehaviour
 
         // Debug.Log("Hiding " + name);
 
-        if(!silent)
-        {
-            var p = SoundPos();
-            //AudioManager.Instance.PlayEffectAt(1, transform.position, 1f * volume);
-            //AudioManager.Instance.PlayEffectAt(4, transform.position, 0.669f * volume);
-            //AudioManager.Instance.PlayEffectAt(9, transform.position, 0.506f * volume);
-            //AudioManager.Instance.PlayEffectAt(22, transform.position, 0.735f * volume);
-        }
+        var p = SoundPos();
+        var vol = 0.5f;
+        AudioManager.Instance.PlayEffectAt(22, p, 1.322f * vol);
+        AudioManager.Instance.PlayEffectAt(21, p, 0.58f * vol);
 
         Tweener.Instance.ScaleTo(transform, hiddenSize, hideDuration, 0f, TweenEasings.QuadraticEaseInOut);
 

@@ -111,8 +111,13 @@ public class Bubble : MonoBehaviour
 
     IEnumerator UpdateMessage()
     {
+        var first = true;
         while(messagePos < message.Length)
         {
+            if(first)
+            {
+                AudioManager.Instance.PlayEffectAt(Random.Range(29, 41), transform.position, 2f);
+            }
             if (message[messagePos] == '<')
             {
                 messagePos = message.IndexOf(">", messagePos, System.StringComparison.CurrentCulture) + 1;
@@ -122,7 +127,8 @@ public class Bubble : MonoBehaviour
                 messagePos++;
             }
             text.text = message.Substring(0, messagePos).Replace("(", "<color=" + hiliteColorHex + ">").Replace(")", "</color>");
-            var delay = message[messagePos - 1] == ' ' ? 0.06f : 0.02f;
+            first = message[messagePos - 1] == ' ';
+            var delay = first ? 0.07f : 0.03f;
             yield return new WaitForSeconds(delay);
         }
 

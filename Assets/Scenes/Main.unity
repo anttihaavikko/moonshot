@@ -923,9 +923,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: 0.4
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -1205,6 +1204,7 @@ MonoBehaviour:
   gun: {fileID: 372262793}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 1808808085}
 --- !u!233 &35016981
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -1377,6 +1377,7 @@ MonoBehaviour:
   gun: {fileID: 499539670}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 476878000}
 --- !u!233 &36565526
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -7681,9 +7682,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: -1
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 1, z: 1}
   showDuration: 0.1
@@ -9592,9 +9592,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: 0.4
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -13718,9 +13717,8 @@ MonoBehaviour:
   autoShow: 1
   appearAfter: -1
   hideDelay: 0
-  silent: 0
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 1, z: 0}
   showDuration: 0.3
@@ -13878,9 +13876,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: -1
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 1, z: 1}
   showDuration: 0.2
@@ -15099,6 +15096,7 @@ MonoBehaviour:
   gun: {fileID: 499539670}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 36565525}
 --- !u!233 &476878001
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -16485,6 +16483,7 @@ MonoBehaviour:
   gun: {fileID: 938837101}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 1476541304}
 --- !u!233 &546252493
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -16785,6 +16784,7 @@ MonoBehaviour:
   gun: {fileID: 1960916172}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 1776366231}
 --- !u!233 &559113927
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -18046,9 +18046,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: 0.3
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -35704,9 +35703,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: -1
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -38592,9 +38590,8 @@ MonoBehaviour:
   autoShow: 1
   appearAfter: -1
   hideDelay: 0
-  silent: 0
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -43990,9 +43987,8 @@ MonoBehaviour:
   autoShow: 1
   appearAfter: -1
   hideDelay: 0
-  silent: 0
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -46245,9 +46241,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: -1
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 1, z: 1}
   showDuration: 0.4
@@ -46527,6 +46522,7 @@ MonoBehaviour:
   gun: {fileID: 938837101}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 546252492}
 --- !u!233 &1476541305
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -53718,9 +53714,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: -1
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 1, z: 1}
   showDuration: 0.3
@@ -62424,6 +62419,7 @@ MonoBehaviour:
   gun: {fileID: 1960916172}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 559113926}
 --- !u!233 &1776366232
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -63083,9 +63079,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: 0.3
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -63415,6 +63410,7 @@ MonoBehaviour:
   gun: {fileID: 372262793}
   moon: {fileID: 619370581}
   boss: {fileID: 917048455}
+  other: {fileID: 35016980}
 --- !u!233 &1808808086
 HingeJoint2D:
   m_ObjectHideFlags: 0
@@ -65162,9 +65158,8 @@ MonoBehaviour:
   autoShow: 0
   appearAfter: 0.5
   hideDelay: 0
-  silent: 1
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 0, z: 0}
   showDuration: 0.3
@@ -74452,6 +74447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977854075028594208, guid: 36f71ca765b2f428e98468c9c2436a40,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36f71ca765b2f428e98468c9c2436a40, type: 3}

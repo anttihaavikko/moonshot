@@ -1,30 +1,36 @@
 ﻿<Properties StartupConfiguration="{E4AE8A2F-6B58-36A6-B354-58473CE63128}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/KillLevel.cs">
     <Files>
-      <File FileName="Assets/Scripts/Moon.cs" Line="196" Column="30" />
-      <File FileName="Assets/Scripts/Level.cs" />
-      <File FileName="Assets/Scripts/Levels.cs" />
+      <File FileName="Assets/Scripts/Moon.cs" Line="242" Column="46" />
+      <File FileName="Assets/Scripts/Level.cs" Line="44" Column="37" />
+      <File FileName="Assets/Scripts/Levels.cs" Line="42" Column="87" />
       <File FileName="Assets/Scripts/ButtonMenu.cs" />
-      <File FileName="Assets/Scripts/LevelInfo.cs" />
+      <File FileName="Assets/Scripts/LevelInfo.cs" Line="131" Column="18" />
       <File FileName="Assets/Scripts/Demo.cs" />
-      <File FileName="Assets/Scripts/SaveManager.cs" />
+      <File FileName="Assets/Scripts/SaveManager.cs" Line="29" Column="47" />
       <File FileName="Assets/Scripts/LevelSelect.cs" />
       <File FileName="Assets/Scripts/StartView.cs" />
-      <File FileName="Assets/Scripts/AutoShooter.cs" />
-      <File FileName="Assets/Scripts/CustomButton.cs" />
+      <File FileName="Assets/Scripts/AutoShooter.cs" Line="11" Column="28" />
+      <File FileName="Assets/Scripts/CustomButton.cs" Line="54" Column="63" />
       <File FileName="Assets/Scripts/AudioManager.cs" />
-      <File FileName="Assets/Scripts/Bubble.cs" />
+      <File FileName="Assets/Scripts/Bubble.cs" Line="115" Column="43" />
       <File FileName="Assets/Scripts/Bat.cs" />
-      <File FileName="Assets/Scripts/BatLimb.cs" Line="9" Column="1" />
-      <File FileName="Assets/Scripts/Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BatLimb.cs" Line="22" Column="1" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="49" Column="19" />
+      <File FileName="Assets/Scripts/TickBox.cs" Line="28" Column="25" />
+      <File FileName="Assets/Editor/SoundDesigner.cs" Line="134" Column="16" />
+      <File FileName="Assets/Scripts/Appearer.cs" Line="70" Column="40" />
+      <File FileName="Assets/Scripts/LavaLevel.cs" Line="24" Column="40" />
+      <File FileName="Assets/Scripts/KillLevel.cs" Line="17" Column="40" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Moonshot" expanded="True">
             <Node name="Assets" expanded="True">
+              <Node name="Editor" expanded="True" />
               <Node name="Scripts" expanded="True">
-                <Node name="Enemy.cs" selected="True" />
+                <Node name="KillLevel.cs" selected="True" />
               </Node>
             </Node>
           </Node>

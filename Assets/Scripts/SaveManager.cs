@@ -19,10 +19,11 @@ public class SaveManager : SingletonManager<SaveManager>
         //print(JsonUtility.ToJson(data));
     }
 
-    public void CompleteBonus(int level, int bonus)
+    public bool CompleteBonus(int level, int bonus)
     {
+        var wasDone = data.levelSaveData[level].bonusesDone[bonus];
         data.levelSaveData[level].bonusesDone[bonus] = true;
-        //print(JsonUtility.ToJson(data));
+        return wasDone;
     }
 
     public LevelSaveData GetDataFor(int level)

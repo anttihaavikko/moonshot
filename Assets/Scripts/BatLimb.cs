@@ -8,9 +8,16 @@ public class BatLimb : MonoBehaviour
     public AutoShooter gun;
     public Moon moon;
     public Enemy boss;
+    public BatLimb other;
+
+    private bool broken;
 
     public void Break()
     {
+        if (broken) return;
+
+        other.MarkBroken();
+
         boss.Damage(10);
 
         EffectManager.Instance.AddEffect(3, transform.position);
@@ -33,5 +40,10 @@ public class BatLimb : MonoBehaviour
         cam.BaseEffect(0.5f);
 
         moon.Heal();
+    }
+
+    public void MarkBroken()
+    {
+        broken = true;
     }
 }

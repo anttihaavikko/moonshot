@@ -277,7 +277,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7184153823436440309}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7650013351602736765}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7650013351602736765}
+        m_MethodName: ClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7650013351602736765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,8 +315,17 @@ MonoBehaviour:
   button: {fileID: 7184153823436440310}
   text: {fileID: 7184153822189225854}
   fill: {fileID: 7184153824122881815}
+  extraFgs: []
+  extraBgs: []
   hoverFill: {r: 0.9098039, g: 0.45490196, b: 0.38039216, a: 1}
   hoverText: {r: 0, g: 0, b: 0, a: 1}
+  menu: {fileID: 0}
+  index: 0
+  bonuses: []
+  strike: {fileID: 0}
+  fillColor: {r: 0, g: 0, b: 0, a: 0}
+  textColor: {r: 0, g: 0, b: 0, a: 0}
+  isNextLevelButton: 0
 --- !u!1 &7184153824122881809
 GameObject:
   m_ObjectHideFlags: 0

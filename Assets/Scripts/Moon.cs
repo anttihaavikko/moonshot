@@ -248,6 +248,10 @@ public class Moon : MonoBehaviour, IDier
 
             EffectManager.Instance.AddEffect(3, collision.gameObject.transform.position);
             EffectManager.Instance.AddEffect(6, collision.gameObject.transform.position);
+
+            AudioManager.Instance.PlayEffectAt(25, collision.gameObject.transform.position, 1f);
+            AudioManager.Instance.PlayEffectAt(26, collision.gameObject.transform.position, 1f);
+            AudioManager.Instance.PlayEffectAt(27, collision.gameObject.transform.position, 1f);
         }
 
         if (collision.gameObject.tag == "Bubble")
