@@ -16439,7 +16439,7 @@ GameObject:
   - component: {fileID: 546252491}
   - component: {fileID: 546252493}
   - component: {fileID: 546252492}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Arm Upper
   m_TagString: BatLimb
   m_Icon: {fileID: 0}
@@ -16740,7 +16740,7 @@ GameObject:
   - component: {fileID: 559113925}
   - component: {fileID: 559113927}
   - component: {fileID: 559113926}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Arm Lower
   m_TagString: BatLimb
   m_Icon: {fileID: 0}
@@ -27446,7 +27446,7 @@ PrefabInstance:
     - target: {fileID: 406898252815625321, guid: 244bd7ad318bd4e46b8d46c746337b62,
         type: 3}
       propertyPath: hp
-      value: 42
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 406898252815625321, guid: 244bd7ad318bd4e46b8d46c746337b62,
         type: 3}
@@ -46478,7 +46478,7 @@ GameObject:
   - component: {fileID: 1476541303}
   - component: {fileID: 1476541305}
   - component: {fileID: 1476541304}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Arm Lower
   m_TagString: BatLimb
   m_Icon: {fileID: 0}
@@ -62375,7 +62375,7 @@ GameObject:
   - component: {fileID: 1776366230}
   - component: {fileID: 1776366232}
   - component: {fileID: 1776366231}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Arm Upper
   m_TagString: BatLimb
   m_Icon: {fileID: 0}

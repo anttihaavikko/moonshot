@@ -186,10 +186,10 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
         {
-            MoveBat(0, Vector3.right * 15f + Vector3.up, 0.3f, 0.1f);
-            MoveBat(1, Vector3.right * 17f, 0.35f, 0.15f);
-            MoveBat(2, Vector3.right * 14f + Vector3.up * 0.5f, 0.4f, 0.25f);
-            MoveBat(3, Vector3.right * 16f + Vector3.down, 0.3f, 0.3f);
+            MoveBat(0, Vector3.right * 20f + Vector3.up, 0.3f, 0.1f);
+            MoveBat(1, Vector3.right * 23f, 0.35f, 0.15f);
+            MoveBat(2, Vector3.right * 19f + Vector3.up * 0.5f, 0.4f, 0.25f);
+            MoveBat(3, Vector3.right * 21f + Vector3.down, 0.3f, 0.3f);
         }, 0.3f));
 
         actions.Enqueue(new DemoAction<Demo>((demo) =>
