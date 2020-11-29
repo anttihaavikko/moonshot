@@ -1,236 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Bone2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Bone2D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Control.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Control.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationBaker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationBaker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationFixer/AnimationFixer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationFixer/AnimationFixer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowExtra.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowExtra.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_2017_1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_2017_1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_50.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_50.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_51_52_53_54_55.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_51_52_53_54_55.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_56.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/AnimationWindowImpl_56.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/IAnimationWindowImpl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/AnimationWindowExtra/IAnimationWindowImpl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BbwPlugin.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BbwPlugin.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BindInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BindInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShape.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShape.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShapeEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShapeEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShapeFrame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShapeFrame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShapeFrameEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BlendShapeFrameEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Bone2DEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Bone2DEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BoneUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BoneUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BoneWeight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/BoneWeight.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ColorRing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ColorRing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ContextMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ContextMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/CurveUtility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/CurveUtility.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Edge.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Edge.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorEventHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorExtra.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorExtra.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorGUIExtra.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorGUIExtra.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorUpdater.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/EditorUpdater.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Exporter/Exporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Exporter/Exporter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Gizmos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Gizmos.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/HandlesExtra.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/HandlesExtra.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Hole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Hole.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Ik2DEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Ik2DEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkCCD2DEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkCCD2DEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkGroupEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkGroupEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkLimb2DEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkLimb2DEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IkUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IndexedEdge.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/IndexedEdge.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/InspectorEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/InspectorEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/MaskCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/MaskCreator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/MeshToolEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/MeshToolEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Node.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/MaterialCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/MaterialCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/ObjectPool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/ObjectPool.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionLayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionLayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionLayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionLayerManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionLayer_56.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionLayer_56.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionSkinWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/OnionSkin/OnionSkinWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/PoseManagerEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/PoseManagerEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/PoseUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/PoseUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/RectHandles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/RectHandles.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ScriptableObjectUtility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ScriptableObjectUtility.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SelectionRectTool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SelectionRectTool.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SerializedCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SerializedCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SliceEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SliceEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshAnimationEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshAnimationEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshCache.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshEditorWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshInstanceEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshInstanceEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshPostprocessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshPostprocessor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/SpriteMeshUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TextureEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TextureEditorWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/BlendShapeFrameDopeElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/BlendShapeFrameDopeElement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/IDopeElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/IDopeElement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TickHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TickHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TickStyle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TickStyle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TimeArea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TimeArea.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TimeLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/TimeLine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/ZoomableArea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/TimeLine/ZoomableArea.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ToolsExtra.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/ToolsExtra.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/Dwyer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/Dwyer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/ITriangulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/ITriangulator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/Incremental.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/Incremental.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/SweepLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Algorithm/SweepLine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/BadTriQueue.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/BadTriQueue.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Behavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Behavior.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Carver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Carver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/BadSubseg.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/BadSubseg.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/BadTriangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/BadTriangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Osub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Osub.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Otri.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Otri.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Segment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Segment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Triangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Triangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Vertex.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Data/Vertex.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Enums.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Enums.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/BoundingBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/BoundingBox.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/Edge.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/Edge.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/EdgeEnumerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/EdgeEnumerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/ISegment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/ISegment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/ITriangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/ITriangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/InputGeometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/InputGeometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/Point.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/Point.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/RegionPointer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Geometry/RegionPointer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/DataReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/DataReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/DebugWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/DebugWriter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/FileReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/FileReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/FileWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/FileWriter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/IGeometryFormat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/IGeometryFormat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/IMeshFormat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/IMeshFormat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/InputTriangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/InputTriangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/TriangleFormat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/IO/TriangleFormat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/ILog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/ILog.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/ILogItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/ILogItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/SimpleLog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/SimpleLog.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/SimpleLogItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Log/SimpleLogItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Mesh.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Mesh.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/NewLocation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/NewLocation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Primitives.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Primitives.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Quality.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Quality.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Sampler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Sampler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Smoothing/ISmoother.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Smoothing/ISmoother.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Smoothing/SimpleSmoother.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Smoothing/SimpleSmoother.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/AdjacencyMatrix.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/AdjacencyMatrix.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/BoundedVoronoi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/BoundedVoronoi.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/CuthillMcKee.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/CuthillMcKee.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/IVoronoi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/IVoronoi.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/QuadTree.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/QuadTree.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/QualityMeasure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/QualityMeasure.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/RegionIterator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/RegionIterator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/Statistic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/Statistic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/Voronoi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/Voronoi.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/VoronoiRegion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/Tools/VoronoiRegion.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/TriangleLocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/Triangle/TriangleLocator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/BakedMesh.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/BakedMesh.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/SpriteMeshInstanceTracker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/SpriteMeshInstanceTracker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/TransformTracker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/TransformTracker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/VertexSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexAnimation/VertexSelection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/IVertexManipulable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/IVertexManipulable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/IVertexManipulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/IVertexManipulator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/IRectManipulable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/IRectManipulable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/IRectManipulatorData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/IRectManipulatorData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/RectManipulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/RectManipulator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/RectManipulatorData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/RectManipulatorData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/RectManipulatorParams.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/RectManipulator/RectManipulatorParams.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/VertexManipulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/VertexManipulator/VertexManipulator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/WeightEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/WeightEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/WindowEditorTool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Editor/WindowEditorTool.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/EditorUpdaterProxy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/EditorUpdaterProxy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Ik2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Ik2D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkCCD2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkCCD2D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkGroup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkLimb2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkLimb2D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkSolver2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkSolver2D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkSolver2DCCD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkSolver2DCCD.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkSolver2DLimb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/IkSolver2DLimb.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/MathUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/MathUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Pose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/Pose.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/PoseManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/PoseManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/SpriteMesh.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/SpriteMesh.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/SpriteMeshAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/SpriteMeshAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Anima2D/Scripts/SpriteMeshInstance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Anima2D/Scripts/SpriteMeshInstance.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/BoxOutlinerEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/BoxOutlinerEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/GeometryFromColliderEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/GeometryFromColliderEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/PaletteAssigner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/PaletteAssigner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/SoundDesigner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/SoundDesigner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SceneChanger/Blinders.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SceneChanger/Blinders.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SceneChanger/SceneChanger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SceneChanger/SceneChanger.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Appearer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Appearer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AutoEnd.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AutoEnd.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AutoShooter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AutoShooter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Backdrop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Backdrop.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Bat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Bat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BatFace.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BatFace.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BatLimb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BatLimb.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BoneToLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BoneToLine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BoxOutlinerScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BoxOutlinerScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Bubble.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Bubble.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BubbleTrigger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BubbleTrigger.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ButtonMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ButtonMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Cloud.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Cloud.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CollisionSoundSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CollisionSoundSource.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CustomButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CustomButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DisableOnHover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DisableOnHover.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EffectCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EffectCamera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EffectManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EffectManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Face.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Face.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Flasher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Flasher.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FlyingText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FlyingText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Follow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Follow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FollowCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FollowCamera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GeometryFromColliderScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GeometryFromColliderScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GoalLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GoalLevel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HoldEscToQuit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HoldEscToQuit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HudManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HudManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputMagic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputMagic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/KillLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/KillLevel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LavaLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LavaLevel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Letter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Letter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Levels.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Levels.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LinePool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LinePool.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonoBehaviourExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonoBehaviourExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Moon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Moon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MoonPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MoonPart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Mover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Mover.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MyObjectPool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MyObjectPool.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OptionsView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OptionsView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Platform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Platform.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Pulsate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Pulsate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RandomAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RandomAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RandomPosition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RandomPosition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RandomScale.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RandomScale.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rotator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rotator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SafeArea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SafeArea.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShellManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ShellManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Shine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Shine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SingletonManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SingletonManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SoundEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SoundEffect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Squisher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Squisher.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StartView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StartView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TextUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TextUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TickBox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TickBox.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Toucher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Toucher.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Triangulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Triangulator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TweenAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TweenAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TweenEasings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TweenEasings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tweener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tweener.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Zoomer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Zoomer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Shaders/TMPro.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Shaders/TMPro.cginc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Shaders/TMPro_Properties.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Shaders/TMPro_Properties.cginc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Shaders/TMPro_Surface.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Shaders/TMPro_Surface.cginc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,6 +21,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Moon.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Manager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
       </list>
     </option>
   </component>
@@ -297,7 +76,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="2511000" />
+      <workItem from="1606684963667" duration="3088000" />
     </task>
     <servers />
   </component>
@@ -387,9 +166,10 @@
     </state>
     <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606686971348" />
     <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606685055174">
-      <screen x="0" y="23" width="1680" height="967" />
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606687873902">
+      <screen x="0" y="23" width="1680" height="966" />
     </state>
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606687873902" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.967@0.23.1680.967" timestamp="1606685055174" />
   </component>
 </project>

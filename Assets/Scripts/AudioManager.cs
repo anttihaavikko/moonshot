@@ -104,11 +104,9 @@ public class AudioManager : MyObjectPool<SoundEffect>
         prevMusic = curMusic;
         curMusic = musics[next];
 
-        print("Changing music to " + musics[next].name);
-
         prevMusic.time = 0f;
 
-        Invoke("StartNext", startDelay);
+        Invoke(nameof(StartNext), startDelay);
     }
 
     private void StartNext()
