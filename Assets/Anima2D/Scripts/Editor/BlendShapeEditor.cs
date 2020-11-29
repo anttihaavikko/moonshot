@@ -1,174 +1,149 @@
-using UnityEngine;
 using UnityEditor;
-using UnityEditorInternal;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
-namespace Anima2D 
+namespace Anima2D
 {
-	public class BlendShapeEditor : WindowEditorTool
-	{
-		public SpriteMeshCache spriteMeshCache;
+    public class BlendShapeEditor : WindowEditorTool
+    {
+        public SpriteMeshCache spriteMeshCache;
 
-		protected override string GetHeader() { return "Blendshapes"; }
+        public BlendShapeEditor()
+        {
+            windowRect = new Rect(5f, 5f, 250, 45);
+        }
 
-		float windowHeight {
-			get {
-				return 80f;
-			}
-		}
+        private float windowHeight => 80f;
 
-		public BlendShapeEditor()
-		{
-			windowRect = new Rect(5f, 5f, 250, 45);
-		}
+        protected override string GetHeader()
+        {
+            return "Blendshapes";
+        }
 
 
-		public override void OnWindowGUI(Rect viewRect)
-		{
-			windowRect.position = new Vector2(0f, -15f);
+        public override void OnWindowGUI(Rect viewRect)
+        {
+            windowRect.position = new Vector2(0f, -15f);
 
-			base.OnWindowGUI(viewRect);
-		}
+            base.OnWindowGUI(viewRect);
+        }
 
-		protected override void DoWindow(int windowId)
-		{
-			if(!spriteMeshCache)
-			{
-				//Debug.Log("No SpriteMeshCache");
-				return;
-			}
+        protected override void DoWindow(int windowId)
+        {
+            if (!spriteMeshCache)
+                //Debug.Log("No SpriteMeshCache");
+                return;
 
-			if(!spriteMeshCache)
-			{
-				//Debug.Log("No SpriteMeshCache");
-				return;
-			}
+            if (!spriteMeshCache)
+                //Debug.Log("No SpriteMeshCache");
+                return;
 
-			if(spriteMeshCache.blendshapes == null)
-			{
-				//Debug.Log("spriteMeshCache.blendshapes == null");
-				return;
-			}
+            if (spriteMeshCache.blendshapes == null)
+                //Debug.Log("spriteMeshCache.blendshapes == null");
+                return;
 
-			EditorGUIUtility.labelWidth = 50f;
+            EditorGUIUtility.labelWidth = 50f;
 
-			EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical();
 
-			EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();
 
-			EditorGUI.BeginChangeCheck();
+            EditorGUI.BeginChangeCheck();
 
-			int blendshapeIndex = spriteMeshCache.blendshapes.IndexOf(spriteMeshCache.selectedBlendshape);
+            var blendshapeIndex = spriteMeshCache.blendshapes.IndexOf(spriteMeshCache.selectedBlendshape);
 
-			blendshapeIndex = EditorGUILayout.Popup(blendshapeIndex,GetBlendshapeNames(),GUILayout.Width(100f));
+            blendshapeIndex = EditorGUILayout.Popup(blendshapeIndex, GetBlendshapeNames(), GUILayout.Width(100f));
 
-			if(EditorGUI.EndChangeCheck())
-			{
-				spriteMeshCache.RegisterUndo("select blendshape");
-				spriteMeshCache.selectedBlendshape = spriteMeshCache.blendshapes[blendshapeIndex];
-			}
+            if (EditorGUI.EndChangeCheck())
+            {
+                spriteMeshCache.RegisterUndo("select blendshape");
+                spriteMeshCache.selectedBlendshape = spriteMeshCache.blendshapes[blendshapeIndex];
+            }
 
-			EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-			if(GUILayout.Button(new GUIContent("New", "Create a blend shape"),EditorStyles.miniButtonLeft,GUILayout.Width(50f)))
-			{
-				CreateBlendshape();
-			}
+            if (GUILayout.Button(new GUIContent("New", "Create a blend shape"), EditorStyles.miniButtonLeft,
+                GUILayout.Width(50f))) CreateBlendshape();
 
-			EditorGUI.BeginDisabledGroup(spriteMeshCache.selectedBlendshape == null);
-			
-			if(GUILayout.Button(new GUIContent("Delete", "Delete blend shape"),EditorStyles.miniButtonRight,GUILayout.Width(50f)))
-			{
-				DeleteBlendshape();
-			}
-			
-			EditorGUI.EndDisabledGroup();
+            EditorGUI.BeginDisabledGroup(spriteMeshCache.selectedBlendshape == null);
 
-			EditorGUILayout.Space();
+            if (GUILayout.Button(new GUIContent("Delete", "Delete blend shape"), EditorStyles.miniButtonRight,
+                GUILayout.Width(50f))) DeleteBlendshape();
 
-			EditorGUIUtility.fieldWidth = 35f;
-			EditorGUIUtility.labelWidth = 1f;
+            EditorGUI.EndDisabledGroup();
 
-			EditorGUI.BeginDisabledGroup(spriteMeshCache.selectedBlendshapeFrame == null);
+            EditorGUILayout.Space();
 
-			EditorGUILayout.LabelField("Frame:");
+            EditorGUIUtility.fieldWidth = 35f;
+            EditorGUIUtility.labelWidth = 1f;
 
-			if(GUILayout.Button(new GUIContent("Delete", "Delete frame"),EditorStyles.miniButtonLeft, GUILayout.Width(50f)))
-			{
-				DeleteFrame();
-			}
-			
-			if(GUILayout.Button(new GUIContent("Reset", "Reset vertices"),EditorStyles.miniButtonRight, GUILayout.Width(50f)))
-			{
-				ResetVertices();
-			}
+            EditorGUI.BeginDisabledGroup(spriteMeshCache.selectedBlendshapeFrame == null);
 
-			EditorGUI.EndDisabledGroup();
+            EditorGUILayout.LabelField("Frame:");
 
-			GUILayout.Space(1f);
+            if (GUILayout.Button(new GUIContent("Delete", "Delete frame"), EditorStyles.miniButtonLeft,
+                GUILayout.Width(50f))) DeleteFrame();
 
-			EditorGUILayout.EndHorizontal();
+            if (GUILayout.Button(new GUIContent("Reset", "Reset vertices"), EditorStyles.miniButtonRight,
+                GUILayout.Width(50f))) ResetVertices();
 
-			EditorGUILayout.EndVertical();
-		}
+            EditorGUI.EndDisabledGroup();
 
-		void CreateBlendshape()
-		{
-			if(spriteMeshCache)
-			{
-				BlendShape blendShape = spriteMeshCache.CreateBlendshape("New BlendShape", "Create BlendShape");
+            GUILayout.Space(1f);
 
-				spriteMeshCache.selectedBlendshape = blendShape;
+            EditorGUILayout.EndHorizontal();
 
-				spriteMeshCache.CreateBlendShapeFrame(blendShape, 100f, "Create BlendShape");
+            EditorGUILayout.EndVertical();
+        }
 
-				spriteMeshCache.blendShapeWeight = 100f;
-			}
-		}
+        private void CreateBlendshape()
+        {
+            if (spriteMeshCache)
+            {
+                var blendShape = spriteMeshCache.CreateBlendshape("New BlendShape", "Create BlendShape");
 
-		void DeleteBlendshape()
-		{
-			if(spriteMeshCache)
-			{
-				spriteMeshCache.DeleteBlendShape(spriteMeshCache.selectedBlendshape, "Delete BlendShape");
-			}
-		}
+                spriteMeshCache.selectedBlendshape = blendShape;
 
-		void ResetVertices()
-		{
-			if(spriteMeshCache)
-			{
-				if(spriteMeshCache.selection.Count > 0)
-				{
-					spriteMeshCache.ResetVertices(spriteMeshCache.selectedNodes, "Reset vertices");
-				}else{
-					spriteMeshCache.ResetVertices(spriteMeshCache.nodes, "Reset vertices");
-				}
-			}
-		}
+                spriteMeshCache.CreateBlendShapeFrame(blendShape, 100f, "Create BlendShape");
 
-		void DeleteFrame()
-		{
-			if(spriteMeshCache && spriteMeshCache.selectedBlendshapeFrame)
-			{
-				spriteMeshCache.DeleteBlendShapeFrame(spriteMeshCache.selectedBlendshape,
-														spriteMeshCache.selectedBlendshapeFrame,
-														"Delete frame");
-			}
-		}
+                spriteMeshCache.blendShapeWeight = 100f;
+            }
+        }
 
-		string[] GetBlendshapeNames()
-		{
-			if(spriteMeshCache && spriteMeshCache.blendshapes != null)
-			{
-				int i = 0;
+        private void DeleteBlendshape()
+        {
+            if (spriteMeshCache)
+                spriteMeshCache.DeleteBlendShape(spriteMeshCache.selectedBlendshape, "Delete BlendShape");
+        }
 
-				return spriteMeshCache.blendshapes.ConvertAll( b => (i++) + "  " + b.name).ToArray();
-			}
+        private void ResetVertices()
+        {
+            if (spriteMeshCache)
+            {
+                if (spriteMeshCache.selection.Count > 0)
+                    spriteMeshCache.ResetVertices(spriteMeshCache.selectedNodes, "Reset vertices");
+                else
+                    spriteMeshCache.ResetVertices(spriteMeshCache.nodes, "Reset vertices");
+            }
+        }
 
-			return new string[0];
-		}
-	}
+        private void DeleteFrame()
+        {
+            if (spriteMeshCache && spriteMeshCache.selectedBlendshapeFrame)
+                spriteMeshCache.DeleteBlendShapeFrame(spriteMeshCache.selectedBlendshape,
+                    spriteMeshCache.selectedBlendshapeFrame,
+                    "Delete frame");
+        }
+
+        private string[] GetBlendshapeNames()
+        {
+            if (spriteMeshCache && spriteMeshCache.blendshapes != null)
+            {
+                var i = 0;
+
+                return spriteMeshCache.blendshapes.ConvertAll(b => i++ + "  " + b.name).ToArray();
+            }
+
+            return new string[0];
+        }
+    }
 }

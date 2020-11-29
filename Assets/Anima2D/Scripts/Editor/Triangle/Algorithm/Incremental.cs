@@ -5,42 +5,35 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using TriangleNet.Data;
+using TriangleNet.Log;
+
 namespace TriangleNet.Algorithm
 {
-    using TriangleNet.Data;
-    using TriangleNet.Log;
-    using TriangleNet.Geometry;
-
     /// <summary>
-    /// Builds a delaunay triangulation using the incremental algorithm.
+    ///     Builds a delaunay triangulation using the incremental algorithm.
     /// </summary>
-    class Incremental
+    internal class Incremental
     {
-        Mesh mesh;
+        private Mesh mesh;
 
         /// <summary>
-        /// Form an "infinite" bounding triangle to insert vertices into.
+        ///     Form an "infinite" bounding triangle to insert vertices into.
         /// </summary>
         /// <remarks>
-        /// The vertices at "infinity" are assigned finite coordinates, which are
-        /// used by the point location routines, but (mostly) ignored by the
-        /// Delaunay edge flip routines.
+        ///     The vertices at "infinity" are assigned finite coordinates, which are
+        ///     used by the point location routines, but (mostly) ignored by the
+        ///     Delaunay edge flip routines.
         /// </remarks>
-        void GetBoundingBox()
+        private void GetBoundingBox()
         {
-            Otri inftri = default(Otri); // Handle for the triangular bounding box.
-            BoundingBox box = mesh.bounds;
+            Otri inftri = default; // Handle for the triangular bounding box.
+            var box = mesh.bounds;
 
             // Find the width (or height, whichever is larger) of the triangulation.
-            double width = box.Width;
-            if (box.Height > width)
-            {
-                width = box.Height;
-            }
-            if (width == 0.0)
-            {
-                width = 1.0;
-            }
+            var width = box.Width;
+            if (box.Height > width) width = box.Height;
+            if (width == 0.0) width = 1.0;
             // Create the vertices of the bounding box.
             mesh.infvertex1 = new Vertex(box.Xmin - 50.0 * width, box.Ymin - 40.0 * width);
             mesh.infvertex2 = new Vertex(box.Xmax + 50.0 * width, box.Ymin - 40.0 * width);
@@ -57,25 +50,25 @@ namespace TriangleNet.Algorithm
         }
 
         /// <summary>
-        /// Remove the "infinite" bounding triangle, setting boundary markers as appropriate.
+        ///     Remove the "infinite" bounding triangle, setting boundary markers as appropriate.
         /// </summary>
         /// <returns>Returns the number of edges on the convex hull of the triangulation.</returns>
         /// <remarks>
-        /// The triangular bounding box has three boundary triangles (one for each
-        /// side of the bounding box), and a bunch of triangles fanning out from
-        /// the three bounding box vertices (one triangle for each edge of the
-        /// convex hull of the inner mesh).  This routine removes these triangles.
+        ///     The triangular bounding box has three boundary triangles (one for each
+        ///     side of the bounding box), and a bunch of triangles fanning out from
+        ///     the three bounding box vertices (one triangle for each edge of the
+        ///     convex hull of the inner mesh).  This routine removes these triangles.
         /// </remarks>
-        int RemoveBox()
+        private int RemoveBox()
         {
-            Otri deadtriangle = default(Otri);
-            Otri searchedge = default(Otri);
-            Otri checkedge = default(Otri);
-            Otri nextedge = default(Otri), finaledge = default(Otri), dissolveedge = default(Otri);
+            Otri deadtriangle = default;
+            Otri searchedge = default;
+            Otri checkedge = default;
+            Otri nextedge = default, finaledge = default, dissolveedge = default;
             Vertex markorg;
             int hullsize;
 
-            bool noPoly = !mesh.behavior.Poly;
+            var noPoly = !mesh.behavior.Poly;
 
             // Find a boundary triangle.
             nextedge.triangle = Mesh.dummytri;
@@ -101,6 +94,7 @@ namespace TriangleNet.Algorithm
                 searchedge.LprevSelf();
                 searchedge.SymSelf();
             }
+
             // Find a new boundary edge to search from, as the current search
             // edge lies on a bounding box triangle and will be deleted.
             Mesh.dummytri.neighbors[0] = searchedge;
@@ -113,7 +107,6 @@ namespace TriangleNet.Algorithm
                 // If not using a PSLG, the vertices should be marked now.
                 // (If using a PSLG, markhull() will do the job.)
                 if (noPoly)
-                {
                     // Be careful!  One must check for the case where all the input
                     // vertices are collinear, and thus all the triangles are part of
                     // the bounding box.  Otherwise, the setvertexmark() call below
@@ -121,12 +114,9 @@ namespace TriangleNet.Algorithm
                     if (dissolveedge.triangle != Mesh.dummytri)
                     {
                         markorg = dissolveedge.Org();
-                        if (markorg.mark == 0)
-                        {
-                            markorg.mark = 1;
-                        }
+                        if (markorg.mark == 0) markorg.mark = 1;
                     }
-                }
+
                 // Disconnect the bounding box triangle from the mesh triangle.
                 dissolveedge.Dissolve();
                 nextedge.Lnext(ref deadtriangle);
@@ -135,26 +125,27 @@ namespace TriangleNet.Algorithm
                 mesh.TriangleDealloc(deadtriangle.triangle);
                 // Do we need to turn the corner?
                 if (nextedge.triangle == Mesh.dummytri)
-                {
                     // Turn the corner.
                     dissolveedge.Copy(ref nextedge);
-                }
             }
+
             mesh.TriangleDealloc(finaledge.triangle);
 
             return hullsize;
         }
 
         /// <summary>
-        /// Form a Delaunay triangulation by incrementally inserting vertices.
+        ///     Form a Delaunay triangulation by incrementally inserting vertices.
         /// </summary>
-        /// <returns>Returns the number of edges on the convex hull of the 
-        /// triangulation.</returns>
+        /// <returns>
+        ///     Returns the number of edges on the convex hull of the
+        ///     triangulation.
+        /// </returns>
         public int Triangulate(Mesh mesh)
         {
             this.mesh = mesh;
 
-            Otri starttri = new Otri();
+            var starttri = new Otri();
 
             // Create a triangular bounding box.
             GetBoundingBox();
@@ -162,18 +153,17 @@ namespace TriangleNet.Algorithm
             foreach (var v in mesh.vertices.Values)
             {
                 starttri.triangle = Mesh.dummytri;
-                Osub tmp = default(Osub);
+                Osub tmp = default;
                 if (mesh.InsertVertex(v, ref starttri, ref tmp, false, false) == InsertVertexResult.Duplicate)
                 {
                     if (Behavior.Verbose)
-                    {
-                        SimpleLog.Instance.Warning("A duplicate vertex appeared and was ignored.", 
+                        SimpleLog.Instance.Warning("A duplicate vertex appeared and was ignored.",
                             "Incremental.IncrementalDelaunay()");
-                    }
                     v.type = VertexType.UndeadVertex;
                     mesh.undeads++;
                 }
             }
+
             // Remove the bounding box.
             return RemoveBox();
         }

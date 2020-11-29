@@ -4,23 +4,20 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+
 namespace TriangleNet.Geometry
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     /// <summary>
-    /// Represents a 2D point.
+    ///     Represents a 2D point.
     /// </summary>
     public class Point : IComparable<Point>, IEquatable<Point>
     {
+        internal double[] attributes;
         internal int id;
+        internal int mark;
         internal double x;
         internal double y;
-        internal int mark;
-        internal double[] attributes;
 
         public Point()
             : this(0, 0, 0)
@@ -39,47 +36,49 @@ namespace TriangleNet.Geometry
             this.mark = mark;
         }
 
+        public int CompareTo(Point other)
+        {
+            if (x == other.x && y == other.y) return 0;
+
+            return x < other.x || x == other.x && y < other.y ? -1 : 1;
+        }
+
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() ^ y.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[{0},{1}]", x, y);
+        }
+
         #region Public properties
 
         /// <summary>
-        /// Gets the vertex id.
+        ///     Gets the vertex id.
         /// </summary>
-        public int ID
-        {
-            get { return this.id; }
-        }
+        public int ID => id;
 
         /// <summary>
-        /// Gets the vertex x coordinate.
+        ///     Gets the vertex x coordinate.
         /// </summary>
-        public double X
-        {
-            get { return this.x; }
-        }
+        public double X => x;
 
         /// <summary>
-        /// Gets the vertex y coordinate.
+        ///     Gets the vertex y coordinate.
         /// </summary>
-        public double Y
-        {
-            get { return this.y; }
-        }
+        public double Y => y;
 
         /// <summary>
-        /// Gets the vertex boundary mark.
+        ///     Gets the vertex boundary mark.
         /// </summary>
-        public int Boundary
-        {
-            get { return this.mark; }
-        }
+        public int Boundary => mark;
 
         /// <summary>
-        /// Gets the vertex attributes (may be null).
+        ///     Gets the vertex attributes (may be null).
         /// </summary>
-        public double[] Attributes
-        {
-            get { return this.attributes; }
-        }
+        public double[] Attributes => attributes;
 
         #endregion
 
@@ -91,16 +90,10 @@ namespace TriangleNet.Geometry
         public static bool operator ==(Point a, Point b)
         {
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(a, b))
-            {
-                return true;
-            }
+            if (ReferenceEquals(a, b)) return true;
 
             // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
+            if ((object) a == null || (object) b == null) return false;
 
             return a.Equals(b);
         }
@@ -113,53 +106,24 @@ namespace TriangleNet.Geometry
         public override bool Equals(object obj)
         {
             // If parameter is null return false.
-            if (obj == null)
-            {
-                return false;
-            }
+            if (obj == null) return false;
 
-            Point p = obj as Point;
+            var p = obj as Point;
 
-            if ((object)p == null)
-            {
-                return false;
-            }
+            if ((object) p == null) return false;
 
-            return (x == p.x) && (y == p.y);
+            return x == p.x && y == p.y;
         }
 
         public bool Equals(Point p)
         {
             // If vertex is null return false.
-            if ((object)p == null)
-            {
-                return false;
-            }
+            if ((object) p == null) return false;
 
             // Return true if the fields match:
-            return (x == p.x) && (y == p.y);
+            return x == p.x && y == p.y;
         }
 
         #endregion
-
-        public int CompareTo(Point other)
-        {
-            if (x == other.x && y == other.y)
-            {
-                return 0;
-            }
-
-            return (x < other.x || (x == other.x && y < other.y)) ? -1 : 1;
-        }
-
-        public override int GetHashCode()
-        {
-            return x.GetHashCode() ^ y.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return String.Format("[{0},{1}]", x, y);
-        }
     }
 }

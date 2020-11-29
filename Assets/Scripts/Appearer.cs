@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 
 public class Appearer : MonoBehaviour
 {
     public bool autoShow = true;
-	public float appearAfter = -1f;
-	public float hideDelay;
+    public float appearAfter = -1f;
+    public float hideDelay;
     public bool hiddenOnWeb;
     public bool isNotUi;
     public float volume = 0.6f;
@@ -19,13 +17,13 @@ public class Appearer : MonoBehaviour
     private Vector3 size;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         size = transform.localScale;
         transform.localScale = hiddenSize;
 
-		if (autoShow && appearAfter >= 0 && (!hiddenOnWeb || Application.platform != RuntimePlatform.WebGLPlayer))
-			Invoke("Show", appearAfter);
+        if (autoShow && appearAfter >= 0 && (!hiddenOnWeb || Application.platform != RuntimePlatform.WebGLPlayer))
+            Invoke("Show", appearAfter);
     }
 
     private Vector3 SoundPos()
@@ -64,7 +62,7 @@ public class Appearer : MonoBehaviour
     }
 
     public void Hide()
-	{
+    {
         CancelInvoke("Show");
 
         // Debug.Log("Hiding " + name);
@@ -77,17 +75,17 @@ public class Appearer : MonoBehaviour
         Tweener.Instance.ScaleTo(transform, hiddenSize, hideDuration, 0f, TweenEasings.QuadraticEaseInOut);
 
         Invoke("AfterHide", hideDuration);
-	}
+    }
 
-    void AfterHide()
+    private void AfterHide()
     {
         gameObject.SetActive(false);
     }
 
     public void HideWithDelay()
-	{
-		Invoke("Hide", hideDelay);
-	}
+    {
+        Invoke("Hide", hideDelay);
+    }
 
     public void ShowWithText(string t, float delay)
     {

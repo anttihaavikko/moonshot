@@ -4,23 +4,32 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using TriangleNet.Geometry;
+
 namespace TriangleNet.IO
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using TriangleNet.Geometry;
-    using System.IO;
-
     /// <summary>
-    /// Implements geometry and mesh file formats of the the original Triangle code.
+    ///     Implements geometry and mesh file formats of the the original Triangle code.
     /// </summary>
     public class TriangleFormat : IGeometryFormat, IMeshFormat
     {
+        public InputGeometry Read(string filename)
+        {
+            var ext = Path.GetExtension(filename);
+
+            if (ext == ".node") return FileReader.ReadNodeFile(filename);
+
+            if (ext == ".poly") return FileReader.ReadPolyFile(filename);
+
+            throw new NotSupportedException("File format '" + ext + "' not supported.");
+        }
+
         public Mesh Import(string filename)
         {
-            string ext = Path.GetExtension(filename);
+            var ext = Path.GetExtension(filename);
 
             if (ext == ".node" || ext == ".poly" || ext == ".ele")
             {
@@ -31,7 +40,7 @@ namespace TriangleNet.IO
 
                 if (geometry != null && triangles != null)
                 {
-                    Mesh mesh = new Mesh();
+                    var mesh = new Mesh();
                     mesh.Load(geometry, triangles);
 
                     return mesh;
@@ -45,23 +54,6 @@ namespace TriangleNet.IO
         {
             FileWriter.WritePoly(mesh, Path.ChangeExtension(filename, ".poly"));
             FileWriter.WriteElements(mesh, Path.ChangeExtension(filename, ".ele"));
-        }
-
-        public InputGeometry Read(string filename)
-        {
-            string ext = Path.GetExtension(filename);
-
-            if (ext == ".node")
-            {
-                return FileReader.ReadNodeFile(filename);
-            }
-            
-            if (ext == ".poly")
-            {
-                return FileReader.ReadPolyFile(filename);
-            }
-
-            throw new NotSupportedException("File format '" + ext + "' not supported.");
         }
     }
 }

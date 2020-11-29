@@ -19,7 +19,8 @@ namespace Anima2D
 		MaterialCache[] m_MaterialCache;
 		
 		public Renderer[] renderers { get { return m_Renderers; } private set { m_Renderers = value; } }
-		public MaterialCache[] materialCache { get { return m_MaterialCache; } private set { m_MaterialCache = value; } }
+		public MaterialCache[] materialCache { get { return m_MaterialCache; } private set { m_MaterialCache =
+ value; } }
 
 		public GameObject previewInstance {
 			get { return m_PreviewInstance; }

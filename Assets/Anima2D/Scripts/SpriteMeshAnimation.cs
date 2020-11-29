@@ -1,60 +1,51 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Anima2D
 {
-	[ExecuteInEditMode]
-	[RequireComponent(typeof(SpriteMeshInstance))]
-	public class SpriteMeshAnimation : MonoBehaviour
-	{
-		[SerializeField]
-		float m_Frame = 0f;
+    [ExecuteInEditMode]
+    [RequireComponent(typeof(SpriteMeshInstance))]
+    public class SpriteMeshAnimation : MonoBehaviour
+    {
+        [SerializeField] private float m_Frame;
 
-		[SerializeField]
-		SpriteMesh[] m_Frames;
+        [SerializeField] private SpriteMesh[] m_Frames;
 
-		int m_OldFrame = 0;
+        private int m_OldFrame;
 
-		public SpriteMesh[] frames {
-			get {
-				return m_Frames;
-			}
-			set {
-				m_Frames = value;
-			}
-		}
+        private SpriteMeshInstance m_SpriteMeshInstance;
 
-		SpriteMeshInstance m_SpriteMeshInstance;
-		public SpriteMeshInstance cachedSpriteMeshInstance {
-			get {
-				if(!m_SpriteMeshInstance)
-				{
-					m_SpriteMeshInstance = GetComponent<SpriteMeshInstance>();
-				}
+        public SpriteMesh[] frames
+        {
+            get => m_Frames;
+            set => m_Frames = value;
+        }
 
-				return m_SpriteMeshInstance;
-			}
-		}
+        public SpriteMeshInstance cachedSpriteMeshInstance
+        {
+            get
+            {
+                if (!m_SpriteMeshInstance) m_SpriteMeshInstance = GetComponent<SpriteMeshInstance>();
 
-		public int frame {
-			get {
-				return (int)m_Frame;
-			}
-			set {
-				m_Frame = (float)value;
-			}
-		}
+                return m_SpriteMeshInstance;
+            }
+        }
 
-		void LateUpdate()
-		{
-			if(m_OldFrame != frame &&
-			   m_Frames != null &&
-			   m_Frames.Length > 0 && m_Frames.Length > frame &&
-			   cachedSpriteMeshInstance)
-			{
-				m_OldFrame = frame;
-				cachedSpriteMeshInstance.spriteMesh = m_Frames[frame];
-			}
-		}
-	}
+        public int frame
+        {
+            get => (int) m_Frame;
+            set => m_Frame = value;
+        }
+
+        private void LateUpdate()
+        {
+            if (m_OldFrame != frame &&
+                m_Frames != null &&
+                m_Frames.Length > 0 && m_Frames.Length > frame &&
+                cachedSpriteMeshInstance)
+            {
+                m_OldFrame = frame;
+                cachedSpriteMeshInstance.spriteMesh = m_Frames[frame];
+            }
+        }
+    }
 }

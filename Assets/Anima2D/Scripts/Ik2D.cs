@@ -1,166 +1,181 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace Anima2D 
+namespace Anima2D
 {
-	public abstract class Ik2D : MonoBehaviour
-	{
-		[SerializeField]
-		bool m_Record = false;
+    public abstract class Ik2D : MonoBehaviour
+    {
+        [SerializeField] private bool m_Record;
 
-		[SerializeField]
-		Transform m_TargetTransform;
+        [SerializeField] private Transform m_TargetTransform;
 
-		[SerializeField] int m_NumBones = 0;
-		[SerializeField] float m_Weight = 1f;
-		[SerializeField] bool m_RestoreDefaultPose = true;
-		[SerializeField] bool m_OrientChild = true;
+        [SerializeField] private int m_NumBones;
+        [SerializeField] private float m_Weight = 1f;
+        [SerializeField] private bool m_RestoreDefaultPose = true;
+        [SerializeField] private bool m_OrientChild = true;
 
-		public IkSolver2D solver { get { return GetSolver(); } }
+        private Bone2D m_CachedTarget;
 
-		public bool record { get { return m_Record; } }
+        public IkSolver2D solver => GetSolver();
 
-		Bone2D m_CachedTarget;
+        public bool record => m_Record;
 
-		public Bone2D target {
-			get
-			{				
-				if(m_CachedTarget && m_TargetTransform != m_CachedTarget.transform)
-				{
-					m_CachedTarget = null;
-				}
-				
-				if(!m_CachedTarget && m_TargetTransform)
-				{
-					m_CachedTarget = m_TargetTransform.GetComponent<Bone2D>();
-				}
-				
-				return m_CachedTarget;
-			}
-			set
-			{
-				m_CachedTarget = value;
-				m_TargetTransform = value.transform;
-				InitializeSolver();
-			}
-		}
-		
-		public int numBones
-		{
-			get { return ValidateNumBones(m_NumBones); }
-			set {
-				int l_numBones = ValidateNumBones(value);
+        public Bone2D target
+        {
+            get
+            {
+                if (m_CachedTarget && m_TargetTransform != m_CachedTarget.transform)
+                {
+                    m_CachedTarget = null;
+                }
 
-				if(l_numBones != m_NumBones)
-				{
-					m_NumBones = l_numBones;
-					InitializeSolver();
-				}
-			}
-		}
-		
-		public float weight
-		{
-			get { return m_Weight; }
-			set { m_Weight = value; }
-		}
+                if (!m_CachedTarget && m_TargetTransform)
+                {
+                    m_CachedTarget = m_TargetTransform.GetComponent<Bone2D>();
+                }
 
-		public bool restoreDefaultPose
-		{
-			get { return m_RestoreDefaultPose; }
-			set { m_RestoreDefaultPose = value; }
-		}
+                return m_CachedTarget;
+            }
+            set
+            {
+                m_CachedTarget = value;
+                m_TargetTransform = value.transform;
+                InitializeSolver();
+            }
+        }
 
-		public bool orientChild
-		{
-			get { return m_OrientChild; }
-			set { m_OrientChild = value; }
-		}
+        public int numBones
+        {
+            get => ValidateNumBones(m_NumBones);
+            set
+            {
+                var l_numBones = ValidateNumBones(value);
 
-		void OnDrawGizmos()
-		{
-			Gizmos.matrix = transform.localToWorldMatrix;
+                if (l_numBones != m_NumBones)
+                {
+                    m_NumBones = l_numBones;
+                    InitializeSolver();
+                }
+            }
+        }
 
-			if(enabled && target && numBones > 0)
-			{
-				Gizmos.DrawIcon(transform.position,"ikGoal");
-			}else{
-				Gizmos.DrawIcon(transform.position,"ikGoalDisabled");
-			}
-		}
+        public float weight
+        {
+            get => m_Weight;
+            set => m_Weight = value;
+        }
 
-		void OnValidate()
-		{
-			Validate();
-		}
+        public bool restoreDefaultPose
+        {
+            get => m_RestoreDefaultPose;
+            set => m_RestoreDefaultPose = value;
+        }
 
-		void Start()
-		{
-			OnStart();
-		}
+        public bool orientChild
+        {
+            get => m_OrientChild;
+            set => m_OrientChild = value;
+        }
 
-		void Update()
-		{
-			SetAttachedIK(this);
+        private void Start()
+        {
+            OnStart();
+        }
 
-			OnUpdate();
-		}
+        private void Update()
+        {
+            SetAttachedIK(this);
 
-		void LateUpdate()
-		{
-			OnLateUpdate();
+            OnUpdate();
+        }
 
-			UpdateIK();
-		}
+        private void LateUpdate()
+        {
+            OnLateUpdate();
 
-		void SetAttachedIK(Ik2D ik2D)
-		{
-			for (int i = 0; i < solver.solverPoses.Count; i++)
-			{
-				IkSolver2D.SolverPose pose = solver.solverPoses[i];
-				
-				if(pose.bone)
-				{
-					pose.bone.attachedIK = ik2D;
-				}
-			}
-		}
+            UpdateIK();
+        }
 
-		public void UpdateIK()
-		{
-			OnIkUpdate();
+        private void OnDrawGizmos()
+        {
+            Gizmos.matrix = transform.localToWorldMatrix;
 
-			solver.Update();
+            if (enabled && target && numBones > 0)
+            {
+                Gizmos.DrawIcon(transform.position, "ikGoal");
+            }
+            else
+            {
+                Gizmos.DrawIcon(transform.position, "ikGoalDisabled");
+            }
+        }
 
-			if(orientChild && target.child)
-			{
-				target.child.transform.rotation = transform.rotation;
-			}
-		}
+        private void OnValidate()
+        {
+            Validate();
+        }
 
-		protected virtual void OnIkUpdate()
-		{
-			solver.weight = weight;
-			solver.targetPosition = transform.position;
-			solver.restoreDefaultPose = restoreDefaultPose;
-		}
+        private void SetAttachedIK(Ik2D ik2D)
+        {
+            for (var i = 0; i < solver.solverPoses.Count; i++)
+            {
+                var pose = solver.solverPoses[i];
 
-		void InitializeSolver()
-		{
-			Bone2D rootBone = Bone2D.GetChainBoneByIndex(target, numBones-1);
+                if (pose.bone)
+                {
+                    pose.bone.attachedIK = ik2D;
+                }
+            }
+        }
 
-			SetAttachedIK(null);
+        public void UpdateIK()
+        {
+            OnIkUpdate();
 
-			solver.Initialize(rootBone,numBones);
-		}
+            solver.Update();
 
-		protected virtual int ValidateNumBones(int numBones) { return numBones; }
-		protected virtual void Validate() {}
-		protected virtual void OnStart() {}
-		protected virtual void OnUpdate() {}
-		protected virtual void OnLateUpdate() {}
+            if (orientChild && target.child)
+            {
+                target.child.transform.rotation = transform.rotation;
+            }
+        }
 
-		protected abstract IkSolver2D GetSolver();
-	}
+        protected virtual void OnIkUpdate()
+        {
+            solver.weight = weight;
+            solver.targetPosition = transform.position;
+            solver.restoreDefaultPose = restoreDefaultPose;
+        }
+
+        private void InitializeSolver()
+        {
+            var rootBone = Bone2D.GetChainBoneByIndex(target, numBones - 1);
+
+            SetAttachedIK(null);
+
+            solver.Initialize(rootBone, numBones);
+        }
+
+        protected virtual int ValidateNumBones(int numBones)
+        {
+            return numBones;
+        }
+
+        protected virtual void Validate()
+        {
+        }
+
+        protected virtual void OnStart()
+        {
+        }
+
+        protected virtual void OnUpdate()
+        {
+        }
+
+        protected virtual void OnLateUpdate()
+        {
+        }
+
+        protected abstract IkSolver2D GetSolver();
+    }
 }

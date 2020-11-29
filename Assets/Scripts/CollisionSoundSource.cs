@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CollisionSoundSource : MonoBehaviour
 {
@@ -13,7 +11,7 @@ public class CollisionSoundSource : MonoBehaviour
     {
         if (!canDo) return;
 
-        if(collision.relativeVelocity.magnitude > treshold)
+        if (collision.relativeVelocity.magnitude > treshold)
         {
             var vol = Mathf.Clamp(collision.relativeVelocity.magnitude * 0.1f, 0f, 1f);
 
@@ -39,7 +37,7 @@ public class CollisionSoundSource : MonoBehaviour
         }
     }
 
-    void EnableBack()
+    private void EnableBack()
     {
         canDo = true;
     }

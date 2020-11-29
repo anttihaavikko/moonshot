@@ -12,10 +12,7 @@ public class KillLevel : Level
 
     public override void CheckEnd(float time = 0)
     {
-        if (targets.All(e => e.hp <= 0))
-        {
-            Complete();
-        }
+        if (targets.All(e => e.hp <= 0)) Complete();
     }
 
     public override void AfterInfo()
@@ -24,10 +21,7 @@ public class KillLevel : Level
         targets.ForEach(t =>
         {
             var bat = t.GetComponent<Bat>();
-            if(bat)
-            {
-                bat.isMoving = true;
-            }
+            if (bat) bat.isMoving = true;
         });
     }
 }

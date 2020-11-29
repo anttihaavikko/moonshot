@@ -4,40 +4,40 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using TriangleNet.Data;
+
 namespace TriangleNet.Geometry
 {
-    using TriangleNet.Data;
-
     /// <summary>
-    /// Interface for segment geometry.
+    ///     Interface for segment geometry.
     /// </summary>
     public interface ISegment
     {
         #region Public properties
 
         /// <summary>
-        /// Gets the first endpoints vertex id.
+        ///     Gets the first endpoints vertex id.
         /// </summary>
         int P0 { get; }
 
         /// <summary>
-        /// Gets the seconds endpoints vertex id.
+        ///     Gets the seconds endpoints vertex id.
         /// </summary>
         int P1 { get; }
 
         /// <summary>
-        /// Gets the segment boundary mark.
+        ///     Gets the segment boundary mark.
         /// </summary>
         int Boundary { get; }
 
         /// <summary>
-        /// Gets the segments endpoint.
+        ///     Gets the segments endpoint.
         /// </summary>
         /// <param name="index">The vertex index (0 or 1).</param>
         Vertex GetVertex(int index);
 
         /// <summary>
-        /// Gets an adjoining triangle.
+        ///     Gets an adjoining triangle.
         /// </summary>
         /// <param name="index">The triangle index (0 or 1).</param>
         ITriangle GetTriangle(int index);

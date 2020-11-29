@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,15 +16,27 @@ public class ButtonMenu : MonoBehaviour
 
     private void Start()
     {
-        if(startVisible)
-        {
-            this.StartCoroutine(() => Toggle(true), 0.2f);
-        }
+        if (startVisible) this.StartCoroutine(() => Toggle(true), 0.2f);
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (togglable && Input.GetKeyDown(KeyCode.Escape)) Toggle(true);
+
+        if (!state) return;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) MoveFocus(-1);
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) MoveFocus(1);
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter)
+        ) buttons[active].Trigger();
     }
 
     public void ShowEnd()
     {
-        Toggle(false);
+        Toggle();
         Focus(0, 1);
     }
 
@@ -33,7 +44,7 @@ public class ButtonMenu : MonoBehaviour
     {
         state = !state;
 
-        if(state)
+        if (state)
         {
             appearer.Show();
 
@@ -45,10 +56,7 @@ public class ButtonMenu : MonoBehaviour
                 levelInfo.Show();
             }
 
-            if (focusFirst)
-            {
-                Focus(0, 0);
-            }
+            if (focusFirst) Focus(0, 0);
         }
         else
         {
@@ -59,33 +67,7 @@ public class ButtonMenu : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (togglable && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Toggle(true);
-        }
-
-        if (!state) return;
-
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
-            MoveFocus(-1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            MoveFocus(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            buttons[active].Trigger();
-        }
-    }
-
-    void MoveFocus(int direction)
+    private void MoveFocus(int direction)
     {
         var prev = active;
 

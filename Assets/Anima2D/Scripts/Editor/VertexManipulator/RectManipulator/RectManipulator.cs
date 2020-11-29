@@ -1,124 +1,103 @@
-﻿using UnityEngine;
+﻿using System;
 using UnityEditor;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace Anima2D
 {
-	[Serializable]
-	public class RectManipulator : VertexManipulator
-	{
-		public RectManipulatorParams rectManipulatorParams;
+    [Serializable]
+    public class RectManipulator : VertexManipulator
+    {
+        public RectManipulatorParams rectManipulatorParams;
 
-		public override void DoManipulate()
-		{
-			Rect rect = GetRect(rectManipulatorParams.position, rectManipulatorParams.rotation);
+        public override void DoManipulate()
+        {
+            var rect = GetRect(rectManipulatorParams.position, rectManipulatorParams.rotation);
 
-			int vertexCount = 0;
+            var vertexCount = 0;
 
-			foreach(IVertexManipulable vm in manipulables)
-			{
-				vertexCount += vm.GetManipulableVertexCount();
-			}
+            foreach (var vm in manipulables) vertexCount += vm.GetManipulableVertexCount();
 
-			if(Event.current.type == EventType.MouseDown &&
-				Event.current.button == 0)
-			{
-				foreach(IVertexManipulable vm in manipulables)
-				{
-					Normalize(vm,rect,rectManipulatorParams.position,rectManipulatorParams.rotation);
-				}
-			}
+            if (Event.current.type == EventType.MouseDown &&
+                Event.current.button == 0)
+                foreach (var vm in manipulables)
+                    Normalize(vm, rect, rectManipulatorParams.position, rectManipulatorParams.rotation);
 
-			if(!EditorGUI.actionKey && vertexCount > 2)
-			{
-				EditorGUI.BeginChangeCheck();
+            if (!EditorGUI.actionKey && vertexCount > 2)
+            {
+                EditorGUI.BeginChangeCheck();
 
-				RectHandles.Do(ref rect,ref rectManipulatorParams.position, ref rectManipulatorParams.rotation,true,true);
+                RectHandles.Do(ref rect, ref rectManipulatorParams.position, ref rectManipulatorParams.rotation, true,
+                    true);
 
-				if(EditorGUI.EndChangeCheck())
-				{
-					foreach(IVertexManipulable vm in manipulables)
-					{
-						Denormalize(vm,rect,rectManipulatorParams.position,rectManipulatorParams.rotation);
-					}
-				}
-			}
-				
-		}
+                if (EditorGUI.EndChangeCheck())
+                    foreach (var vm in manipulables)
+                        Denormalize(vm, rect, rectManipulatorParams.position, rectManipulatorParams.rotation);
+            }
+        }
 
-		Rect GetRect(Vector3 position, Quaternion rotation)
-		{
-			Vector2 min = new Vector2(float.MaxValue,float.MaxValue);
-			Vector2 max = new Vector2(float.MinValue,float.MinValue);
+        private Rect GetRect(Vector3 position, Quaternion rotation)
+        {
+            var min = new Vector2(float.MaxValue, float.MaxValue);
+            var max = new Vector2(float.MinValue, float.MinValue);
 
-			Rect rect = new Rect();
+            var rect = new Rect();
 
-			foreach(IVertexManipulable vm in manipulables)
-			{
-				for (int i = 0; i < vm.GetManipulableVertexCount(); i++)
-				{
-					Vector3 vertex = vm.GetManipulableVertex(i);
-					Vector3 v = (Quaternion.Inverse (rotation) * (vertex - position));
-					if (v.x < min.x)
-						min.x = v.x;
-					if (v.y < min.y)
-						min.y = v.y;
-					if (v.x > max.x)
-						max.x = v.x;
-					if (v.y > max.y)
-						max.y = v.y;
-				}
-			}
+            foreach (var vm in manipulables)
+                for (var i = 0; i < vm.GetManipulableVertexCount(); i++)
+                {
+                    var vertex = vm.GetManipulableVertex(i);
+                    var v = Quaternion.Inverse(rotation) * (vertex - position);
+                    if (v.x < min.x)
+                        min.x = v.x;
+                    if (v.y < min.y)
+                        min.y = v.y;
+                    if (v.x > max.x)
+                        max.x = v.x;
+                    if (v.y > max.y)
+                        max.y = v.y;
+                }
 
-			Vector2 offset = Vector2.one * 0.05f * HandleUtility.GetHandleSize(position);
-			rect.min = min - offset;
-			rect.max = max + offset;
+            var offset = Vector2.one * 0.05f * HandleUtility.GetHandleSize(position);
+            rect.min = min - offset;
+            rect.max = max + offset;
 
-			return rect;
-		}
+            return rect;
+        }
 
-		void Normalize(IVertexManipulable vm, Rect rect, Vector3 position, Quaternion rotation)
-		{
-			IRectManipulable rm = vm as IRectManipulable;
+        private void Normalize(IVertexManipulable vm, Rect rect, Vector3 position, Quaternion rotation)
+        {
+            var rm = vm as IRectManipulable;
 
-			if(rm == null)
-			{
-				return;
-			}
+            if (rm == null) return;
 
-			rm.rectManipulatorData.normalizedVertices.Clear();
+            rm.rectManipulatorData.normalizedVertices.Clear();
 
-			for (int i = 0; i < vm.GetManipulableVertexCount(); i++)
-			{
-				Vector3 v = vm.GetManipulableVertex(i);
+            for (var i = 0; i < vm.GetManipulableVertexCount(); i++)
+            {
+                var v = vm.GetManipulableVertex(i);
 
-				v = (Quaternion.Inverse(rotation) * (v - position)) - (Vector3)rect.min;
-				v.x /= rect.width;
-				v.y /= rect.height;
+                v = Quaternion.Inverse(rotation) * (v - position) - (Vector3) rect.min;
+                v.x /= rect.width;
+                v.y /= rect.height;
 
-				rm.rectManipulatorData.normalizedVertices.Add(v);
-			}
-		}
+                rm.rectManipulatorData.normalizedVertices.Add(v);
+            }
+        }
 
-		void Denormalize(IVertexManipulable vm, Rect rect, Vector3 position, Quaternion rotation)
-		{
-			IRectManipulable rm = vm as IRectManipulable;
+        private void Denormalize(IVertexManipulable vm, Rect rect, Vector3 position, Quaternion rotation)
+        {
+            var rm = vm as IRectManipulable;
 
-			if(rm == null)
-			{
-				return;
-			}
+            if (rm == null) return;
 
-			for (int i = 0; i < vm.GetManipulableVertexCount(); i++)
-			{
-				Vector3 v = rm.rectManipulatorData.normalizedVertices [i];
+            for (var i = 0; i < vm.GetManipulableVertexCount(); i++)
+            {
+                var v = rm.rectManipulatorData.normalizedVertices[i];
 
-				v = (rotation * (Vector3.Scale (v, (Vector3)rect.size) + (Vector3)rect.min)) + position;
+                v = rotation * (Vector3.Scale(v, rect.size) + (Vector3) rect.min) + position;
 
-				vm.SetManipulatedVertex(i, v);
-			}
-		}
-	}
+                vm.SetManipulatedVertex(i, v);
+            }
+        }
+    }
 }

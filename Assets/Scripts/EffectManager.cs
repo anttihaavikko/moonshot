@@ -1,55 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EffectManager : MonoBehaviour {
+public class EffectManager : MonoBehaviour
+{
+    // ==================
 
-	public AutoEnd[] effects;
+    public AutoEnd[] effects;
 
-    [SerializeField]
-    private Queue<AutoEnd>[] effectPool;
+    [SerializeField] private Queue<AutoEnd>[] effectPool;
+
+    public static EffectManager Instance { get; private set; }
 
     // ==================
 
-    private static EffectManager instance = null;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-	public static EffectManager Instance {
-		get { return instance; }
-	}
-
-	// ==================
-
-	void Awake() {
-		if (instance != null && instance != this) {
-			Destroy (this.gameObject);
-			return;
-		} else {
-			instance = this;
-		}
+        Instance = this;
 
         effectPool = new Queue<AutoEnd>[effects.Length];
 
-        for(var i = 0; i < effectPool.Length; i++)
-        {
-            effectPool[i] = new Queue<AutoEnd>();
-        }
+        for (var i = 0; i < effectPool.Length; i++) effectPool[i] = new Queue<AutoEnd>();
     }
 
-	public GameObject AddEffect(int effect, Vector3 position, float angle = 0f) {
-		var e = Get(effect);
+    public GameObject AddEffect(int effect, Vector3 position, float angle = 0f)
+    {
+        var e = Get(effect);
         e.transform.parent = transform;
-		e.transform.position = position;
+        e.transform.position = position;
         e.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-		return e.gameObject;
-	}
+        return e.gameObject;
+    }
 
-	public GameObject AddEffectToParent(int effect, Vector3 position, Transform parent) {
+    public GameObject AddEffectToParent(int effect, Vector3 position, Transform parent)
+    {
         var e = Get(effect);
         e.transform.parent = parent;
-		e.transform.position = position;
-		return e.gameObject;
-	}
+        e.transform.position = position;
+        return e.gameObject;
+    }
 
     private AutoEnd Get(int index)
     {

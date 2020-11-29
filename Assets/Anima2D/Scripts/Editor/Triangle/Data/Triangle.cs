@@ -5,34 +5,34 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using TriangleNet.Geometry;
+
 namespace TriangleNet.Data
 {
-    using System;
-    using TriangleNet.Geometry;
-
     /// <summary>
-    /// The triangle data structure.
+    ///     The triangle data structure.
     /// </summary>
     /// <remarks>
-    /// Each triangle contains three pointers to adjoining triangles, plus three 
-    /// pointers to vertices, plus three pointers to subsegments (declared below;
-    /// these pointers are usually 'dummysub'). It may or may not also contain 
-    /// user-defined attributes and/or a floating-point "area constraint".
+    ///     Each triangle contains three pointers to adjoining triangles, plus three
+    ///     pointers to vertices, plus three pointers to subsegments (declared below;
+    ///     these pointers are usually 'dummysub'). It may or may not also contain
+    ///     user-defined attributes and/or a floating-point "area constraint".
     /// </remarks>
     public class Triangle : ITriangle
     {
+        internal double area;
+
         // Hash for dictionary. Will be set by mesh instance.
         internal int hash;
 
         // The ID is only used for mesh output.
         internal int id;
+        internal bool infected;
 
         internal Otri[] neighbors;
-        internal Vertex[] vertices;
-        internal Osub[] subsegs;
         internal int region;
-        internal double area;
-        internal bool infected;
+        internal Osub[] subsegs;
+        internal Vertex[] vertices;
 
         public Triangle()
         {
@@ -62,79 +62,65 @@ namespace TriangleNet.Data
             //}
         }
 
+        public override int GetHashCode()
+        {
+            return hash;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("TID {0}", hash);
+        }
+
         #region Public properties
 
         /// <summary>
-        /// Gets the triangle id.
+        ///     Gets the triangle id.
         /// </summary>
-        public int ID
-        {
-            get { return this.id; }
-        }
+        public int ID => id;
 
         /// <summary>
-        /// Gets the first corners vertex id.
+        ///     Gets the first corners vertex id.
         /// </summary>
-        public int P0
-        {
-            get { return this.vertices[0] == null ? -1 : this.vertices[0].id; }
-        }
+        public int P0 => vertices[0] == null ? -1 : vertices[0].id;
 
         /// <summary>
-        /// Gets the seconds corners vertex id.
+        ///     Gets the seconds corners vertex id.
         /// </summary>
-        public int P1
-        {
-            get { return this.vertices[1] == null ? -1 : this.vertices[1].id; }
-        }
+        public int P1 => vertices[1] == null ? -1 : vertices[1].id;
 
         /// <summary>
-        /// Gets the specified corners vertex.
+        ///     Gets the specified corners vertex.
         /// </summary>
         public Vertex GetVertex(int index)
         {
-            return this.vertices[index]; // TODO: Check range?
+            return vertices[index]; // TODO: Check range?
         }
 
         /// <summary>
-        /// Gets the third corners vertex id.
+        ///     Gets the third corners vertex id.
         /// </summary>
-        public int P2
-        {
-            get { return this.vertices[2] == null ? -1 : this.vertices[2].id; }
-        }
+        public int P2 => vertices[2] == null ? -1 : vertices[2].id;
 
-        public bool SupportsNeighbors
-        {
-            get { return true; }
-        }
+        public bool SupportsNeighbors => true;
 
         /// <summary>
-        /// Gets the first neighbors id.
+        ///     Gets the first neighbors id.
         /// </summary>
-        public int N0
-        {
-            get { return this.neighbors[0].triangle.id; }
-        }
+        public int N0 => neighbors[0].triangle.id;
 
         /// <summary>
-        /// Gets the second neighbors id.
+        ///     Gets the second neighbors id.
         /// </summary>
-        public int N1
-        {
-            get { return this.neighbors[1].triangle.id; }
-        }
+        public int N1 => neighbors[1].triangle.id;
 
         /// <summary>
-        /// Gets the third neighbors id.
+        ///     Gets the third neighbors id.
         /// </summary>
-        public int N2
-        {
-            get { return this.neighbors[2].triangle.id; }
-        }
+        public int N2 => neighbors[2].triangle.id;
 
         /// <summary>
-        /// Gets a triangles' neighbor.
+        ///     Gets a triangles' neighbor.
         /// </summary>
         /// <param name="index">The neighbor index (0, 1 or 2).</param>
         /// <returns>The neigbbor opposite of vertex with given index.</returns>
@@ -144,7 +130,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Gets a triangles segment.
+        ///     Gets a triangles segment.
         /// </summary>
         /// <param name="index">The vertex index (0, 1 or 2).</param>
         /// <returns>The segment opposite of vertex with given index.</returns>
@@ -154,32 +140,19 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Gets the triangle area constraint.
+        ///     Gets the triangle area constraint.
         /// </summary>
         public double Area
         {
-            get { return this.area; }
-            set { this.area = value; }
+            get => area;
+            set => area = value;
         }
 
         /// <summary>
-        /// Region ID the triangle belongs to.
+        ///     Region ID the triangle belongs to.
         /// </summary>
-        public int Region
-        {
-            get { return this.region; }
-        }
+        public int Region => region;
 
         #endregion
-
-        public override int GetHashCode()
-        {
-            return this.hash;
-        }
-
-        public override string ToString()
-        {
-            return String.Format("TID {0}", hash);
-        }
     }
 }

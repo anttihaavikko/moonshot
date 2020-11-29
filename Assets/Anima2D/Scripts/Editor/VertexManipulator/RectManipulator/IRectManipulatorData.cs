@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Anima2D
 {
-	public interface IRectManipulatorData
-	{
-		List<Vector3> normalizedVertices { get; set; }
-	}
+    public interface IRectManipulatorData
+    {
+        List<Vector3> normalizedVertices { get; set; }
+    }
 }

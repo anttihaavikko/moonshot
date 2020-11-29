@@ -1,39 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
     public Blinders blinders;
     public Transform spinner;
+
     public string sceneToLoadAtStart;
+
     //public GameCursor cursor;
     public Canvas canvas;
     public GameObject startCam;
-
-    private string sceneToLoad;
     private AsyncOperation operation;
 
-    private static SceneChanger instance = null;
-    public static SceneChanger Instance
-    {
-        get { return instance; }
-    }
+    private string sceneToLoad;
 
-    void Awake()
+    public static SceneChanger Instance { get; private set; }
+
+    private void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
-        else
-        {
-            instance = this;
-        }
 
-        DontDestroyOnLoad(instance.gameObject);
+        Instance = this;
+
+        DontDestroyOnLoad(Instance.gameObject);
     }
 
     private void Start()
@@ -42,21 +36,21 @@ public class SceneChanger : MonoBehaviour
             ChangeScene(sceneToLoadAtStart, true);
     }
 
-    public void AttachCamera()
-    {
-        canvas.worldCamera = Camera.main;
-    }
-
     private void Update()
     {
-        if(operation != null && operation.isDone)
+        if (operation != null && operation.isDone)
         {
             operation = null;
             Invoke("After", 0.1f);
         }
     }
 
-    void After()
+    public void AttachCamera()
+    {
+        canvas.worldCamera = Camera.main;
+    }
+
+    private void After()
     {
         blinders.Open();
         Tweener.Instance.ScaleTo(spinner, Vector3.zero, 0.2f, 0f, TweenEasings.QuadraticEaseIn);
@@ -64,7 +58,7 @@ public class SceneChanger : MonoBehaviour
 
     public void ChangeScene(string sceneName, bool silent = false, bool closeBlinders = true)
     {
-         if(!silent)
+        if (!silent)
         {
             //AudioManager.Instance.DoButtonSound();
         }
@@ -72,17 +66,18 @@ public class SceneChanger : MonoBehaviour
         if (startCam)
             startCam.SetActive(true);
 
-        if(closeBlinders)
+        if (closeBlinders)
         {
             blinders.Close();
             Tweener.Instance.ScaleTo(spinner, Vector3.one, 0.2f, 0f, TweenEasings.BounceEaseOut);
         }
+
         sceneToLoad = sceneName;
         CancelInvoke("DoChangeScene");
         Invoke("DoChangeScene", blinders.GetDuration());
     }
 
-    void DoChangeScene()
+    private void DoChangeScene()
     {
         // Debug.Log("Changing scene");
         operation = SceneManager.LoadSceneAsync(sceneToLoad);
@@ -100,7 +95,7 @@ public class SceneChanger : MonoBehaviour
         else
         {
             SceneManager.LoadSceneAsync("Main");
-        }        
+        }
     }
 
     public void StartLevel(int level)

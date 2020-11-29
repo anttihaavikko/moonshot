@@ -5,65 +5,61 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using TriangleNet.Data;
+using TriangleNet.Log;
+
 namespace TriangleNet.Algorithm
 {
-    using System;
-    using TriangleNet.Data;
-    using TriangleNet.Log;
-
     /// <summary>
-    /// Builds a delaunay triangulation using the divide-and-conquer algorithm.
+    ///     Builds a delaunay triangulation using the divide-and-conquer algorithm.
     /// </summary>
     /// <remarks>
-    /// The divide-and-conquer bounding box
-    ///
-    /// I originally implemented the divide-and-conquer and incremental Delaunay
-    /// triangulations using the edge-based data structure presented by Guibas
-    /// and Stolfi. Switching to a triangle-based data structure doubled the
-    /// speed. However, I had to think of a few extra tricks to maintain the
-    /// elegance of the original algorithms.
-    ///
-    /// The "bounding box" used by my variant of the divide-and-conquer
-    /// algorithm uses one triangle for each edge of the convex hull of the
-    /// triangulation. These bounding triangles all share a common apical
-    /// vertex, which is represented by NULL and which represents nothing.
-    /// The bounding triangles are linked in a circular fan about this NULL
-    /// vertex, and the edges on the convex hull of the triangulation appear
-    /// opposite the NULL vertex. You might find it easiest to imagine that
-    /// the NULL vertex is a point in 3D space behind the center of the
-    /// triangulation, and that the bounding triangles form a sort of cone.
-    ///
-    /// This bounding box makes it easy to represent degenerate cases. For
-    /// instance, the triangulation of two vertices is a single edge. This edge
-    /// is represented by two bounding box triangles, one on each "side" of the
-    /// edge. These triangles are also linked together in a fan about the NULL
-    /// vertex.
-    ///
-    /// The bounding box also makes it easy to traverse the convex hull, as the
-    /// divide-and-conquer algorithm needs to do.
+    ///     The divide-and-conquer bounding box
+    ///     I originally implemented the divide-and-conquer and incremental Delaunay
+    ///     triangulations using the edge-based data structure presented by Guibas
+    ///     and Stolfi. Switching to a triangle-based data structure doubled the
+    ///     speed. However, I had to think of a few extra tricks to maintain the
+    ///     elegance of the original algorithms.
+    ///     The "bounding box" used by my variant of the divide-and-conquer
+    ///     algorithm uses one triangle for each edge of the convex hull of the
+    ///     triangulation. These bounding triangles all share a common apical
+    ///     vertex, which is represented by NULL and which represents nothing.
+    ///     The bounding triangles are linked in a circular fan about this NULL
+    ///     vertex, and the edges on the convex hull of the triangulation appear
+    ///     opposite the NULL vertex. You might find it easiest to imagine that
+    ///     the NULL vertex is a point in 3D space behind the center of the
+    ///     triangulation, and that the bounding triangles form a sort of cone.
+    ///     This bounding box makes it easy to represent degenerate cases. For
+    ///     instance, the triangulation of two vertices is a single edge. This edge
+    ///     is represented by two bounding box triangles, one on each "side" of the
+    ///     edge. These triangles are also linked together in a fan about the NULL
+    ///     vertex.
+    ///     The bounding box also makes it easy to traverse the convex hull, as the
+    ///     divide-and-conquer algorithm needs to do.
     /// </remarks>
-    class Dwyer
+    internal class Dwyer
     {
-        static Random rand = new Random(DateTime.Now.Millisecond);
-        bool useDwyer = true;
+        private static readonly Random rand = new Random(DateTime.Now.Millisecond);
+        private Mesh mesh;
 
-        Vertex[] sortarray;
-        Mesh mesh;
+        private Vertex[] sortarray;
+        private readonly bool useDwyer = true;
 
         /// <summary>
-        /// Sort an array of vertices by x-coordinate, using the y-coordinate as a secondary key.
+        ///     Sort an array of vertices by x-coordinate, using the y-coordinate as a secondary key.
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <remarks>
-        /// Uses quicksort. Randomized O(n log n) time. No, I did not make any of
-        /// the usual quicksort mistakes.
+        ///     Uses quicksort. Randomized O(n log n) time. No, I did not make any of
+        ///     the usual quicksort mistakes.
         /// </remarks>
-        void VertexSort(int left, int right)
+        private void VertexSort(int left, int right)
         {
-            int oleft = left;
-            int oright = right;
-            int arraysize = right - left + 1;
+            var oleft = left;
+            var oright = right;
+            var arraysize = right - left + 1;
             int pivot;
             double pivotx, pivoty;
             Vertex temp;
@@ -71,15 +67,16 @@ namespace TriangleNet.Algorithm
             if (arraysize < 32)
             {
                 // Insertion sort
-                for (int i = left + 1; i <= right; i++)
+                for (var i = left + 1; i <= right; i++)
                 {
                     var a = sortarray[i];
-                    int j = i - 1;
-                    while (j >= left && (sortarray[j].x > a.x || (sortarray[j].x == a.x && sortarray[j].y > a.y)))
+                    var j = i - 1;
+                    while (j >= left && (sortarray[j].x > a.x || sortarray[j].x == a.x && sortarray[j].y > a.y))
                     {
                         sortarray[j + 1] = sortarray[j];
                         j--;
                     }
+
                     sortarray[j + 1] = a;
                 }
 
@@ -99,18 +96,17 @@ namespace TriangleNet.Algorithm
                 do
                 {
                     left++;
-                }
-                while ((left <= right) && ((sortarray[left].x < pivotx) ||
-                                             ((sortarray[left].x == pivotx) &&
-                                              (sortarray[left].y < pivoty))));
+                } while (left <= right && (sortarray[left].x < pivotx ||
+                                           sortarray[left].x == pivotx &&
+                                           sortarray[left].y < pivoty));
+
                 // Search for a vertex whose x-coordinate is too small for the right.
                 do
                 {
                     right--;
-                }
-                while ((left <= right) && ((sortarray[right].x > pivotx) ||
-                                             ((sortarray[right].x == pivotx) &&
-                                              (sortarray[right].y > pivoty))));
+                } while (left <= right && (sortarray[right].x > pivotx ||
+                                           sortarray[right].x == pivotx &&
+                                           sortarray[right].y > pivoty));
 
                 if (left < right)
                 {
@@ -120,34 +116,31 @@ namespace TriangleNet.Algorithm
                     sortarray[right] = temp;
                 }
             }
+
             if (left > oleft)
-            {
                 // Recursively sort the left subset.
                 VertexSort(oleft, left);
-            }
             if (oright > right + 1)
-            {
                 // Recursively sort the right subset.
                 VertexSort(right + 1, oright);
-            }
         }
 
         /// <summary>
-        /// An order statistic algorithm, almost.  Shuffles an array of vertices so that 
-        /// the first 'median' vertices occur lexicographically before the remaining vertices.
+        ///     An order statistic algorithm, almost.  Shuffles an array of vertices so that
+        ///     the first 'median' vertices occur lexicographically before the remaining vertices.
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <param name="median"></param>
         /// <param name="axis"></param>
         /// <remarks>
-        /// Uses the x-coordinate as the primary key if axis == 0; the y-coordinate
-        /// if axis == 1.  Very similar to the vertexsort() procedure, but runs in
-        /// randomized linear time.
+        ///     Uses the x-coordinate as the primary key if axis == 0; the y-coordinate
+        ///     if axis == 1.  Very similar to the vertexsort() procedure, but runs in
+        ///     randomized linear time.
         /// </remarks>
-        void VertexMedian(int left, int right, int median, int axis)
+        private void VertexMedian(int left, int right, int median, int axis)
         {
-            int arraysize = right - left + 1;
+            var arraysize = right - left + 1;
             int oleft = left, oright = right;
             int pivot;
             double pivot1, pivot2;
@@ -156,16 +149,18 @@ namespace TriangleNet.Algorithm
             if (arraysize == 2)
             {
                 // Recursive base case.
-                if ((sortarray[left][axis] > sortarray[right][axis]) ||
-                    ((sortarray[left][axis] == sortarray[right][axis]) &&
-                     (sortarray[left][1 - axis] > sortarray[right][1 - axis])))
+                if (sortarray[left][axis] > sortarray[right][axis] ||
+                    sortarray[left][axis] == sortarray[right][axis] &&
+                    sortarray[left][1 - axis] > sortarray[right][1 - axis])
                 {
                     temp = sortarray[right];
                     sortarray[right] = sortarray[left];
                     sortarray[left] = temp;
                 }
+
                 return;
             }
+
             // Choose a random pivot to split the array.
             pivot = rand.Next(left, right); //left + arraysize / 2;
             pivot1 = sortarray[pivot][axis];
@@ -179,18 +174,18 @@ namespace TriangleNet.Algorithm
                 do
                 {
                     left++;
-                }
-                while ((left <= right) && ((sortarray[left][axis] < pivot1) ||
-                                             ((sortarray[left][axis] == pivot1) &&
-                                              (sortarray[left][1 - axis] < pivot2))));
+                } while (left <= right && (sortarray[left][axis] < pivot1 ||
+                                           sortarray[left][axis] == pivot1 &&
+                                           sortarray[left][1 - axis] < pivot2));
+
                 // Search for a vertex whose x-coordinate is too small for the right.
                 do
                 {
                     right--;
-                }
-                while ((left <= right) && ((sortarray[right][axis] > pivot1) ||
-                                             ((sortarray[right][axis] == pivot1) &&
-                                              (sortarray[right][1 - axis] > pivot2))));
+                } while (left <= right && (sortarray[right][axis] > pivot1 ||
+                                           sortarray[right][axis] == pivot1 &&
+                                           sortarray[right][1 - axis] > pivot2));
+
                 if (left < right)
                 {
                     // Swap the left and right vertices.
@@ -202,57 +197,48 @@ namespace TriangleNet.Algorithm
 
             // Unlike in vertexsort(), at most one of the following conditionals is true.
             if (left > median)
-            {
                 // Recursively shuffle the left subset.
                 VertexMedian(oleft, left - 1, median, axis);
-            }
             if (right < median - 1)
-            {
                 // Recursively shuffle the right subset.
                 VertexMedian(right + 1, oright, median, axis);
-            }
         }
 
         /// <summary>
-        /// Sorts the vertices as appropriate for the divide-and-conquer algorithm with 
-        /// alternating cuts.
+        ///     Sorts the vertices as appropriate for the divide-and-conquer algorithm with
+        ///     alternating cuts.
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <param name="axis"></param>
         /// <remarks>
-        /// Partitions by x-coordinate if axis == 0; by y-coordinate if axis == 1.
-        /// For the base case, subsets containing only two or three vertices are
-        /// always sorted by x-coordinate.
+        ///     Partitions by x-coordinate if axis == 0; by y-coordinate if axis == 1.
+        ///     For the base case, subsets containing only two or three vertices are
+        ///     always sorted by x-coordinate.
         /// </remarks>
-        void AlternateAxes(int left, int right, int axis)
+        private void AlternateAxes(int left, int right, int axis)
         {
-            int arraysize = right - left + 1;
+            var arraysize = right - left + 1;
             int divider;
 
             divider = arraysize >> 1;
             //divider += left; // TODO: check
             if (arraysize <= 3)
-            {
                 // Recursive base case:  subsets of two or three vertices will be
                 // handled specially, and should always be sorted by x-coordinate.
                 axis = 0;
-            }
             // Partition with a horizontal or vertical cut.
             VertexMedian(left, right, left + divider, axis);
             // Recursively partition the subsets with a cross cut.
             if (arraysize - divider >= 2)
             {
-                if (divider >= 2)
-                {
-                    AlternateAxes(left, left + divider - 1, 1 - axis);
-                }
+                if (divider >= 2) AlternateAxes(left, left + divider - 1, 1 - axis);
                 AlternateAxes(left + divider, right, 1 - axis);
             }
         }
 
         /// <summary>
-        /// Merge two adjacent Delaunay triangulations into a single Delaunay triangulation.
+        ///     Merge two adjacent Delaunay triangulations into a single Delaunay triangulation.
         /// </summary>
         /// <param name="farleft">Bounding triangles of the left triangulation.</param>
         /// <param name="innerleft">Bounding triangles of the left triangulation.</param>
@@ -260,42 +246,38 @@ namespace TriangleNet.Algorithm
         /// <param name="farright">Bounding triangles of the right triangulation.</param>
         /// <param name="axis"></param>
         /// <remarks>
-        /// This is similar to the algorithm given by Guibas and Stolfi, but uses
-        /// a triangle-based, rather than edge-based, data structure.
-        ///
-        /// The algorithm walks up the gap between the two triangulations, knitting
-        /// them together.  As they are merged, some of their bounding triangles
-        /// are converted into real triangles of the triangulation.  The procedure
-        /// pulls each hull's bounding triangles apart, then knits them together
-        /// like the teeth of two gears.  The Delaunay property determines, at each
-        /// step, whether the next "tooth" is a bounding triangle of the left hull
-        /// or the right.  When a bounding triangle becomes real, its apex is
-        /// changed from NULL to a real vertex.
-        ///
-        /// Only two new triangles need to be allocated.  These become new bounding
-        /// triangles at the top and bottom of the seam.  They are used to connect
-        /// the remaining bounding triangles (those that have not been converted
-        /// into real triangles) into a single fan.
-        ///
-        /// On entry, 'farleft' and 'innerleft' are bounding triangles of the left
-        /// triangulation.  The origin of 'farleft' is the leftmost vertex, and
-        /// the destination of 'innerleft' is the rightmost vertex of the
-        /// triangulation.  Similarly, 'innerright' and 'farright' are bounding
-        /// triangles of the right triangulation.  The origin of 'innerright' and
-        /// destination of 'farright' are the leftmost and rightmost vertices.
-        ///
-        /// On completion, the origin of 'farleft' is the leftmost vertex of the
-        /// merged triangulation, and the destination of 'farright' is the rightmost
-        /// vertex.
+        ///     This is similar to the algorithm given by Guibas and Stolfi, but uses
+        ///     a triangle-based, rather than edge-based, data structure.
+        ///     The algorithm walks up the gap between the two triangulations, knitting
+        ///     them together.  As they are merged, some of their bounding triangles
+        ///     are converted into real triangles of the triangulation.  The procedure
+        ///     pulls each hull's bounding triangles apart, then knits them together
+        ///     like the teeth of two gears.  The Delaunay property determines, at each
+        ///     step, whether the next "tooth" is a bounding triangle of the left hull
+        ///     or the right.  When a bounding triangle becomes real, its apex is
+        ///     changed from NULL to a real vertex.
+        ///     Only two new triangles need to be allocated.  These become new bounding
+        ///     triangles at the top and bottom of the seam.  They are used to connect
+        ///     the remaining bounding triangles (those that have not been converted
+        ///     into real triangles) into a single fan.
+        ///     On entry, 'farleft' and 'innerleft' are bounding triangles of the left
+        ///     triangulation.  The origin of 'farleft' is the leftmost vertex, and
+        ///     the destination of 'innerleft' is the rightmost vertex of the
+        ///     triangulation.  Similarly, 'innerright' and 'farright' are bounding
+        ///     triangles of the right triangulation.  The origin of 'innerright' and
+        ///     destination of 'farright' are the leftmost and rightmost vertices.
+        ///     On completion, the origin of 'farleft' is the leftmost vertex of the
+        ///     merged triangulation, and the destination of 'farright' is the rightmost
+        ///     vertex.
         /// </remarks>
-        void MergeHulls(ref Otri farleft, ref Otri innerleft, ref Otri innerright,
-                        ref Otri farright, int axis)
+        private void MergeHulls(ref Otri farleft, ref Otri innerleft, ref Otri innerright,
+            ref Otri farright, int axis)
         {
-            Otri leftcand = default(Otri), rightcand = default(Otri);
-            Otri nextedge = default(Otri);
-            Otri sidecasing = default(Otri), topcasing = default(Otri), outercasing = default(Otri);
-            Otri checkedge = default(Otri);
-            Otri baseedge = default(Otri);
+            Otri leftcand = default, rightcand = default;
+            Otri nextedge = default;
+            Otri sidecasing = default, topcasing = default, outercasing = default;
+            Otri checkedge = default;
+            Otri baseedge = default;
             Vertex innerleftdest;
             Vertex innerrightorg;
             Vertex innerleftapex, innerrightapex;
@@ -314,7 +296,7 @@ namespace TriangleNet.Algorithm
             innerrightorg = innerright.Org();
             innerrightapex = innerright.Apex();
             // Special treatment for horizontal cuts.
-            if (useDwyer && (axis == 1))
+            if (useDwyer && axis == 1)
             {
                 farleftpt = farleft.Org();
                 farleftapex = farleft.Apex();
@@ -330,6 +312,7 @@ namespace TriangleNet.Algorithm
                     farleftpt = farleftapex;
                     farleftapex = farleft.Apex();
                 }
+
                 innerleft.Sym(ref checkedge);
                 checkvertex = checkedge.Apex();
                 while (checkvertex.y > innerleftdest.y)
@@ -340,6 +323,7 @@ namespace TriangleNet.Algorithm
                     innerleft.Sym(ref checkedge);
                     checkvertex = checkedge.Apex();
                 }
+
                 while (innerrightapex.y < innerrightorg.y)
                 {
                     innerright.LnextSelf();
@@ -347,6 +331,7 @@ namespace TriangleNet.Algorithm
                     innerrightorg = innerrightapex;
                     innerrightapex = innerright.Apex();
                 }
+
                 farright.Sym(ref checkedge);
                 checkvertex = checkedge.Apex();
                 while (checkvertex.y > farrightpt.y)
@@ -358,6 +343,7 @@ namespace TriangleNet.Algorithm
                     checkvertex = checkedge.Apex();
                 }
             }
+
             // Find a line tangent to and below both hulls.
             do
             {
@@ -371,6 +357,7 @@ namespace TriangleNet.Algorithm
                     innerleftapex = innerleft.Apex();
                     changemade = true;
                 }
+
                 // Make innerrightorg the "bottommost" vertex of the right hull.
                 if (Primitives.CounterClockwise(innerrightapex, innerrightorg, innerleftdest) > 0.0)
                 {
@@ -398,15 +385,9 @@ namespace TriangleNet.Algorithm
 
             // Fix the extreme triangles if necessary.
             farleftpt = farleft.Org();
-            if (innerleftdest == farleftpt)
-            {
-                baseedge.Lnext(ref farleft);
-            }
+            if (innerleftdest == farleftpt) baseedge.Lnext(ref farleft);
             farrightpt = farright.Dest();
-            if (innerrightorg == farrightpt)
-            {
-                baseedge.Lprev(ref farright);
-            }
+            if (innerrightorg == farrightpt) baseedge.Lprev(ref farright);
             // The vertices of the current knitting edge.
             lowerleft = innerleftdest;
             lowerright = innerrightorg;
@@ -437,7 +418,7 @@ namespace TriangleNet.Algorithm
                     nextedge.Bond(ref leftcand);
 
                     // Special treatment for horizontal cuts.
-                    if (useDwyer && (axis == 1))
+                    if (useDwyer && axis == 1)
                     {
                         farleftpt = farleft.Org();
                         farleftapex = farleft.Apex();
@@ -456,6 +437,7 @@ namespace TriangleNet.Algorithm
                             farleft.Sym(ref checkedge);
                             checkvertex = checkedge.Apex();
                         }
+
                         while (farrightapex.x > farrightpt.x)
                         {
                             farright.LprevSelf();
@@ -464,8 +446,10 @@ namespace TriangleNet.Algorithm
                             farrightapex = farright.Apex();
                         }
                     }
+
                     return;
                 }
+
                 // Consider eliminating edges from the left triangulation.
                 if (!leftfinished)
                 {
@@ -506,18 +490,15 @@ namespace TriangleNet.Algorithm
                             sidecasing.Copy(ref nextedge);
                             nextapex = nextedge.Apex();
                             if (nextapex != null)
-                            {
                                 // Check whether the edge is Delaunay.
                                 badedge = Primitives.InCircle(lowerleft, lowerright, upperleft, nextapex) > 0.0;
-                            }
                             else
-                            {
                                 // Avoid eating right through the triangulation.
                                 badedge = false;
-                            }
                         }
                     }
                 }
+
                 // Consider eliminating edges from the right triangulation.
                 if (!rightfinished)
                 {
@@ -558,20 +539,17 @@ namespace TriangleNet.Algorithm
                             sidecasing.Copy(ref nextedge);
                             nextapex = nextedge.Apex();
                             if (nextapex != null)
-                            {
                                 // Check whether the edge is Delaunay.
                                 badedge = Primitives.InCircle(lowerleft, lowerright, upperright, nextapex) > 0.0;
-                            }
                             else
-                            {
                                 // Avoid eating right through the triangulation.
                                 badedge = false;
-                            }
                         }
                     }
                 }
-                if (leftfinished || (!rightfinished &&
-                       (Primitives.InCircle(upperleft, lowerleft, lowerright, upperright) > 0.0)))
+
+                if (leftfinished || !rightfinished &&
+                    Primitives.InCircle(upperleft, lowerleft, lowerright, upperright) > 0.0)
                 {
                     // Knit the triangulations, adding an edge from 'lowerleft'
                     // to 'upperright'.
@@ -597,7 +575,7 @@ namespace TriangleNet.Algorithm
         }
 
         /// <summary>
-        /// Recursively form a Delaunay triangulation by the divide-and-conquer method.
+        ///     Recursively form a Delaunay triangulation by the divide-and-conquer method.
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
@@ -605,26 +583,25 @@ namespace TriangleNet.Algorithm
         /// <param name="farleft"></param>
         /// <param name="farright"></param>
         /// <remarks>
-        /// Recursively breaks down the problem into smaller pieces, which are
-        /// knitted together by mergehulls(). The base cases (problems of two or
-        /// three vertices) are handled specially here.
-        ///
-        /// On completion, 'farleft' and 'farright' are bounding triangles such that
-        /// the origin of 'farleft' is the leftmost vertex (breaking ties by
-        /// choosing the highest leftmost vertex), and the destination of
-        /// 'farright' is the rightmost vertex (breaking ties by choosing the
-        /// lowest rightmost vertex).
+        ///     Recursively breaks down the problem into smaller pieces, which are
+        ///     knitted together by mergehulls(). The base cases (problems of two or
+        ///     three vertices) are handled specially here.
+        ///     On completion, 'farleft' and 'farright' are bounding triangles such that
+        ///     the origin of 'farleft' is the leftmost vertex (breaking ties by
+        ///     choosing the highest leftmost vertex), and the destination of
+        ///     'farright' is the rightmost vertex (breaking ties by choosing the
+        ///     lowest rightmost vertex).
         /// </remarks>
-        void DivconqRecurse(int left, int right, int axis,
-                            ref Otri farleft, ref Otri farright)
+        private void DivconqRecurse(int left, int right, int axis,
+            ref Otri farleft, ref Otri farright)
         {
-            Otri midtri = default(Otri);
-            Otri tri1 = default(Otri);
-            Otri tri2 = default(Otri);
-            Otri tri3 = default(Otri);
-            Otri innerleft = default(Otri), innerright = default(Otri);
+            Otri midtri = default;
+            Otri tri1 = default;
+            Otri tri2 = default;
+            Otri tri3 = default;
+            Otri innerleft = default, innerright = default;
             double area;
-            int vertices = right - left + 1;
+            var vertices = right - left + 1;
             int divider;
 
             if (vertices == 2)
@@ -649,7 +626,6 @@ namespace TriangleNet.Algorithm
 
                 // Ensure that the origin of 'farleft' is sortarray[0].
                 farright.Lprev(ref farleft);
-                return;
             }
             else if (vertices == 3)
             {
@@ -720,6 +696,7 @@ namespace TriangleNet.Algorithm
                         tri2.SetOrg(sortarray[left + 1]);
                         tri3.SetDest(sortarray[left + 1]);
                     }
+
                     // The topology does not depend on how the vertices are ordered.
                     midtri.Bond(ref tri1);
                     midtri.LnextSelf();
@@ -739,16 +716,10 @@ namespace TriangleNet.Algorithm
                     tri1.Copy(ref farleft);
                     // Ensure that the destination of 'farright' is sortarray[2].
                     if (area > 0.0)
-                    {
                         tri2.Copy(ref farright);
-                    }
                     else
-                    {
                         farleft.Lnext(ref farright);
-                    }
                 }
-
-                return;
             }
             else
             {
@@ -767,20 +738,20 @@ namespace TriangleNet.Algorithm
         }
 
         /// <summary>
-        /// Removes ghost triangles.
+        ///     Removes ghost triangles.
         /// </summary>
         /// <param name="startghost"></param>
         /// <returns>Number of vertices on the hull.</returns>
-        int RemoveGhosts(ref Otri startghost)
+        private int RemoveGhosts(ref Otri startghost)
         {
-            Otri searchedge = default(Otri);
-            Otri dissolveedge = default(Otri);
-            Otri deadtriangle = default(Otri);
+            Otri searchedge = default;
+            Otri dissolveedge = default;
+            Otri deadtriangle = default;
             Vertex markorg;
 
             int hullsize;
 
-            bool noPoly = !mesh.behavior.Poly;
+            var noPoly = !mesh.behavior.Poly;
 
             // Find an edge on the convex hull to start point location from.
             startghost.Lprev(ref searchedge);
@@ -799,17 +770,13 @@ namespace TriangleNet.Algorithm
                 // If no PSLG is involved, set the boundary markers of all the vertices
                 // on the convex hull.  If a PSLG is used, this step is done later.
                 if (noPoly)
-                {
                     // Watch out for the case where all the input vertices are collinear.
                     if (dissolveedge.triangle != Mesh.dummytri)
                     {
                         markorg = dissolveedge.Org();
-                        if (markorg.mark == 0)
-                        {
-                            markorg.mark = 1;
-                        }
+                        if (markorg.mark == 0) markorg.mark = 1;
                     }
-                }
+
                 // Remove a bounding triangle from a convex hull triangle.
                 dissolveedge.Dissolve();
                 // Find the next bounding triangle.
@@ -823,47 +790,41 @@ namespace TriangleNet.Algorithm
         }
 
         /// <summary>
-        /// Form a Delaunay triangulation by the divide-and-conquer method.
+        ///     Form a Delaunay triangulation by the divide-and-conquer method.
         /// </summary>
         /// <returns></returns>
         /// <remarks>
-        /// Sorts the vertices, calls a recursive procedure to triangulate them, and
-        /// removes the bounding box, setting boundary markers as appropriate.
+        ///     Sorts the vertices, calls a recursive procedure to triangulate them, and
+        ///     removes the bounding box, setting boundary markers as appropriate.
         /// </remarks>
         public int Triangulate(Mesh m)
         {
-            Otri hullleft = default(Otri), hullright = default(Otri);
+            Otri hullleft = default, hullright = default;
             int divider;
             int i, j;
 
-            this.mesh = m;
+            mesh = m;
 
             //DebugWriter.Session.Start("test-dbg");
 
             // Allocate an array of pointers to vertices for sorting.
             // TODO: use ToArray
-            this.sortarray = new Vertex[m.invertices];
+            sortarray = new Vertex[m.invertices];
             i = 0;
-            foreach (var v in m.vertices.Values)
-            {
-                sortarray[i++] = v;
-            }
+            foreach (var v in m.vertices.Values) sortarray[i++] = v;
             // Sort the vertices.
             //Array.Sort(sortarray);
             VertexSort(0, m.invertices - 1);
             // Discard duplicate vertices, which can really mess up the algorithm.
             i = 0;
             for (j = 1; j < m.invertices; j++)
-            {
-                if ((sortarray[i].x == sortarray[j].x)
-                    && (sortarray[i].y == sortarray[j].y))
+                if (sortarray[i].x == sortarray[j].x
+                    && sortarray[i].y == sortarray[j].y)
                 {
                     if (Behavior.Verbose)
-                    {
                         SimpleLog.Instance.Warning(
-                            String.Format("A duplicate vertex appeared and was ignored (ID {0}).", sortarray[j].hash), 
+                            string.Format("A duplicate vertex appeared and was ignored (ID {0}).", sortarray[j].hash),
                             "DivConquer.DivconqDelaunay()");
-                    }
                     sortarray[j].type = VertexType.UndeadVertex;
                     m.undeads++;
                 }
@@ -872,7 +833,7 @@ namespace TriangleNet.Algorithm
                     i++;
                     sortarray[i] = sortarray[j];
                 }
-            }
+
             i++;
             if (useDwyer)
             {
@@ -880,16 +841,13 @@ namespace TriangleNet.Algorithm
                 divider = i >> 1;
                 if (i - divider >= 2)
                 {
-                    if (divider >= 2)
-                    {
-                        AlternateAxes(0, divider - 1, 1);
-                    }
+                    if (divider >= 2) AlternateAxes(0, divider - 1, 1);
                     AlternateAxes(divider, i - 1, 1);
                 }
             }
 
             // Form the Delaunay triangulation.
-            DivconqRecurse(0, i-1, 0, ref hullleft, ref hullright);
+            DivconqRecurse(0, i - 1, 0, ref hullleft, ref hullright);
 
             //DebugWriter.Session.Write(mesh);
             //DebugWriter.Session.Finish();

@@ -1,41 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//using UnityEngine.Rendering.PostProcessing;
+﻿using System;
 using Cinemachine;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random; //using UnityEngine.Rendering.PostProcessing;
 
-public class EffectCamera : MonoBehaviour {
-    private float cutoff = 1f, targetCutoff = 1f;
-	private float prevCutoff = 1f;
-	private float cutoffPos;
-	private float transitionTime = 0.5f;
-
+public class EffectCamera : MonoBehaviour
+{
     public Volume ppVolume;
-	private float chromaAmount, splitAmount;
-    private float defaultLensDistortion;
     private float bulgeAmount;
     private float bulgeSpeed;
-	private float chromaSpeed = 1f;
-    private float splitSpeed = 1f;
-    private float colorAmount, colorSpeed = 1f;
-    private Vector3 originalPosition;
-
-    private float shakeAmount = 0f, shakeTime = 0f;
-    private float totalShakeTime;
-
-	private Vector3 originalPos;
 
     private ChromaticAberration ca;
-    private LensDistortion ld;
+
     //private ColorSplit cs;
     private ColorAdjustments cg;
+    private float chromaAmount, splitAmount;
+    private float chromaSpeed = 1f;
+    private float colorAmount, colorSpeed = 1f;
+    private float cutoff = 1f, targetCutoff = 1f;
+    private float cutoffPos;
+    private float defaultLensDistortion;
+    private LensDistortion ld;
 
-    
+    private Vector3 originalPos;
+    private Vector3 originalPosition;
+    private float prevCutoff = 1f;
 
-	void Start() {
+    private float shakeAmount, shakeTime;
+    private float splitSpeed = 1f;
+    private float totalShakeTime;
+    private float transitionTime = 0.5f;
 
+
+    private void Start()
+    {
         if (ppVolume)
         {
             ppVolume.profile.TryGet(out ca);
@@ -49,12 +48,8 @@ public class EffectCamera : MonoBehaviour {
         ResetOrigin();
     }
 
-    public void ResetOrigin()
+    private void Update()
     {
-        originalPosition = transform.localPosition;
-    }
-
-	void Update() {
         // chromatic aberration update
         if (ppVolume)
         {
@@ -82,30 +77,37 @@ public class EffectCamera : MonoBehaviour {
             var mod = Mathf.SmoothStep(0f, 1f, shakeTime / totalShakeTime);
             shakeTime -= Time.deltaTime;
 
-            var diff = new Vector3(Random.Range(-shakeAmount, shakeAmount) * mod, Random.Range(-shakeAmount, shakeAmount) * mod, 0);
+            var diff = new Vector3(Random.Range(-shakeAmount, shakeAmount) * mod,
+                Random.Range(-shakeAmount, shakeAmount) * mod, 0);
             transform.position += diff * 0.02f;
             transform.rotation = Quaternion.Euler(0, 0, Random.Range(-shakeAmount, shakeAmount) * mod);
         }
         else
         {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, originalPosition, Time.deltaTime * 20f);
+            transform.localPosition =
+                Vector3.MoveTowards(transform.localPosition, originalPosition, Time.deltaTime * 20f);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, Time.deltaTime);
         }
-
-        
     }
 
-	public void Chromate(float amount, float speed) {
-		chromaAmount = amount;
-		chromaSpeed = speed;
+    public void ResetOrigin()
+    {
+        originalPosition = transform.localPosition;
+    }
+
+    public void Chromate(float amount, float speed)
+    {
+        chromaAmount = amount;
+        chromaSpeed = speed;
 
         splitAmount = amount * 0.005f;
         splitSpeed = speed * 0.005f;
     }
 
-	public void Shake(float amount, float time) {
+    public void Shake(float amount, float time)
+    {
         shakeAmount = amount;
-		shakeTime = time;
+        shakeTime = time;
         totalShakeTime = time;
     }
 
@@ -121,7 +123,8 @@ public class EffectCamera : MonoBehaviour {
         colorSpeed = speed;
     }
 
-	public void BaseEffect(float mod = 1f) {
+    public void BaseEffect(float mod = 1f)
+    {
         //impulseSource.GenerateImpulse(Vector3.one * mod * 1000f);
         Shake(7f * mod, 1f * mod);
         Chromate(2.5f * mod, 3f * mod);
@@ -132,7 +135,7 @@ public class EffectCamera : MonoBehaviour {
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class CameraRig
 {
     public CinemachineVirtualCamera camera;

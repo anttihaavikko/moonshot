@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LavaLevel : Level
 {
@@ -19,7 +17,7 @@ public class LavaLevel : Level
 
     public override void CheckEnd(float time = 0)
     {
-        if(time >= par)
+        if (time >= par)
         {
             Complete();
             this.StartCoroutine(levels.timer.Hide, 1.5f);

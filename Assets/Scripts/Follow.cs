@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Follow : MonoBehaviour
 {
     public Transform target;
 
-    void Update()
+    private void Update()
     {
         transform.position = target.position;
     }

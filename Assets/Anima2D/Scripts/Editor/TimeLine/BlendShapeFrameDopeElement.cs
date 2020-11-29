@@ -1,52 +1,49 @@
 ﻿using UnityEngine;
-using UnityEditor;
 
 namespace Anima2D
 {
-	public class BlendShapeFrameDopeElement : IDopeElement
-	{
-		public delegate void Callback(BlendShapeFrame frame, float weight);
-		public static Callback onFrameChanged;
+    public class BlendShapeFrameDopeElement : IDopeElement
+    {
+        public delegate void Callback(BlendShapeFrame frame, float weight);
 
-		public static BlendShapeFrameDopeElement Create(BlendShapeFrame frame)
-		{
-			BlendShapeFrameDopeElement element = null;
+        public static Callback onFrameChanged;
 
-			if (frame)
-			{
-				element = new BlendShapeFrameDopeElement ();
+        public BlendShapeFrame blendShapeFrame { get; set; }
 
-				element.blendShapeFrame = frame;
-			}
+        public float time
+        {
+            get
+            {
+                if (blendShapeFrame) return blendShapeFrame.weight;
+                return 0f;
+            }
+            set
+            {
+                if (blendShapeFrame)
+                {
+                    SerializedCache.RegisterObjectUndo(blendShapeFrame, "Set weight");
+                    blendShapeFrame.weight = Mathf.Clamp(value, 1f, 100f);
+                }
+            }
+        }
 
-			return element;
-		}
+        public void Flush()
+        {
+            if (onFrameChanged != null) onFrameChanged(blendShapeFrame, time);
+        }
 
-		public BlendShapeFrame blendShapeFrame { get; set; }
+        public static BlendShapeFrameDopeElement Create(BlendShapeFrame frame)
+        {
+            BlendShapeFrameDopeElement element = null;
 
-		public float time {
-			get { 
-				if (blendShapeFrame)
-				{
-					return blendShapeFrame.weight;
-				}
-				return 0f;
-			}
-			set { 
-				if (blendShapeFrame)
-				{
-					SerializedCache.RegisterObjectUndo(blendShapeFrame, "Set weight");
-					blendShapeFrame.weight = Mathf.Clamp(value,1f,100f);
-				}
-			}
-		}
+            if (frame)
+            {
+                element = new BlendShapeFrameDopeElement();
 
-		public void Flush()
-		{
-			if(onFrameChanged != null)
-			{
-				onFrameChanged(blendShapeFrame, time);
-			}
-		}
-	}
+                element.blendShapeFrame = frame;
+            }
+
+            return element;
+        }
+    }
 }

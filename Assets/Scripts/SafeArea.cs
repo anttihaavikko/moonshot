@@ -2,40 +2,40 @@
 
 public class SafeArea : MonoBehaviour
 {
-    RectTransform Panel;
-    Rect LastSafeArea = new Rect(0, 0, 0, 0);
+    private Rect LastSafeArea = new Rect(0, 0, 0, 0);
+    private RectTransform Panel;
 
-    void Awake()
+    private void Awake()
     {
         Panel = GetComponent<RectTransform>();
         Refresh();
     }
 
-    void Update()
+    private void Update()
     {
         Refresh();
     }
 
-    void Refresh()
+    private void Refresh()
     {
-        Rect safeArea = GetSafeArea();
+        var safeArea = GetSafeArea();
 
         if (safeArea != LastSafeArea)
             ApplySafeArea(safeArea);
     }
 
-    Rect GetSafeArea()
+    private Rect GetSafeArea()
     {
         return Screen.safeArea;
     }
 
-    void ApplySafeArea(Rect r)
+    private void ApplySafeArea(Rect r)
     {
         LastSafeArea = r;
 
         // Convert safe area rectangle from absolute pixels to normalised anchor coordinates
-        Vector2 anchorMin = r.position;
-        Vector2 anchorMax = r.position + r.size;
+        var anchorMin = r.position;
+        var anchorMax = r.position + r.size;
         anchorMin.x /= Screen.width;
         anchorMin.y /= Screen.height;
         anchorMax.x /= Screen.width;

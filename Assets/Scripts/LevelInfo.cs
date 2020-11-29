@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class LevelInfo : MonoBehaviour
@@ -14,29 +13,32 @@ public class LevelInfo : MonoBehaviour
     public Appearer completeText;
     public List<GameObject> bonusStuffs;
 
-    public TMPro.TMP_Text nameText, descText, nameShadow, descShadow;
-
-    private bool shown;
+    public TMP_Text nameText, descText, nameShadow, descShadow;
     private bool clickDisabled;
     private bool infoShown;
+
+    private bool shown;
+
+    private void Update()
+    {
+        if (shown && Input.anyKeyDown && closeWithAny && !clickDisabled) Hide();
+    }
 
     public void Show()
     {
         var level = levels.GetCurrentLevel();
 
         shown = true;
-        appearers.Where(a => !level.IsBoss() || !bonusStuffs.Contains(a.gameObject)).ToList().ForEach(a => a.ShowAfterDelay());
+        appearers.Where(a => !level.IsBoss() || !bonusStuffs.Contains(a.gameObject)).ToList()
+            .ForEach(a => a.ShowAfterDelay());
 
         var bonusNames = level.bonuses;
 
-        for(var i = 0; i < bonusNames.Length; i++)
-        {
-            bonuses[i].text.text = bonusNames[i].name;
-        }
+        for (var i = 0; i < bonusNames.Length; i++) bonuses[i].text.text = bonusNames[i].name;
 
         CheckTickBoxes(false);
 
-        AudioManager.Instance.Highpass(true);
+        AudioManager.Instance.Highpass();
         //AudioManager.Instance.Lowpass(true);
     }
 
@@ -55,7 +57,7 @@ public class LevelInfo : MonoBehaviour
         }
 
         Manager.Instance.showInfo = false;
-        
+
         nameText.text = nameShadow.text = levelName;
         descText.text = descShadow.text = description;
         Show();
@@ -70,25 +72,18 @@ public class LevelInfo : MonoBehaviour
         //AudioManager.Instance.Lowpass(false);
     }
 
-    void AfterHide()
+    private void AfterHide()
     {
-        this.StartCoroutine(() => {
+        this.StartCoroutine(() =>
+        {
             shown = false;
 
-            if(!infoShown)
+            if (!infoShown)
             {
                 infoShown = true;
                 levels.AfterInfo();
             }
         }, 0.3f);
-    }
-
-    private void Update()
-    {
-        if(shown && Input.anyKeyDown && closeWithAny && !clickDisabled)
-        {
-            Hide();
-        }
     }
 
     public bool IsShown()
@@ -112,18 +107,17 @@ public class LevelInfo : MonoBehaviour
         CheckTickBoxes(true);
     }
 
-    void CheckTickBoxes(bool recheck)
+    private void CheckTickBoxes(bool recheck)
     {
         var level = levels.GetCurrentLevel();
         var save = SaveManager.Instance.GetDataFor(level.index);
         var bonusesDone = level.bonuses.Select(level.IsBonusDone).ToList();
         for (var i = 0; i < bonusesDone.Count(); i++)
-        {
             if (recheck && bonusesDone[i] || save.bonusesDone[i])
             {
-                if(recheck)
+                if (recheck)
                 {
-                    if(!SaveManager.Instance.CompleteBonus(level.index, i))
+                    if (!SaveManager.Instance.CompleteBonus(level.index, i))
                     {
                         var idx = i;
                         bonuses[idx].MarkDone();
@@ -136,6 +130,5 @@ public class LevelInfo : MonoBehaviour
                     bonuses[idx].Mark();
                 }
             }
-        }
     }
 }

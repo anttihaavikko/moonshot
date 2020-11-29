@@ -1,114 +1,91 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Anima2D
 {
-	public class SpriteMeshInstanceTracker
-	{
-		List<TransformTracker> m_TransformTrackers = new List<TransformTracker>();
+    public class SpriteMeshInstanceTracker
+    {
+        private readonly Dictionary<int, float> m_BlendShapeWeightTracker = new Dictionary<int, float>();
 
-		Dictionary<int,float> m_BlendShapeWeightTracker = new Dictionary<int, float>();
+        private SpriteMesh m_SpriteMesh;
 
-		SpriteMeshInstance m_SpriteMeshInstance;
+        private SpriteMeshInstance m_SpriteMeshInstance;
+        private readonly List<TransformTracker> m_TransformTrackers = new List<TransformTracker>();
 
-		SpriteMesh m_SpriteMesh;
+        public SpriteMeshInstance spriteMeshInstance
+        {
+            get => m_SpriteMeshInstance;
+            set
+            {
+                m_SpriteMeshInstance = value;
+                Update();
+            }
+        }
 
-		public SpriteMeshInstance spriteMeshInstance
-		{
-			get {
-				return m_SpriteMeshInstance;
-			}
-			set {
-				m_SpriteMeshInstance = value;
-				Update();
-			}
-		}
+        public bool spriteMeshChanged
+        {
+            get
+            {
+                if (m_SpriteMeshInstance) return m_SpriteMesh != m_SpriteMeshInstance.spriteMesh;
 
-		public void Update()
-		{
-			m_TransformTrackers.Clear();
-			m_BlendShapeWeightTracker.Clear();
-			m_SpriteMesh = null;
+                return false;
+            }
+        }
 
-			if(m_SpriteMeshInstance && m_SpriteMeshInstance.spriteMesh)
-			{
-				m_SpriteMesh = m_SpriteMeshInstance.spriteMesh;
+        public bool changed
+        {
+            get
+            {
+                if (spriteMeshChanged) return true;
 
-				m_TransformTrackers.Add( new TransformTracker(m_SpriteMeshInstance.transform) );
+                if (m_SpriteMeshInstance)
+                    if (m_SpriteMesh && m_SpriteMeshInstance.cachedSkinnedRenderer)
+                    {
+                        var blendShapeCount = m_SpriteMeshInstance.sharedMesh.blendShapeCount;
 
-				foreach(Bone2D bone in m_SpriteMeshInstance.bones)
-				{
-					m_TransformTrackers.Add( new TransformTracker(bone.transform) );
-				}
+                        if (blendShapeCount != m_BlendShapeWeightTracker.Count) return true;
 
-				if(m_SpriteMeshInstance.cachedSkinnedRenderer)
-				{
-					int blendShapeCount = m_SpriteMeshInstance.sharedMesh.blendShapeCount;
+                        for (var i = 0; i < blendShapeCount; ++i)
+                        {
+                            var weight = 0f;
 
-					for(int i = 0; i < blendShapeCount; ++i)
-					{
-						m_BlendShapeWeightTracker.Add( i, m_SpriteMeshInstance.cachedSkinnedRenderer.GetBlendShapeWeight(i) );
-					}
-				}
-			}
-		}
+                            if (m_BlendShapeWeightTracker.TryGetValue(i, out weight))
+                                if (m_SpriteMeshInstance.cachedSkinnedRenderer.GetBlendShapeWeight(i) != weight)
+                                    return true;
+                        }
 
-		public bool spriteMeshChanged {
-			get {
-				if(m_SpriteMeshInstance)
-				{
-					return m_SpriteMesh != m_SpriteMeshInstance.spriteMesh;
-				}
+                        foreach (var tracker in m_TransformTrackers)
+                            if (tracker.changed)
+                                return true;
+                    }
 
-				return false;
-			}	
-		}
+                return false;
+            }
+        }
 
-		public bool changed {
-			get {
+        public void Update()
+        {
+            m_TransformTrackers.Clear();
+            m_BlendShapeWeightTracker.Clear();
+            m_SpriteMesh = null;
 
-				if(spriteMeshChanged)
-				{
-					return true;
-				}
+            if (m_SpriteMeshInstance && m_SpriteMeshInstance.spriteMesh)
+            {
+                m_SpriteMesh = m_SpriteMeshInstance.spriteMesh;
 
-				if(m_SpriteMeshInstance)
-				{
-					if(m_SpriteMesh && m_SpriteMeshInstance.cachedSkinnedRenderer)
-					{
-						int blendShapeCount = m_SpriteMeshInstance.sharedMesh.blendShapeCount;
+                m_TransformTrackers.Add(new TransformTracker(m_SpriteMeshInstance.transform));
 
-						if(blendShapeCount != m_BlendShapeWeightTracker.Count)
-						{
-							return true;
-						}
+                foreach (var bone in m_SpriteMeshInstance.bones)
+                    m_TransformTrackers.Add(new TransformTracker(bone.transform));
 
-						for(int i = 0; i < blendShapeCount; ++i)
-						{
-							float weight = 0f;
+                if (m_SpriteMeshInstance.cachedSkinnedRenderer)
+                {
+                    var blendShapeCount = m_SpriteMeshInstance.sharedMesh.blendShapeCount;
 
-							if(m_BlendShapeWeightTracker.TryGetValue(i, out weight))
-							{
-								if(m_SpriteMeshInstance.cachedSkinnedRenderer.GetBlendShapeWeight(i) != weight)
-								{
-									return true;
-								}
-							}
-						}
-
-						foreach(TransformTracker tracker in m_TransformTrackers)
-						{
-							if(tracker.changed)
-							{
-								return true;
-							}
-						}
-					}
-				}
-
-				return false;
-			}
-		}
-	}
+                    for (var i = 0; i < blendShapeCount; ++i)
+                        m_BlendShapeWeightTracker.Add(i,
+                            m_SpriteMeshInstance.cachedSkinnedRenderer.GetBlendShapeWeight(i));
+                }
+            }
+        }
+    }
 }

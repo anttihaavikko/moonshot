@@ -8,49 +8,81 @@
 namespace TriangleNet
 {
     /// <summary>
-    /// Implemented triangulation algorithms.
+    ///     Implemented triangulation algorithms.
     /// </summary>
     public enum TriangulationAlgorithm
     {
         Dwyer,
         Incremental,
         SweepLine
-    };
+    }
 
     /// <summary>
-    /// Labels that signify the result of point location.
+    ///     Labels that signify the result of point location.
     /// </summary>
-    /// <remarks>The result of a search indicates that the point falls in the 
-    /// interior of a triangle, on an edge, on a vertex, or outside the mesh.
+    /// <remarks>
+    ///     The result of a search indicates that the point falls in the
+    ///     interior of a triangle, on an edge, on a vertex, or outside the mesh.
     /// </remarks>
-    enum LocateResult { InTriangle, OnEdge, OnVertex, Outside };
+    internal enum LocateResult
+    {
+        InTriangle,
+        OnEdge,
+        OnVertex,
+        Outside
+    }
 
     /// <summary>
-    /// Labels that signify the result of vertex insertion.
+    ///     Labels that signify the result of vertex insertion.
     /// </summary>
-    /// <remarks>The result indicates that the vertex was inserted with complete 
-    /// success, was inserted but encroaches upon a subsegment, was not inserted 
-    /// because it lies on a segment, or was not inserted because another vertex 
-    /// occupies the same location.
+    /// <remarks>
+    ///     The result indicates that the vertex was inserted with complete
+    ///     success, was inserted but encroaches upon a subsegment, was not inserted
+    ///     because it lies on a segment, or was not inserted because another vertex
+    ///     occupies the same location.
     /// </remarks>
-    enum InsertVertexResult { Successful, Encroaching, Violating, Duplicate };
+    internal enum InsertVertexResult
+    {
+        Successful,
+        Encroaching,
+        Violating,
+        Duplicate
+    }
 
     /// <summary>
-    /// Labels that signify the result of direction finding.
+    ///     Labels that signify the result of direction finding.
     /// </summary>
-    /// <remarks>The result indicates that a segment connecting the two query 
-    /// points falls within the direction triangle, along the left edge of the 
-    /// direction triangle, or along the right edge of the direction triangle.
+    /// <remarks>
+    ///     The result indicates that a segment connecting the two query
+    ///     points falls within the direction triangle, along the left edge of the
+    ///     direction triangle, or along the right edge of the direction triangle.
     /// </remarks>
-    enum FindDirectionResult { Within, Leftcollinear, Rightcollinear };
+    internal enum FindDirectionResult
+    {
+        Within,
+        Leftcollinear,
+        Rightcollinear
+    }
 
     /// <summary>
-    /// The type of the mesh vertex.
+    ///     The type of the mesh vertex.
     /// </summary>
-    public enum VertexType { InputVertex, SegmentVertex, FreeVertex, DeadVertex, UndeadVertex };
+    public enum VertexType
+    {
+        InputVertex,
+        SegmentVertex,
+        FreeVertex,
+        DeadVertex,
+        UndeadVertex
+    }
 
     /// <summary>
-    /// Node renumbering algorithms.
+    ///     Node renumbering algorithms.
     /// </summary>
-    public enum NodeNumbering { None, Linear, CuthillMcKee };
+    public enum NodeNumbering
+    {
+        None,
+        Linear,
+        CuthillMcKee
+    }
 }

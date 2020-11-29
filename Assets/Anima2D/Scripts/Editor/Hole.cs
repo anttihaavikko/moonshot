@@ -1,27 +1,26 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 
-namespace Anima2D 
+namespace Anima2D
 {
-	[Serializable]
-	public class Hole : ICloneable
-	{
-		public Vector2 vertex = Vector2.zero;
+    [Serializable]
+    public class Hole : ICloneable
+    {
+        public Vector2 vertex = Vector2.zero;
 
-		public Hole(Vector2 vertex)
-		{
-			this.vertex = vertex;
-		}
+        public Hole(Vector2 vertex)
+        {
+            this.vertex = vertex;
+        }
 
-		public object Clone()
-		{
-			return this.MemberwiseClone();
-		}
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		public static implicit operator bool(Hole h)
-		{
-			return h != null;
-		}
-	}
+        public static implicit operator bool(Hole h)
+        {
+            return h != null;
+        }
+    }
 }

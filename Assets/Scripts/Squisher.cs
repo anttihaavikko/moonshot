@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,28 +15,24 @@ public class Squisher : MonoBehaviour
 
     private void Update()
     {
-        if(safeDuration > 0f)
+        if (safeDuration > 0f)
         {
             safeDuration -= Time.deltaTime;
             return;
         }
 
-        for(var i = 0; i < spots.Count; i++)
+        for (var i = 0; i < spots.Count; i++)
         {
             var hit = Physics2D.OverlapCircle(spots[i].position, radii[i], mask);
-            if(hit)
+            if (hit)
             {
                 if (moon && !moon.HasDied())
                 {
                     //print("Hurt for " + spots[i].name + " and " + hit.gameObject.name);
-                    if(moon.Hurt())
-                    {
+                    if (moon.Hurt())
                         enabled = false;
-                    }
                     else
-                    {
                         safeDuration = 0.15f;
-                    }
                 }
 
                 if (enemy)
@@ -49,7 +44,7 @@ public class Squisher : MonoBehaviour
                 if (onSquish != null)
                     onSquish.Invoke();
 
-                    return;
+                return;
             }
         }
     }

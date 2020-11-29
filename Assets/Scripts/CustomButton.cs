@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -8,12 +8,11 @@ using UnityEngine.UI;
 public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Button button;
-    public TMPro.TMP_Text text;
+    public TMP_Text text;
     public Image fill;
     public List<Image> extraFgs, extraBgs;
     public Color hoverFill, hoverText;
     public ButtonMenu menu;
-    public UnityAction onFocus;
     public int index;
     public List<GameObject> bonuses;
     public GameObject strike;
@@ -22,6 +21,7 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public List<GameObject> bonusContainers, bossStuff;
 
     private Camera cam;
+    public UnityAction onFocus;
 
     private void Awake()
     {
@@ -32,12 +32,26 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         button.onClick.AddListener(ClickSound);
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (menu)
+            menu.Focus(this);
+        else
+            Focus();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        DeFocus();
+    }
+
     public void Focus()
     {
         Tweener.Instance.ScaleTo(transform, Vector3.one * 1.2f, 0.2f, 0, TweenEasings.BounceEaseOut);
-        Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, Random.Range(-3f, 3f)), 0.2f, 0, TweenEasings.BounceEaseOut);
+        Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, Random.Range(-3f, 3f)), 0.2f, 0,
+            TweenEasings.BounceEaseOut);
 
-        if(button.interactable)
+        if (button.interactable)
         {
             fill.color = hoverFill;
             extraBgs.ForEach(e => e.color = hoverFill);
@@ -66,7 +80,7 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         Tweener.Instance.ScaleTo(transform, Vector3.one, 0.15f, 0, TweenEasings.BounceEaseOut);
         Tweener.Instance.RotateTo(transform, Quaternion.Euler(0, 0, 0), 0.15f, 0, TweenEasings.BounceEaseOut);
 
-        if(button.interactable)
+        if (button.interactable)
         {
             fill.color = fillColor;
             extraBgs.ForEach(e => e.color = fillColor);
@@ -77,10 +91,7 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void Trigger()
     {
-        if(button.interactable)
-        {
-            button.onClick.Invoke();
-        }
+        if (button.interactable) button.onClick.Invoke();
     }
 
     public void ClickSound()
@@ -97,23 +108,6 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         SceneChanger.Instance.ChangeScene(scene);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if(menu)
-        {
-            menu.Focus(this);
-        }
-        else
-        {
-            Focus();
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        DeFocus();
-    }
-
     public void Quit()
     {
         Application.Quit();
@@ -121,10 +115,10 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void DisableOrEnable()
     {
-        if(isNextLevelButton)
+        if (isNextLevelButton)
         {
             button.interactable = SaveManager.Instance.GetPoints() > Manager.Instance.GetLevelLimit();
             text.color = button.interactable ? Color.white : Color.gray;
         }
-    } 
+    }
 }

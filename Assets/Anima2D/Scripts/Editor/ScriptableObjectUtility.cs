@@ -1,61 +1,62 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Anima2D
 {
-	public static class ScriptableObjectUtility
-	{
-		public static T CreateAssetWithSavePanel<T>(string title, string defaultName, string extension, string message) where T : ScriptableObject
-		{
-			string path = EditorUtility.SaveFilePanelInProject(title,defaultName,extension,message);
+    public static class ScriptableObjectUtility
+    {
+        public static T CreateAssetWithSavePanel<T>(string title, string defaultName, string extension, string message)
+            where T : ScriptableObject
+        {
+            var path = EditorUtility.SaveFilePanelInProject(title, defaultName, extension, message);
 
-			T asset = null;
+            T asset = null;
 
-			if(path.Length != 0)
-			{
-				asset = ScriptableObject.CreateInstance<T> ();
-				
-				AssetDatabase.CreateAsset(asset,path);
-				
-				AssetDatabase.Refresh();
-			}
+            if (path.Length != 0)
+            {
+                asset = ScriptableObject.CreateInstance<T>();
 
-			return asset;
-		}
+                AssetDatabase.CreateAsset(asset, path);
 
-		public static T CreateAssetWithSavePanel<T>(T obj, string title, string defaultName, string extension, string message) where T : Object
-		{
-			string path = EditorUtility.SaveFilePanelInProject(title,defaultName,extension,message);
+                AssetDatabase.Refresh();
+            }
 
-			T asset = null;
+            return asset;
+        }
 
-			if(path.Length != 0)
-			{
-				AssetDatabase.CreateAsset(obj,path);
-				
-				AssetDatabase.Refresh();
+        public static T CreateAssetWithSavePanel<T>(T obj, string title, string defaultName, string extension,
+            string message) where T : Object
+        {
+            var path = EditorUtility.SaveFilePanelInProject(title, defaultName, extension, message);
 
-				asset = AssetDatabase.LoadAssetAtPath(path,typeof(T)) as T;
-			}
-			
-			return asset;
-		}
+            T asset = null;
 
-		public static T CreateAsset<T>() where T : ScriptableObject
-		{
-			return CreateAsset<T>("Assets/New " + typeof(T).Name + ".asset");
-		}
+            if (path.Length != 0)
+            {
+                AssetDatabase.CreateAsset(obj, path);
 
-		public static T CreateAsset<T>(string path) where T : ScriptableObject
-		{
-			T asset = ScriptableObject.CreateInstance<T> ();
-			
-			ProjectWindowUtil.CreateAsset(asset, AssetDatabase.GenerateUniqueAssetPath(path));
-			
-			AssetDatabase.Refresh();
-			
-			return asset;
-		}
+                AssetDatabase.Refresh();
 
-	}
+                asset = AssetDatabase.LoadAssetAtPath(path, typeof(T)) as T;
+            }
+
+            return asset;
+        }
+
+        public static T CreateAsset<T>() where T : ScriptableObject
+        {
+            return CreateAsset<T>("Assets/New " + typeof(T).Name + ".asset");
+        }
+
+        public static T CreateAsset<T>(string path) where T : ScriptableObject
+        {
+            var asset = ScriptableObject.CreateInstance<T>();
+
+            ProjectWindowUtil.CreateAsset(asset, AssetDatabase.GenerateUniqueAssetPath(path));
+
+            AssetDatabase.Refresh();
+
+            return asset;
+        }
+    }
 }

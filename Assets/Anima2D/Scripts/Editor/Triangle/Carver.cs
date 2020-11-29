@@ -5,39 +5,37 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using TriangleNet.Data;
+using TriangleNet.Tools;
+
 namespace TriangleNet
 {
-    using TriangleNet.Data;
-    using System;
-    using TriangleNet.Geometry;
-    using System.Collections.Generic;
-    using TriangleNet.Tools;
-
     /// <summary>
-    /// Carves holes into the triangulation.
+    ///     Carves holes into the triangulation.
     /// </summary>
-    class Carver
+    internal class Carver
     {
-        Mesh mesh;
-        List<Triangle> viri;
+        private readonly Mesh mesh;
+        private readonly List<Triangle> viri;
 
         public Carver(Mesh mesh)
         {
             this.mesh = mesh;
-            this.viri = new List<Triangle>();
+            viri = new List<Triangle>();
         }
 
         /// <summary>
-        /// Virally infect all of the triangles of the convex hull that are not 
-        /// protected by subsegments. Where there are subsegments, set boundary 
-        /// markers as appropriate.
+        ///     Virally infect all of the triangles of the convex hull that are not
+        ///     protected by subsegments. Where there are subsegments, set boundary
+        ///     markers as appropriate.
         /// </summary>
         private void InfectHull()
         {
-            Otri hulltri = default(Otri);
-            Otri nexttri = default(Otri);
-            Otri starttri = default(Otri);
-            Osub hullsubseg = default(Osub);
+            Otri hulltri = default;
+            Otri nexttri = default;
+            Otri starttri = default;
+            Osub hullsubseg = default;
             Vertex horg, hdest;
 
             // Find a triangle handle on the hull.
@@ -71,17 +69,12 @@ namespace TriangleNet
                             hullsubseg.seg.boundary = 1;
                             horg = hulltri.Org();
                             hdest = hulltri.Dest();
-                            if (horg.mark == 0)
-                            {
-                                horg.mark = 1;
-                            }
-                            if (hdest.mark == 0)
-                            {
-                                hdest.mark = 1;
-                            }
+                            if (horg.mark == 0) horg.mark = 1;
+                            if (hdest.mark == 0) hdest.mark = 1;
                         }
                     }
                 }
+
                 // To find the next hull edge, go clockwise around the next vertex.
                 hulltri.LnextSelf();
                 hulltri.Oprev(ref nexttri);
@@ -90,30 +83,27 @@ namespace TriangleNet
                     nexttri.Copy(ref hulltri);
                     hulltri.Oprev(ref nexttri);
                 }
-
             } while (!hulltri.Equal(starttri));
         }
 
         /// <summary>
-        /// Spread the virus from all infected triangles to any neighbors not 
-        /// protected by subsegments. Delete all infected triangles.
+        ///     Spread the virus from all infected triangles to any neighbors not
+        ///     protected by subsegments. Delete all infected triangles.
         /// </summary>
         /// <remarks>
-        /// This is the procedure that actually creates holes and concavities.
-        ///
-        /// This procedure operates in two phases. The first phase identifies all
-        /// the triangles that will die, and marks them as infected. They are
-        /// marked to ensure that each triangle is added to the virus pool only
-        /// once, so the procedure will terminate.
-        ///
-        /// The second phase actually eliminates the infected triangles. It also
-        /// eliminates orphaned vertices.
+        ///     This is the procedure that actually creates holes and concavities.
+        ///     This procedure operates in two phases. The first phase identifies all
+        ///     the triangles that will die, and marks them as infected. They are
+        ///     marked to ensure that each triangle is added to the virus pool only
+        ///     once, so the procedure will terminate.
+        ///     The second phase actually eliminates the infected triangles. It also
+        ///     eliminates orphaned vertices.
         /// </remarks>
-        void Plague()
+        private void Plague()
         {
-            Otri testtri = default(Otri);
-            Otri neighbor = default(Otri);
-            Osub neighborsubseg = default(Osub);
+            Otri testtri = default;
+            Otri neighbor = default;
+            Osub neighborsubseg = default;
             Vertex testvertex;
             Vertex norg, ndest;
 
@@ -121,7 +111,7 @@ namespace TriangleNet
 
             // Loop through all the infected triangles, spreading the virus to
             // their neighbors, then to their neighbors' neighbors.
-            for (int i = 0; i < viri.Count; i++)
+            for (var i = 0; i < viri.Count; i++)
             {
                 // WARNING: Don't use foreach, mesh.viri list may get modified.
 
@@ -141,7 +131,7 @@ namespace TriangleNet
                     // Check for a subsegment between the triangle and its neighbor.
                     testtri.SegPivot(ref neighborsubseg);
                     // Check if the neighbor is nonexistent or already infected.
-                    if ((neighbor.triangle == Mesh.dummytri) || neighbor.IsInfected())
+                    if (neighbor.triangle == Mesh.dummytri || neighbor.IsInfected())
                     {
                         if (neighborsubseg.seg != Mesh.dummysub)
                         {
@@ -160,7 +150,8 @@ namespace TriangleNet
                         }
                     }
                     else
-                    {   // The neighbor exists and is not infected.
+                    {
+                        // The neighbor exists and is not infected.
                         if (neighborsubseg.seg == Mesh.dummysub)
                         {
                             // There is no subsegment protecting the neighbor, so
@@ -175,23 +166,15 @@ namespace TriangleNet
                             // Remove this triangle from the subsegment.
                             neighborsubseg.TriDissolve();
                             // The subsegment becomes a boundary.  Set markers accordingly.
-                            if (neighborsubseg.seg.boundary == 0)
-                            {
-                                neighborsubseg.seg.boundary = 1;
-                            }
+                            if (neighborsubseg.seg.boundary == 0) neighborsubseg.seg.boundary = 1;
                             norg = neighbor.Org();
                             ndest = neighbor.Dest();
-                            if (norg.mark == 0)
-                            {
-                                norg.mark = 1;
-                            }
-                            if (ndest.mark == 0)
-                            {
-                                ndest.mark = 1;
-                            }
+                            if (norg.mark == 0) norg.mark = 1;
+                            if (ndest.mark == 0) ndest.mark = 1;
                         }
                     }
                 }
+
                 // Remark the triangle as infected, so it doesn't get added to the
                 // virus pool again.
                 testtri.Infect();
@@ -216,22 +199,19 @@ namespace TriangleNet
                         // Walk counterclockwise about the vertex.
                         testtri.Onext(ref neighbor);
                         // Stop upon reaching a boundary or the starting triangle.
-                        while ((neighbor.triangle != Mesh.dummytri) &&
-                               (!neighbor.Equal(testtri)))
+                        while (neighbor.triangle != Mesh.dummytri &&
+                               !neighbor.Equal(testtri))
                         {
                             if (neighbor.IsInfected())
-                            {
                                 // Mark the corner of this triangle as having been tested.
                                 neighbor.SetOrg(null);
-                            }
                             else
-                            {
                                 // A live triangle.  The vertex survives.
                                 killorg = false;
-                            }
                             // Walk counterclockwise about the vertex.
                             neighbor.OnextSelf();
                         }
+
                         // If we reached a boundary, we must walk clockwise as well.
                         if (neighbor.triangle == Mesh.dummytri)
                         {
@@ -241,19 +221,16 @@ namespace TriangleNet
                             while (neighbor.triangle != Mesh.dummytri)
                             {
                                 if (neighbor.IsInfected())
-                                {
                                     // Mark the corner of this triangle as having been tested.
                                     neighbor.SetOrg(null);
-                                }
                                 else
-                                {
                                     // A live triangle.  The vertex survives.
                                     killorg = false;
-                                }
                                 // Walk clockwise about the vertex.
                                 neighbor.OprevSelf();
                             }
                         }
+
                         if (killorg)
                         {
                             // Deleting vertex
@@ -284,6 +261,7 @@ namespace TriangleNet
                         mesh.hullsize++;
                     }
                 }
+
                 // Return the dead triangle to the pool of triangles.
                 mesh.TriangleDealloc(testtri.triangle);
             }
@@ -293,30 +271,26 @@ namespace TriangleNet
         }
 
         /// <summary>
-        /// Find the holes and infect them. Find the area constraints and infect 
-        /// them. Infect the convex hull. Spread the infection and kill triangles. 
-        /// Spread the area constraints.
+        ///     Find the holes and infect them. Find the area constraints and infect
+        ///     them. Infect the convex hull. Spread the infection and kill triangles.
+        ///     Spread the area constraints.
         /// </summary>
         public void CarveHoles()
         {
-            Otri searchtri = default(Otri);
+            Otri searchtri = default;
             Vertex searchorg, searchdest;
             LocateResult intersect;
 
             Triangle[] regionTris = null;
 
             if (!mesh.behavior.Convex)
-            {
                 // Mark as infected any unprotected triangles on the boundary.
                 // This is one way by which concavities are created.
                 InfectHull();
-            }
 
             if (!mesh.behavior.NoHoles)
-            {
                 // Infect each triangle in which a hole lies.
                 foreach (var hole in mesh.holes)
-                {
                     // Ignore holes that aren't within the bounds of the mesh.
                     if (mesh.bounds.Contains(hole))
                     {
@@ -333,7 +307,7 @@ namespace TriangleNet
                         {
                             // Find a triangle that contains the hole.
                             intersect = mesh.locator.Locate(hole, ref searchtri);
-                            if ((intersect != LocateResult.Outside) && (!searchtri.IsInfected()))
+                            if (intersect != LocateResult.Outside && !searchtri.IsInfected())
                             {
                                 // Infect the triangle. This is done by marking the triangle
                                 // as infected and including the triangle in the virus pool.
@@ -342,8 +316,6 @@ namespace TriangleNet
                             }
                         }
                     }
-                }
-            }
 
             // Now, we have to find all the regions BEFORE we carve the holes, because locate() won't
             // work when the triangulation is no longer convex. (Incidentally, this is the reason why
@@ -351,7 +323,7 @@ namespace TriangleNet
             // which might not be convex; they can only be used with a freshly triangulated PSLG.)
             if (mesh.regions.Count > 0)
             {
-                int i = 0;
+                var i = 0;
 
                 regionTris = new Triangle[mesh.regions.Count];
 
@@ -375,7 +347,7 @@ namespace TriangleNet
                         {
                             // Find a triangle that contains the region point.
                             intersect = mesh.locator.Locate(region.point, ref searchtri);
-                            if ((intersect != LocateResult.Outside) && (!searchtri.IsInfected()))
+                            if (intersect != LocateResult.Outside && !searchtri.IsInfected())
                             {
                                 // Record the triangle for processing after the
                                 // holes have been carved.
@@ -390,28 +362,20 @@ namespace TriangleNet
             }
 
             if (viri.Count > 0)
-            {
                 // Carve the holes and concavities.
                 Plague();
-            }
 
             if (regionTris != null)
             {
                 var iterator = new RegionIterator(mesh);
 
-                for (int i = 0; i < regionTris.Length; i++)
-                {
+                for (var i = 0; i < regionTris.Length; i++)
                     if (regionTris[i] != Mesh.dummytri)
-                    {
                         // Make sure the triangle under consideration still exists.
                         // It may have been eaten by the virus.
                         if (!Otri.IsDead(regionTris[i]))
-                        {
                             // Apply one region's attribute and/or area constraint.
                             iterator.Process(regionTris[i]);
-                        }
-                    }
-                }
             }
 
             // Free up memory (virus pool should be empty anyway).

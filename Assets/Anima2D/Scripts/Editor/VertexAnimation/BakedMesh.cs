@@ -1,63 +1,55 @@
 ﻿using UnityEngine;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Anima2D
 {
-	public class BakedMesh
-	{
-		Mesh m_ProxyMesh;
-	 	Mesh proxyMesh
-		{
-			get {
-				if(!m_ProxyMesh)
-				{
-					m_ProxyMesh = new Mesh();
-					m_ProxyMesh.hideFlags = HideFlags.DontSave;
-					m_ProxyMesh.MarkDynamic();
-				}
+    public class BakedMesh
+    {
+        private Mesh m_ProxyMesh;
 
-				return m_ProxyMesh;
-			}
-		}
+        private SkinnedMeshRenderer m_SkinnedMeshRenderer;
 
-		public Vector3[] vertices {
-			get {
-				return proxyMesh.vertices;
-			}
-			set {
-				proxyMesh.vertices = value;
-			}
-		}
+        private Mesh proxyMesh
+        {
+            get
+            {
+                if (!m_ProxyMesh)
+                {
+                    m_ProxyMesh = new Mesh();
+                    m_ProxyMesh.hideFlags = HideFlags.DontSave;
+                    m_ProxyMesh.MarkDynamic();
+                }
 
-		SkinnedMeshRenderer m_SkinnedMeshRenderer;
-		public SkinnedMeshRenderer skinnedMeshRenderer {
-			get { return m_SkinnedMeshRenderer; }
-			set {
-				if(m_SkinnedMeshRenderer != value)
-				{
-					m_SkinnedMeshRenderer = value;
-					Bake();
-				}
-			}
-		}
+                return m_ProxyMesh;
+            }
+        }
 
-		public void Bake()
-		{
-			if(skinnedMeshRenderer)
-			{
-				skinnedMeshRenderer.BakeMesh(proxyMesh);
-			}
-		}
+        public Vector3[] vertices
+        {
+            get => proxyMesh.vertices;
+            set => proxyMesh.vertices = value;
+        }
 
-		public void Destroy()
-		{
-			if(m_ProxyMesh)
-			{
-				GameObject.DestroyImmediate(m_ProxyMesh);	
-			}
-		}
+        public SkinnedMeshRenderer skinnedMeshRenderer
+        {
+            get => m_SkinnedMeshRenderer;
+            set
+            {
+                if (m_SkinnedMeshRenderer != value)
+                {
+                    m_SkinnedMeshRenderer = value;
+                    Bake();
+                }
+            }
+        }
 
-	}
+        public void Bake()
+        {
+            if (skinnedMeshRenderer) skinnedMeshRenderer.BakeMesh(proxyMesh);
+        }
+
+        public void Destroy()
+        {
+            if (m_ProxyMesh) Object.DestroyImmediate(m_ProxyMesh);
+        }
+    }
 }

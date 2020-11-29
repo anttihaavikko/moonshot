@@ -1,611 +1,569 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+
+public class InputMagic : MonoBehaviour
+{
+    public const int A = 0;
+    public const int B = 1;
+    public const int X = 2;
+    public const int Y = 3;
+    public const int START = 4;
+    public const int SELECT = 5;
+
+    public const int STICK_LEFT_X = 0;
+    public const int STICK_LEFT_Y = 1;
+    public const int STICK_RIGHT_X = 2;
+    public const int STICK_RIGHT_Y = 3;
+    public const int DPAD_X = 4;
+    public const int DPAD_Y = 5;
+    public const int STICK_OR_DPAD_X = 6;
+    public const int STICK_OR_DPAD_Y = 7;
+
+    public const int METHOD_KEYBOARD = 0;
+    public const int METHOD_PLAYSTATION = 1;
+    public const int METHOD_XBOX = 2;
+
+    // Static singleton property
+    private static InputMagic instance;
+    private int currentMethod;
+
+    private int numOfPads;
+
+    private string padA = "";
+    private string padB = "";
+    private int padDPadDirection = 1;
+
+    private string padDPadX = "";
+    private string padDPadY = "";
+
+    private string padLeftStickX = "";
+    private string padLeftStickY = "";
+
+    private string padName = "";
+
+    private string padRightStickX = "";
+    private string padRightStickY = "";
+    private string padSelect = "";
+
+    private string padStart = "";
+    private string padX = "";
+    private string padY = "";
+    private string realPadName = "";
+
+    // Static singleton property
+    public static InputMagic Instance
+    {
+        get
+        {
+            if (instance)
+            {
+                return instance;
+            }
+
+            instance = new GameObject("InputMagic").AddComponent<InputMagic>();
+            instance.FindPad();
+            DontDestroyOnLoad(instance.gameObject);
+            return instance;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetJoystickNames().Length != numOfPads)
+        {
+            Debug.Log("Pad count changed...");
+            numOfPads = Input.GetJoystickNames().Length;
+            FindPad();
+        }
+    }
+
+    private void FindPad()
+    {
+        currentMethod = METHOD_KEYBOARD;
+        realPadName = "";
+
+        if (Input.GetJoystickNames().Length > 0)
+        {
+            padName = Input.GetJoystickNames()[0];
+
+            /****************
+            * OSX
+            ****************/
+
+            if (Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor)
+            {
+                if (padName == "Sony Computer Entertainment Wireless Controller" ||
+                    padName == "Unknown Wireless Controller")
+                {
+                    realPadName = "PS4 Controller";
+
+                    padA = "joystick 1 button 1";
+                    padB = "joystick 1 button 2";
+                    padX = "joystick 1 button 0";
+                    padY = "joystick 1 button 3";
 
-public class InputMagic : MonoBehaviour {
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-	public const int A = 0;
-	public const int B = 1;
-	public const int X = 2;
-	public const int Y = 3;
-	public const int START = 4;
-	public const int SELECT = 5;
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 3";
 
-	public const int STICK_LEFT_X = 0;
-	public const int STICK_LEFT_Y = 1;
-	public const int STICK_RIGHT_X = 2;
-	public const int STICK_RIGHT_Y = 3;
-	public const int DPAD_X = 4;
-	public const int DPAD_Y = 5;
-	public const int STICK_OR_DPAD_X = 6;
-	public const int STICK_OR_DPAD_Y = 7;
+                    padDPadX = "joystick 1 analog 6";
+                    padDPadY = "joystick 1 analog 7";
+                    padDPadDirection = 1;
 
-	public const int METHOD_KEYBOARD = 0;
-	public const int METHOD_PLAYSTATION = 1;
-	public const int METHOD_XBOX = 2;
+                    padStart = "joystick 1 button 9";
+                    padSelect = "joystick 1 button 8";
 
-	// Static singleton property
-	private static InputMagic instance;
+                    currentMethod = METHOD_PLAYSTATION;
 
-	private string padName = "";
-	private string realPadName = "";
-	private int currentMethod = 0;
+                    Debug.Log("Pad configured!");
 
-	private string padA = "";
-	private string padB = "";
-	private string padX = "";
-	private string padY = "";
+                    return;
+                }
 
-	private string padLeftStickX = "";
-	private string padLeftStickY = "";
+                if (padName == "Sony PLAYSTATION(R)3 Controller")
+                {
+                    realPadName = "PS3 Controller";
 
-	private string padRightStickX = "";
-	private string padRightStickY = "";
+                    padA = "joystick 1 button 14";
+                    padB = "joystick 1 button 13";
+                    padX = "joystick 1 button 15";
+                    padY = "joystick 1 button 12";
 
-	private string padDPadX = "";
-	private string padDPadY = "";
-	private int padDPadDirection = 1;
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-	private string padStart = "";
-	private string padSelect = "";
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 3";
 
-	private int numOfPads = 0;
+                    padDPadX = "joystick 1 analog 6";
+                    padDPadY = "joystick 1 analog 7";
+                    padDPadDirection = 1;
 
-	// Static singleton property
-	public static InputMagic Instance {
-		get {
-			if (instance) {
-				return instance;
-			} else {
-				instance = new GameObject("InputMagic").AddComponent<InputMagic>();
-				instance.FindPad ();
-				DontDestroyOnLoad(instance.gameObject);
-				return instance;
-			}
-		}
-	}
+                    padStart = "joystick 1 button 3";
+                    padSelect = "joystick 1 button 0";
 
-	void FindPad() {
+                    currentMethod = METHOD_PLAYSTATION;
 
-		currentMethod = METHOD_KEYBOARD;
-		realPadName = "";
+                    Debug.Log("Pad configured!");
 
-		if (Input.GetJoystickNames ().Length > 0) {
+                    return;
+                }
 
-			padName = Input.GetJoystickNames () [0];
+                if (padName.ToLower().IndexOf("360") != -1 || padName.ToLower().IndexOf("xbox") != -1 ||
+                    padName.ToLower().IndexOf("catz") != -1)
+                {
+                    realPadName = "XBOX One/360 Controller";
 
-			/****************
-			* OSX
-			****************/
+                    padA = "joystick 1 button 16";
+                    padB = "joystick 1 button 17";
+                    padX = "joystick 1 button 18";
+                    padY = "joystick 1 button 19";
 
-			if (Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor) {
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-				if (padName == "Sony Computer Entertainment Wireless Controller" || padName == "Unknown Wireless Controller") {
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 3";
 
-					realPadName = "PS4 Controller";
+                    padDPadX = "";
+                    padDPadY = "";
+                    padDPadDirection = -1;
 
-					padA = "joystick 1 button 1";
-					padB = "joystick 1 button 2";
-					padX = "joystick 1 button 0";
-					padY = "joystick 1 button 3";
+                    padStart = "joystick 1 button 9";
+                    padSelect = "joystick 1 button 10";
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    currentMethod = METHOD_XBOX;
 
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 3";
+                    Debug.Log("Pad configured!");
 
-					padDPadX = "joystick 1 analog 6";
-					padDPadY = "joystick 1 analog 7";
-					padDPadDirection = 1;
+                    return;
+                }
+            }
 
-					padStart = "joystick 1 button 9";
-					padSelect = "joystick 1 button 8";
+            /****************
+            * Windows
+            ****************/
 
-					currentMethod = METHOD_PLAYSTATION;
+            if (Application.platform == RuntimePlatform.WindowsPlayer ||
+                Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                if (padName == "Wireless Controller")
+                {
+                    realPadName = "PS4 Controller";
 
-					Debug.Log ("Pad configured!");
+                    padA = "joystick 1 button 1";
+                    padB = "joystick 1 button 2";
+                    padX = "joystick 1 button 0";
+                    padY = "joystick 1 button 3";
 
-					return;
-				}
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-				if (padName == "Sony PLAYSTATION(R)3 Controller") {
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 5";
 
-					realPadName = "PS3 Controller";
+                    padDPadX = "joystick 1 analog 6";
+                    padDPadY = "joystick 1 analog 7";
+                    padDPadDirection = -1;
 
-					padA = "joystick 1 button 14";
-					padB = "joystick 1 button 13";
-					padX = "joystick 1 button 15";
-					padY = "joystick 1 button 12";
+                    padStart = "joystick 1 button 9";
+                    padSelect = "joystick 1 button 8";
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    currentMethod = METHOD_PLAYSTATION;
 
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 3";
+                    Debug.Log("Pad configured!");
 
-					padDPadX = "joystick 1 analog 6";
-					padDPadY = "joystick 1 analog 7";
-					padDPadDirection = 1;
+                    return;
+                }
 
-					padStart = "joystick 1 button 3";
-					padSelect = "joystick 1 button 0";
+                if (padName == "MotioninJoy Virtual Game Controller")
+                {
+                    realPadName = "PS3 Controller";
 
-					currentMethod = METHOD_PLAYSTATION;
+                    padA = "joystick 1 button 2";
+                    padB = "joystick 1 button 1";
+                    padX = "joystick 1 button 3";
+                    padY = "joystick 1 button 0";
 
-					Debug.Log ("Pad configured!");
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-					return;
-				}
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 5";
 
-				if (padName.ToLower().IndexOf ("360") != -1 || padName.ToLower().IndexOf ("xbox") != -1 || padName.ToLower().IndexOf ("catz") != -1) {
+                    padDPadX = "joystick 1 analog 8";
+                    padDPadY = "joystick 1 analog 9";
+                    padDPadDirection = 1;
 
-					realPadName = "XBOX One/360 Controller";
+                    padStart = "joystick 1 button 11";
+                    padSelect = "joystick 1 button 8";
 
-					padA = "joystick 1 button 16";
-					padB = "joystick 1 button 17";
-					padX = "joystick 1 button 18";
-					padY = "joystick 1 button 19";
+                    currentMethod = METHOD_PLAYSTATION;
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    Debug.Log("Pad configured!");
 
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 3";
+                    return;
+                }
 
-					padDPadX = "";
-					padDPadY = "";
-					padDPadDirection = -1;
+                if (padName.ToLower().IndexOf("360") != -1 || padName.ToLower().IndexOf("xbox") != -1 ||
+                    padName.ToLower().IndexOf("catz") != -1)
+                {
+                    realPadName = "XBOX One/360 Controller";
 
-					padStart = "joystick 1 button 9";
-					padSelect = "joystick 1 button 10";
+                    padA = "joystick 1 button 0";
+                    padB = "joystick 1 button 1";
+                    padX = "joystick 1 button 2";
+                    padY = "joystick 1 button 3";
 
-					currentMethod = METHOD_XBOX;
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-					Debug.Log ("Pad configured!");
+                    padRightStickX = "joystick 1 analog 3";
+                    padRightStickY = "joystick 1 analog 4";
 
-					return;
-				}
-			}
+                    padDPadX = "joystick 1 analog 5";
+                    padDPadY = "joystick 1 analog 6";
+                    padDPadDirection = -1;
 
-			/****************
-			* Windows
-			****************/
+                    padStart = "joystick 1 button 7";
+                    padSelect = "joystick 1 button 6";
 
-			if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) {
+                    currentMethod = METHOD_XBOX;
 
-				if (padName == "Wireless Controller") {
+                    Debug.Log("Pad configured!");
 
-					realPadName = "PS4 Controller";
+                    return;
+                }
+            }
 
-					padA = "joystick 1 button 1";
-					padB = "joystick 1 button 2";
-					padX = "joystick 1 button 0";
-					padY = "joystick 1 button 3";
+            /****************
+            * Linux
+            ****************/
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+            if (Application.platform == RuntimePlatform.LinuxPlayer ||
+                Application.platform == RuntimePlatform.LinuxEditor)
+            {
+                if (padName == "Sony Computer Entertainment Wireless Controller")
+                {
+                    realPadName = "PS4 Controller";
 
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 5";
+                    padA = "joystick 1 button 1";
+                    padB = "joystick 1 button 2";
+                    padX = "joystick 1 button 0";
+                    padY = "joystick 1 button 3";
 
-					padDPadX = "joystick 1 analog 6";
-					padDPadY = "joystick 1 analog 7";
-					padDPadDirection = -1;
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-					padStart = "joystick 1 button 9";
-					padSelect = "joystick 1 button 8";
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 5";
 
-					currentMethod = METHOD_PLAYSTATION;
+                    padDPadX = "joystick 1 analog 6";
+                    padDPadY = "joystick 1 analog 7";
+                    padDPadDirection = 1;
 
-					Debug.Log ("Pad configured!");
+                    padStart = "joystick 1 button 9";
+                    padSelect = "joystick 1 button 8";
 
-					return;
-				}
+                    currentMethod = METHOD_PLAYSTATION;
 
-				if (padName == "MotioninJoy Virtual Game Controller") {
+                    Debug.Log("Pad configured!");
 
-					realPadName = "PS3 Controller";
+                    return;
+                }
 
-					padA = "joystick 1 button 2";
-					padB = "joystick 1 button 1";
-					padX = "joystick 1 button 3";
-					padY = "joystick 1 button 0";
+                if (padName.ToLower().IndexOf("PLAYSTATION(R)3") != -1)
+                {
+                    realPadName = "PS3 Controller";
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    padA = "joystick 1 button 14";
+                    padB = "joystick 1 button 13";
+                    padX = "joystick 1 button 15";
+                    padY = "joystick 1 button 12";
 
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 5";
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-					padDPadX = "joystick 1 analog 8";
-					padDPadY = "joystick 1 analog 9";
-					padDPadDirection = 1;
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 3";
 
-					padStart = "joystick 1 button 11";
-					padSelect = "joystick 1 button 8";
+                    padDPadX = "joystick 1 analog 6";
+                    padDPadY = "joystick 1 analog 7";
+                    padDPadDirection = 1;
 
-					currentMethod = METHOD_PLAYSTATION;
+                    padStart = "joystick 1 button 3";
+                    padSelect = "joystick 1 button 0";
 
-					Debug.Log ("Pad configured!");
+                    currentMethod = METHOD_PLAYSTATION;
 
-					return;
-				}
+                    Debug.Log("Pad configured!");
 
-				if (padName.ToLower().IndexOf ("360") != -1 || padName.ToLower().IndexOf ("xbox") != -1 || padName.ToLower().IndexOf ("catz") != -1) {
+                    return;
+                }
 
-					realPadName = "XBOX One/360 Controller";
+                if (padName.ToLower().IndexOf("360") != -1 || padName.ToLower().IndexOf("xbox") != -1 ||
+                    padName.ToLower().IndexOf("catz") != -1)
+                {
+                    realPadName = "XBOX One/360 Controller";
 
-					padA = "joystick 1 button 0";
-					padB = "joystick 1 button 1";
-					padX = "joystick 1 button 2";
-					padY = "joystick 1 button 3";
+                    padA = "joystick 1 button 0";
+                    padB = "joystick 1 button 1";
+                    padX = "joystick 1 button 2";
+                    padY = "joystick 1 button 3";
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-					padRightStickX = "joystick 1 analog 3";
-					padRightStickY = "joystick 1 analog 4";
+                    padRightStickX = "joystick 1 analog 3";
+                    padRightStickY = "joystick 1 analog 4";
 
-					padDPadX = "joystick 1 analog 5";
-					padDPadY = "joystick 1 analog 6";
-					padDPadDirection = -1;
+                    padDPadX = "joystick 1 analog 6";
+                    padDPadY = "joystick 1 analog 7";
+                    padDPadDirection = 1;
 
-					padStart = "joystick 1 button 7";
-					padSelect = "joystick 1 button 6";
+                    padStart = "joystick 1 button 7";
+                    padSelect = "joystick 1 button 6";
 
-					currentMethod = METHOD_XBOX;
+                    currentMethod = METHOD_XBOX;
 
-					Debug.Log ("Pad configured!");
+                    Debug.Log("Pad configured!");
 
-					return;
-				}
-			}
+                    return;
+                }
+            }
 
-			/****************
-			* Linux
-			****************/
+            /****************
+            * WebGL
+            ****************/
 
-			if (Application.platform == RuntimePlatform.LinuxPlayer || Application.platform == RuntimePlatform.LinuxEditor) {
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                // ps4 (ps3?) chrome
+                if (padName.ToLower().IndexOf("054c") != -1)
+                {
+                    realPadName = "PS4/PS3 Controller";
 
-				if (padName == "Sony Computer Entertainment Wireless Controller") {
+                    padA = "joystick 1 button 0";
+                    padB = "joystick 1 button 1";
+                    padX = "joystick 1 button 2";
+                    padY = "joystick 1 button 3";
 
-					realPadName = "PS4 Controller";
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-					padA = "joystick 1 button 1";
-					padB = "joystick 1 button 2";
-					padX = "joystick 1 button 0";
-					padY = "joystick 1 button 3";
+                    padRightStickX = "joystick 1 analog 3";
+                    padRightStickY = "joystick 1 analog 4";
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    padDPadX = "joystick 1 analog 5";
+                    padDPadY = "joystick 1 analog 6";
+                    padDPadDirection = -1;
 
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 5";
+                    padStart = "joystick 1 button 7";
+                    padSelect = "joystick 1 button 6";
 
-					padDPadX = "joystick 1 analog 6";
-					padDPadY = "joystick 1 analog 7";
-					padDPadDirection = 1;
+                    currentMethod = METHOD_PLAYSTATION;
 
-					padStart = "joystick 1 button 9";
-					padSelect = "joystick 1 button 8";
+                    Debug.Log("Pad configured!");
 
-					currentMethod = METHOD_PLAYSTATION;
+                    return;
+                }
 
-					Debug.Log ("Pad configured!");
+                // ps4 (ps3?) firefox
+                if (padName.ToLower().IndexOf("54c") != -1)
+                {
+                    realPadName = "PS4/PS3 Controller";
 
-					return;
-				}
+                    padA = "joystick 1 button 1";
+                    padB = "joystick 1 button 2";
+                    padX = "joystick 1 button 0";
+                    padY = "joystick 1 button 3";
 
-				if (padName.ToLower ().IndexOf ("PLAYSTATION(R)3") != -1) {
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-					realPadName = "PS3 Controller";
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 5";
 
-					padA = "joystick 1 button 14";
-					padB = "joystick 1 button 13";
-					padX = "joystick 1 button 15";
-					padY = "joystick 1 button 12";
+                    padDPadX = "joystick 1 analog 6";
+                    padDPadY = "joystick 1 analog 7";
+                    padDPadDirection = -1;
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    padStart = "joystick 1 button 9";
+                    padSelect = "joystick 1 button 8";
 
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 3";
+                    currentMethod = METHOD_PLAYSTATION;
 
-					padDPadX = "joystick 1 analog 6";
-					padDPadY = "joystick 1 analog 7";
-					padDPadDirection = 1;
+                    Debug.Log("Pad configured!");
 
-					padStart = "joystick 1 button 3";
-					padSelect = "joystick 1 button 0";
+                    return;
+                }
 
-					currentMethod = METHOD_PLAYSTATION;
+                // 360?
+                if (padName.IndexOf("0x045E") != -1 || padName.ToLower().IndexOf("xinput") != -1)
+                {
+                    realPadName = "XBOX One/360 Controller";
 
-					Debug.Log ("Pad configured!");
+                    padA = "joystick 1 button 0";
+                    padB = "joystick 1 button 1";
+                    padX = "joystick 1 button 2";
+                    padY = "joystick 1 button 3";
 
-					return;
-				}
+                    padLeftStickX = "joystick 1 analog 0";
+                    padLeftStickY = "joystick 1 analog 1";
 
-				if (padName.ToLower ().IndexOf ("360") != -1 || padName.ToLower ().IndexOf ("xbox") != -1 || padName.ToLower ().IndexOf ("catz") != -1) {
+                    padRightStickX = "joystick 1 analog 2";
+                    padRightStickY = "joystick 1 analog 3";
 
-					realPadName = "XBOX One/360 Controller";
+                    padDPadX = "joystick 1 analog 5";
+                    padDPadY = "joystick 1 analog 6";
+                    padDPadDirection = -1;
 
-					padA = "joystick 1 button 0";
-					padB = "joystick 1 button 1";
-					padX = "joystick 1 button 2";
-					padY = "joystick 1 button 3";
+                    padStart = "joystick 1 button 9";
+                    padSelect = "joystick 1 button 8";
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+                    currentMethod = METHOD_XBOX;
 
-					padRightStickX = "joystick 1 analog 3";
-					padRightStickY = "joystick 1 analog 4";
+                    Debug.Log("Pad configured!");
 
-					padDPadX = "joystick 1 analog 6";
-					padDPadY = "joystick 1 analog 7";
-					padDPadDirection = 1;
+                    return;
+                }
+            }
 
-					padStart = "joystick 1 button 7";
-					padSelect = "joystick 1 button 6";
+            Debug.Log("Unknown pad: " + padName);
+            realPadName = "";
+        }
+    }
 
-					currentMethod = METHOD_XBOX;
+    public int GetInputMethod()
+    {
+        return currentMethod;
+    }
 
-					Debug.Log ("Pad configured!");
+    public string GetPadName()
+    {
+        return realPadName;
+    }
 
-					return;
-				}
-			}
+    public bool GetButtonDown(int button)
+    {
+        if (button == A) return TryToGetKeyDown(padA) || Input.GetKeyDown(KeyCode.Space);
+        if (button == B) return TryToGetKeyDown(padB) || Input.GetKeyDown(KeyCode.X);
+        if (button == X) return TryToGetKeyDown(padX) || Input.GetKeyDown(KeyCode.Z);
+        if (button == Y) return TryToGetKeyDown(padY) || Input.GetKeyDown(KeyCode.C);
+        if (button == START) return TryToGetKeyDown(padStart);
+        if (button == SELECT) return TryToGetKeyDown(padSelect);
 
-			/****************
-			* WebGL
-			****************/
+        return false;
+    }
 
-			if (Application.platform == RuntimePlatform.WebGLPlayer) {
+    public bool GetButton(int button)
+    {
+        if (button == A) return TryToGetKey(padA) || Input.GetKey(KeyCode.Space);
+        if (button == B) return TryToGetKey(padB) || Input.GetKey(KeyCode.X);
+        if (button == X) return TryToGetKey(padX) || Input.GetKey(KeyCode.Z);
+        if (button == Y) return TryToGetKey(padY) || Input.GetKey(KeyCode.C);
+        if (button == START) return TryToGetKey(padStart);
+        if (button == SELECT) return TryToGetKey(padSelect);
 
-				// ps4 (ps3?) chrome
-				if (padName.ToLower().IndexOf ("054c") != -1) {
+        return false;
+    }
 
-					realPadName = "PS4/PS3 Controller";
+    public bool GetButtonUp(int button)
+    {
+        if (button == A) return TryToGetKeyUp(padA) || Input.GetKeyUp(KeyCode.Space);
+        if (button == B) return TryToGetKeyUp(padB) || Input.GetKeyUp(KeyCode.X);
+        if (button == X) return TryToGetKeyUp(padX) || Input.GetKeyUp(KeyCode.Z);
+        if (button == Y) return TryToGetKeyUp(padY) || Input.GetKeyUp(KeyCode.C);
+        if (button == START) return TryToGetKeyUp(padStart);
+        if (button == SELECT) return TryToGetKeyUp(padSelect);
 
-					padA = "joystick 1 button 0";
-					padB = "joystick 1 button 1";
-					padX = "joystick 1 button 2";
-					padY = "joystick 1 button 3";
+        return false;
+    }
 
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
+    private bool TryToGetKey(string button)
+    {
+        if (button != "") return Input.GetKey(button);
+        return false;
+    }
 
-					padRightStickX = "joystick 1 analog 3";
-					padRightStickY = "joystick 1 analog 4";
+    private bool TryToGetKeyDown(string button)
+    {
+        if (button != "") return Input.GetKeyDown(button);
+        return false;
+    }
 
-					padDPadX = "joystick 1 analog 5";
-					padDPadY = "joystick 1 analog 6";
-					padDPadDirection = -1;
+    private bool TryToGetKeyUp(string button)
+    {
+        if (button != "") return Input.GetKeyUp(button);
+        return false;
+    }
 
-					padStart = "joystick 1 button 7";
-					padSelect = "joystick 1 button 6";
+    public float GetAxis(int axis)
+    {
+        if (axis == STICK_LEFT_X)
+            return Mathf.Clamp(TryToGetAxis(padLeftStickX) + Input.GetAxisRaw("Horizontal"), -1f, 1f);
+        if (axis == STICK_LEFT_Y)
+            return Mathf.Clamp(-TryToGetAxis(padLeftStickY) + Input.GetAxisRaw("Vertical"), -1f, 1f);
+        if (axis == STICK_RIGHT_X) return TryToGetAxis(padRightStickX);
+        if (axis == STICK_RIGHT_Y) return -TryToGetAxis(padRightStickY);
+        if (axis == DPAD_X) return TryToGetAxis(padDPadX);
+        if (axis == DPAD_Y) return -TryToGetAxis(padDPadY) * padDPadDirection;
+        if (axis == STICK_OR_DPAD_X)
+            return Mathf.Clamp(TryToGetAxis(padLeftStickX) + TryToGetAxis(padDPadX) + Input.GetAxisRaw("Horizontal"),
+                -1f, 1f);
+        if (axis == STICK_OR_DPAD_Y)
+            return Mathf.Clamp(
+                -TryToGetAxis(padLeftStickY) + -TryToGetAxis(padDPadY) * padDPadDirection +
+                Input.GetAxisRaw("Vertical"), -1f, 1f);
 
-					currentMethod = METHOD_PLAYSTATION;
 
-					Debug.Log ("Pad configured!");
+        return 0;
+    }
 
-					return;
-				}
-
-				// ps4 (ps3?) firefox
-				if (padName.ToLower().IndexOf ("54c") != -1) {
-
-					realPadName = "PS4/PS3 Controller";
-
-					padA = "joystick 1 button 1";
-					padB = "joystick 1 button 2";
-					padX = "joystick 1 button 0";
-					padY = "joystick 1 button 3";
-
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
-
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 5";
-
-					padDPadX = "joystick 1 analog 6";
-					padDPadY = "joystick 1 analog 7";
-					padDPadDirection = -1;
-
-					padStart = "joystick 1 button 9";
-					padSelect = "joystick 1 button 8";
-
-					currentMethod = METHOD_PLAYSTATION;
-
-					Debug.Log ("Pad configured!");
-
-					return;
-				}
-
-				// 360?
-				if (padName.IndexOf ("0x045E") != -1 || padName.ToLower().IndexOf ("xinput") != -1) {
-
-					realPadName = "XBOX One/360 Controller";
-
-					padA = "joystick 1 button 0";
-					padB = "joystick 1 button 1";
-					padX = "joystick 1 button 2";
-					padY = "joystick 1 button 3";
-
-					padLeftStickX = "joystick 1 analog 0";
-					padLeftStickY = "joystick 1 analog 1";
-
-					padRightStickX = "joystick 1 analog 2";
-					padRightStickY = "joystick 1 analog 3";
-
-					padDPadX = "joystick 1 analog 5";
-					padDPadY = "joystick 1 analog 6";
-					padDPadDirection = -1;
-
-					padStart = "joystick 1 button 9";
-					padSelect = "joystick 1 button 8";
-
-					currentMethod = METHOD_XBOX;
-
-					Debug.Log ("Pad configured!");
-
-					return;
-				}
-			}
-
-			Debug.Log ("Unknown pad: " + padName);
-			realPadName = "";
-
-		}
-	}
-
-	void Update() {
-
-		if(Input.GetJoystickNames ().Length != numOfPads) {
-			Debug.Log ("Pad count changed...");
-			numOfPads = Input.GetJoystickNames ().Length;
-			FindPad();
-		}
-
-	}
-
-	public int GetInputMethod() {
-		return currentMethod;
-	}
-
-	public string GetPadName() {
-		return realPadName;
-	}
-
-	public bool GetButtonDown(int button) {
-
-		if (button == InputMagic.A) {
-			return TryToGetKeyDown (padA) || Input.GetKeyDown(KeyCode.Space);
-		}
-		if (button == InputMagic.B) {
-			return TryToGetKeyDown (padB) || Input.GetKeyDown(KeyCode.X);
-		}
-		if (button == InputMagic.X) {
-			return TryToGetKeyDown (padX) || Input.GetKeyDown(KeyCode.Z);
-		}
-		if (button == InputMagic.Y) {
-			return TryToGetKeyDown (padY) || Input.GetKeyDown(KeyCode.C);
-		}
-		if (button == InputMagic.START) {
-			return TryToGetKeyDown (padStart);
-		}
-		if (button == InputMagic.SELECT) {
-			return TryToGetKeyDown (padSelect);
-		}
-
-		return false;
-	}
-
-	public bool GetButton(int button) {
-
-		if (button == InputMagic.A) {
-			return TryToGetKey (padA) || Input.GetKey(KeyCode.Space);
-		}
-		if (button == InputMagic.B) {
-			return TryToGetKey (padB) || Input.GetKey(KeyCode.X);
-		}
-		if (button == InputMagic.X) {
-			return TryToGetKey (padX) || Input.GetKey(KeyCode.Z);
-		}
-		if (button == InputMagic.Y) {
-			return TryToGetKey (padY) || Input.GetKey(KeyCode.C);
-		}
-		if (button == InputMagic.START) {
-			return TryToGetKey (padStart);
-		}
-		if (button == InputMagic.SELECT) {
-			return TryToGetKey (padSelect);
-		}
-
-		return false;
-	}
-
-	public bool GetButtonUp(int button) {
-
-		if (button == InputMagic.A) {
-			return TryToGetKeyUp (padA) || Input.GetKeyUp(KeyCode.Space);
-		}
-		if (button == InputMagic.B) {
-			return TryToGetKeyUp (padB) || Input.GetKeyUp(KeyCode.X);
-		}
-		if (button == InputMagic.X) {
-			return TryToGetKeyUp (padX) || Input.GetKeyUp(KeyCode.Z);
-		}
-		if (button == InputMagic.Y) {
-			return TryToGetKeyUp (padY) || Input.GetKeyUp(KeyCode.C);
-		}
-		if (button == InputMagic.START) {
-			return TryToGetKeyUp (padStart);
-		}
-		if (button == InputMagic.SELECT) {
-			return TryToGetKeyUp (padSelect);
-		}
-
-		return false;
-	}
-
-	private bool TryToGetKey(string button) {
-		if(button != "") {
-			return Input.GetKey (button);
-		}
-		return false;
-	}
-
-	private bool TryToGetKeyDown(string button) {
-		if(button != "") {
-			return Input.GetKeyDown (button);
-		}
-		return false;
-	}
-
-	private bool TryToGetKeyUp(string button) {
-		if(button != "") {
-			return Input.GetKeyUp (button);
-		}
-		return false;
-	}
-
-	public float GetAxis(int axis) {
-
-		if (axis == InputMagic.STICK_LEFT_X) {
-			return Mathf.Clamp(TryToGetAxis (padLeftStickX) + Input.GetAxisRaw ("Horizontal"), -1f, 1f);
-		}
-		if (axis == InputMagic.STICK_LEFT_Y) {
-			return Mathf.Clamp(-TryToGetAxis (padLeftStickY) + Input.GetAxisRaw ("Vertical"), -1f, 1f);
-		}
-		if (axis == InputMagic.STICK_RIGHT_X) {
-			return TryToGetAxis (padRightStickX);
-		}
-		if (axis == InputMagic.STICK_RIGHT_Y) {
-			return -TryToGetAxis (padRightStickY);
-		}
-		if (axis == InputMagic.DPAD_X) {
-			return TryToGetAxis (padDPadX);
-		}
-		if (axis == InputMagic.DPAD_Y) {
-			return -TryToGetAxis (padDPadY) * padDPadDirection;
-		}
-		if (axis == InputMagic.STICK_OR_DPAD_X) {
-			return Mathf.Clamp(TryToGetAxis (padLeftStickX) + TryToGetAxis (padDPadX) + Input.GetAxisRaw ("Horizontal"), -1f, 1f);
-		}
-		if (axis == InputMagic.STICK_OR_DPAD_Y) {
-			return Mathf.Clamp(-TryToGetAxis (padLeftStickY) + -TryToGetAxis (padDPadY) * padDPadDirection + Input.GetAxisRaw ("Vertical"), -1f, 1f);
-		}
-
-
-		return 0;
-	}
-
-	private float TryToGetAxis(string axis) {
-		if(axis != "") {
-			return Input.GetAxisRaw (axis);
-		}
-		return 0;
-	}
+    private float TryToGetAxis(string axis)
+    {
+        if (axis != "") return Input.GetAxisRaw(axis);
+        return 0;
+    }
 }

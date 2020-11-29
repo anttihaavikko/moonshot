@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Moon : MonoBehaviour, IDier
@@ -13,7 +14,7 @@ public class Moon : MonoBehaviour, IDier
     public EffectCamera effectCam;
     public LineRenderer linePrefab;
     public LinePool linePool;
-    public TMPro.TMP_Text timerText, bestText, timerShadow, bestShadow;
+    public TMP_Text timerText, bestText, timerShadow, bestShadow;
     public LayerMask collisionMask;
     public Bubble bubble;
     public LevelInfo levelInfo;
@@ -24,48 +25,123 @@ public class Moon : MonoBehaviour, IDier
     public HingeJoint2D attachJoint;
     public ShellManager shellManager;
 
-    private Level level;
-    
-    private float touchTimer, bestTime;
-    private bool hasTouched;
-    private bool hasDied;
-
     private float autoShotDelay;
+    private bool clicksDisabled;
+    private bool hasDied;
+    private bool hasTouched;
 
     private int hp = 3;
-    private bool clicksDisabled;
+
+    private Level level;
+
+    private float touchTimer, bestTime;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         CheckShots();
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneChanger.Instance.ChangeScene("Main");
-        }
+        if (Input.GetKeyDown(KeyCode.R)) SceneChanger.Instance.ChangeScene("Main");
 
         CheckTouch();
     }
 
-    bool LeftTouch()
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (hasDied) return;
+
+        if (collision.gameObject.CompareTag("Flag") && level) level.Complete();
+
+        if (collision.gameObject.CompareTag("Pickup") && level)
+        {
+            var o = collision.gameObject;
+            o.SetActive(false);
+
+            var position = o.transform.position;
+            EffectManager.Instance.AddEffect(3, position);
+            EffectManager.Instance.AddEffect(6, position);
+
+            AudioManager.Instance.PlayEffectAt(25, position, 1f);
+            AudioManager.Instance.PlayEffectAt(26, position, 1f);
+            AudioManager.Instance.PlayEffectAt(27, position, 1f);
+        }
+
+        if (!collision.gameObject.CompareTag("Bubble")) return;
+
+        var trigger = collision.GetComponent<BubbleTrigger>();
+        var msg = trigger.GetMessage();
+        if (!trigger.shown && !Manager.Instance.IsShown(msg))
+        {
+            this.StartCoroutine(() =>
+            {
+                if (hasDied) return;
+                bubble.Show(msg);
+                trigger.appearers.ForEach(a => a.Show());
+            }, trigger.delay);
+            Manager.Instance.Add(msg);
+            trigger.shown = true;
+        }
+    }
+
+    public void Die()
+    {
+        if (hasDied) return;
+
+        AudioManager.Instance.curMusic.pitch = 0.8f;
+
+        level.CancelEnd();
+
+        hasDied = true;
+        bubble.Hide(true);
+
+        level.Restart();
+
+        visibleObjects.ForEach(vo => vo.SetActive(false));
+        joints.ForEach(ThrowBody);
+        extraJoints.Where(j => Random.value > 0.3f).ToList().ForEach(ThrowBody);
+
+        sprite.enabled = false;
+
+        gameObject.layer = 10;
+        body.gravityScale = 0;
+
+        var position = transform.position;
+        EffectManager.Instance.AddEffect(3, position);
+        EffectManager.Instance.AddEffect(4, position);
+        EffectManager.Instance.AddEffect(5, position);
+        EffectManager.Instance.AddEffect(6, position);
+
+        effectCam.BaseEffect(0.5f);
+
+        this.StartCoroutine(() =>
+        {
+            var pos = transform.position;
+            AudioManager.Instance.PlayEffectAt(1, pos, 0.669f);
+            AudioManager.Instance.PlayEffectAt(6, pos, 1.233f);
+            AudioManager.Instance.PlayEffectAt(5, pos, 1.005f);
+            AudioManager.Instance.PlayEffectAt(4, pos, 1.204f);
+            AudioManager.Instance.PlayEffectAt(13, pos, 1.192f);
+        }, 0.07f);
+    }
+
+    private bool LeftTouch()
     {
         var newTouches = Input.touches.Where(t => t.phase == TouchPhase.Began);
         return newTouches.Any(t => t.position.x < Screen.width / 2f) && Application.isMobilePlatform;
     }
 
-    bool RightTouch()
+    private bool RightTouch()
     {
         var newTouches = Input.touches.Where(t => t.phase == TouchPhase.Began);
         return newTouches.Any(t => t.position.x > Screen.width / 2f) && Application.isMobilePlatform;
     }
 
-    bool LeftMouse()
+    private bool LeftMouse()
     {
         return !clicksDisabled && Input.GetMouseButtonDown(0) && !Application.isMobilePlatform;
     }
 
-    bool RightMouse()
+    private bool RightMouse()
     {
         return !clicksDisabled && Input.GetMouseButtonDown(1) && !Application.isMobilePlatform;
     }
@@ -81,21 +157,14 @@ public class Moon : MonoBehaviour, IDier
 
         if (LeftTouch() || LeftMouse() || Input.GetKeyDown(KeyCode.Alpha1) ||
             Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Alpha8))
-        {
             if (leftGun.activeSelf)
-            {
                 ShootLeft();
-            }
-        }
 
         if (!RightTouch() && !RightMouse() && !Input.GetKeyDown(KeyCode.Alpha2) &&
             !Input.GetKeyDown(KeyCode.RightArrow) && !Input.GetKeyDown(KeyCode.D) &&
             !Input.GetKeyDown(KeyCode.Alpha9)) return;
-        
-        if (rightGun.activeSelf)
-        {
-            ShootRight();
-        }
+
+        if (rightGun.activeSelf) ShootRight();
 
         // autoShotDelay -= Time.deltaTime;
         //
@@ -153,11 +222,11 @@ public class Moon : MonoBehaviour, IDier
         timerText.text = timerShadow.text = touchTimer.ToString("F1");
         bestText.text = bestShadow.text = "BEST  " + bestTime.ToString("F1");
 
-        if(!hasTouched)
+        if (!hasTouched)
             touchTimer += Time.deltaTime;
     }
 
-    void Shoot(Vector3 pos, Vector3 dir)
+    private void Shoot(Vector3 pos, Vector3 dir)
     {
         hasTouched = false;
 
@@ -168,10 +237,10 @@ public class Moon : MonoBehaviour, IDier
         EffectManager.Instance.AddEffect(0, hit.point);
         EffectManager.Instance.AddEffect(1, hit.point);
 
-        if(hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Breakable"))
+        if (hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Breakable"))
         {
             var e = hit.collider.GetComponent<Enemy>();
-            if(e)
+            if (e)
             {
                 e.Hurt(hit.point, dir.normalized);
                 level.CheckEnd(touchTimer);
@@ -220,87 +289,6 @@ public class Moon : MonoBehaviour, IDier
         return hasDied;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (hasDied) return;
-
-        if(collision.gameObject.CompareTag("Flag") && level)
-        {
-            level.Complete();
-        }
-
-        if (collision.gameObject.CompareTag("Pickup") && level)
-        {
-            var o = collision.gameObject;
-            o.SetActive(false);
-
-            var position = o.transform.position;
-            EffectManager.Instance.AddEffect(3, position);
-            EffectManager.Instance.AddEffect(6, position);
-
-            AudioManager.Instance.PlayEffectAt(25, position, 1f);
-            AudioManager.Instance.PlayEffectAt(26, position, 1f);
-            AudioManager.Instance.PlayEffectAt(27, position, 1f);
-        }
-
-        if (!collision.gameObject.CompareTag("Bubble")) return;
-        
-        var trigger = collision.GetComponent<BubbleTrigger>();
-        var msg = trigger.GetMessage();
-        if (!trigger.shown && !Manager.Instance.IsShown(msg))
-        {
-            this.StartCoroutine(() =>
-            {
-                if (hasDied) return;
-                bubble.Show(msg);
-                trigger.appearers.ForEach(a => a.Show());
-            }, trigger.delay);
-            Manager.Instance.Add(msg);
-            trigger.shown = true;
-        }
-    }
-
-    public void Die()
-    {
-        if (hasDied) return;
-
-        AudioManager.Instance.curMusic.pitch = 0.8f;
-
-        level.CancelEnd();
-
-        hasDied = true;
-        bubble.Hide(true);
-
-        level.Restart();
-
-        visibleObjects.ForEach(vo => vo.SetActive(false));
-        joints.ForEach(ThrowBody);
-        extraJoints.Where(j => Random.value > 0.3f).ToList().ForEach(ThrowBody);
-
-        sprite.enabled = false;
-
-        gameObject.layer = 10;
-        body.gravityScale = 0;
-
-        var position = transform.position;
-        EffectManager.Instance.AddEffect(3, position);
-        EffectManager.Instance.AddEffect(4, position);
-        EffectManager.Instance.AddEffect(5, position);
-        EffectManager.Instance.AddEffect(6, position);
-
-        effectCam.BaseEffect(0.5f);
-
-        this.StartCoroutine(() =>
-        {
-            var pos = transform.position;
-            AudioManager.Instance.PlayEffectAt(1, pos, 0.669f);
-            AudioManager.Instance.PlayEffectAt(6, pos, 1.233f);
-            AudioManager.Instance.PlayEffectAt(5, pos, 1.005f);
-            AudioManager.Instance.PlayEffectAt(4, pos, 1.204f);
-            AudioManager.Instance.PlayEffectAt(13, pos, 1.192f);
-        }, 0.07f);
-    }
-
     private static void ThrowBody(Joint2D joint)
     {
         joint.enabled = false;
@@ -320,19 +308,17 @@ public class Moon : MonoBehaviour, IDier
             Die();
             return true;
         }
-        else
+
+        this.StartCoroutine(() =>
         {
-            this.StartCoroutine(() =>
-            {
-                var position = transform.position;
-                AudioManager.Instance.PlayEffectAt(8, position, 1f);
-                AudioManager.Instance.PlayEffectAt(12, position, 0.767f);
-                AudioManager.Instance.PlayEffectAt(14, position, 1.184f);
-                AudioManager.Instance.PlayEffectAt(16, position, 0.384f);
-                AudioManager.Instance.PlayEffectAt(11, position, 0.588f);
-                AudioManager.Instance.PlayEffectAt(15, position, 0.457f);
-            }, 0.1f);
-        }
+            var position = transform.position;
+            AudioManager.Instance.PlayEffectAt(8, position, 1f);
+            AudioManager.Instance.PlayEffectAt(12, position, 0.767f);
+            AudioManager.Instance.PlayEffectAt(14, position, 1.184f);
+            AudioManager.Instance.PlayEffectAt(16, position, 0.384f);
+            AudioManager.Instance.PlayEffectAt(11, position, 0.588f);
+            AudioManager.Instance.PlayEffectAt(15, position, 0.457f);
+        }, 0.1f);
 
         effectCam.BaseEffect(0.1f);
 

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
-
-public class GoalLevel : Level
+﻿public class GoalLevel : Level
 {
     public override void Activate()
     {

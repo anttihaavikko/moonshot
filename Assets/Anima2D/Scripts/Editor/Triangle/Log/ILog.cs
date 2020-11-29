@@ -4,13 +4,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace TriangleNet.Log
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     public enum LogLevel
     {
         Info = 0,
@@ -19,19 +16,18 @@ namespace TriangleNet.Log
     }
 
     /// <summary>
-    /// A basic log interface.
+    ///     A basic log interface.
     /// </summary>
     public interface ILog<T> where T : ILogItem
     {
+        IList<T> Data { get; }
+
+        LogLevel Level { get; }
         void Add(T item);
         void Clear();
 
         void Info(string message);
         void Error(string message, string info);
         void Warning(string message, string info);
-
-        IList<T> Data { get; }
-
-        LogLevel Level { get; }
     }
 }

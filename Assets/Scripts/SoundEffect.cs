@@ -1,36 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SoundEffect : MonoBehaviour {
+public class SoundEffect : MonoBehaviour
+{
+    public AudioSource audioSource;
 
-	public AudioSource audioSource;
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
-	void Awake() {
-		DontDestroyOnLoad (gameObject);
-	}
+    public void Play(AudioClip clip, float volume, bool pitchShift = true)
+    {
+        name = clip.name;
 
-	public void Play(AudioClip clip, float volume, bool pitchShift = true) {
+        if (pitchShift)
+        {
+            var targetPitch = 1f;
+            audioSource.pitch = (1f + Random.Range(-0.2f, 0.2f)) * targetPitch;
+        }
 
-		name = clip.name;
+        audioSource.PlayOneShot(clip, AudioManager.Instance.volume * volume);
 
-		if (pitchShift) {
-			float targetPitch = 1f;
-			audioSource.pitch = (1f + Random.Range (-0.2f, 0.2f)) * targetPitch;
-		}
+        Invoke("DoDestroy", clip.length * 1.2f);
+    }
 
-		audioSource.PlayOneShot (clip, AudioManager.Instance.volume * volume);
+    public void ChangeSpatialBlend(float blend, float min, float max)
+    {
+        audioSource.spatialBlend = blend;
+        audioSource.minDistance = min;
+        audioSource.maxDistance = max;
+    }
 
-		Invoke ("DoDestroy", clip.length * 1.2f);
-	}
-
-	public void ChangeSpatialBlend(float blend, float min, float max) {
-		audioSource.spatialBlend = blend;
-		audioSource.minDistance = min;
-		audioSource.maxDistance = max;
-	}
-
-	public void DoDestroy() {
+    public void DoDestroy()
+    {
         AudioManager.Instance.ReturnToPool(this);
-	}
+    }
 }

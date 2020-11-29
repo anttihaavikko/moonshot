@@ -2,23 +2,17 @@
 
 public abstract class SingletonManager<T> : MonoBehaviour where T : class
 {
-    private static T instance;
-    public static T Instance
-    {
-        get { return instance; }
-    }
+    public static T Instance { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
-        if (instance != null && instance != this as T)
+        if (Instance != null && Instance != this as T)
         {
             Destroy(gameObject);
             return;
         }
-        else
-        {
-            instance = this as T;
-        }
+
+        Instance = this as T;
 
         DontDestroyOnLoad(gameObject);
     }

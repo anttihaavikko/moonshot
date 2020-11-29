@@ -4,57 +4,56 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace TriangleNet
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     /// <summary>
-    /// Used for triangle sampling in the Mesh.Locate method.
+    ///     Used for triangle sampling in the Mesh.Locate method.
     /// </summary>
-    class Sampler
+    internal class Sampler
     {
-        static Random rand = new Random(DateTime.Now.Millisecond);
-
-        // Number of random samples for point location (at least 1).
-        int samples = 1;
-
-        // Number of triangles in mesh.
-        int triangleCount = 0;
+        private static readonly Random rand = new Random(DateTime.Now.Millisecond);
 
         // Empirically chosen factor.
-        static int samplefactor = 11;
+        private static readonly int samplefactor = 11;
 
         // Keys of the triangle dictionary.
-        int[] keys;
+        private int[] keys;
+
+        // Number of random samples for point location (at least 1).
+        private int samples = 1;
+
+        // Number of triangles in mesh.
+        private int triangleCount;
 
         /// <summary>
-        /// Reset the sampler.
+        ///     Reset the sampler.
         /// </summary>
         public void Reset()
         {
-            this.samples = 1;
-            this.triangleCount = 0;
+            samples = 1;
+            triangleCount = 0;
         }
 
         /// <summary>
-        /// Update sampling parameters if mesh changed.
+        ///     Update sampling parameters if mesh changed.
         /// </summary>
         /// <param name="mesh">Current mesh.</param>
         public void Update(Mesh mesh)
         {
-            this.Update(mesh, false);
+            Update(mesh, false);
         }
 
         /// <summary>
-        /// Update sampling parameters if mesh changed.
+        ///     Update sampling parameters if mesh changed.
         /// </summary>
         /// <param name="mesh">Current mesh.</param>
         public void Update(Mesh mesh, bool forceUpdate)
         {
-            int count = mesh.triangles.Count;
+            var count = mesh.triangles.Count;
 
             // TODO: Is checking the triangle count a good way to monitor mesh changes?
             if (triangleCount != count || forceUpdate)
@@ -65,10 +64,7 @@ namespace TriangleNet
                 // the number of triangles in the mesh.  The next bit of code assumes
                 // that the number of triangles increases monotonically (or at least
                 // doesn't decrease enough to matter).
-                while (samplefactor * samples * samples * samples < count)
-                {
-                    samples++;
-                }
+                while (samplefactor * samples * samples * samples < count) samples++;
 
                 // TODO: Is there a way not calling ToArray()?
                 keys = mesh.triangles.Keys.ToArray();
@@ -76,18 +72,18 @@ namespace TriangleNet
         }
 
         /// <summary>
-        /// Get a random sample set of triangle keys.
+        ///     Get a random sample set of triangle keys.
         /// </summary>
         /// <returns>Array of triangle keys.</returns>
         public int[] GetSamples(Mesh mesh)
         {
             // TODO: Using currKeys to check key availability?
-            List<int> randSamples = new List<int>(samples);
+            var randSamples = new List<int>(samples);
 
-            int range = triangleCount / samples;
+            var range = triangleCount / samples;
             int key;
 
-            for (int i = 0; i < samples; i++)
+            for (var i = 0; i < samples; i++)
             {
                 // Yeah, rand should be equally distributed, but just to make
                 // sure, use a range variable...
@@ -96,7 +92,7 @@ namespace TriangleNet
                 if (!mesh.triangles.Keys.Contains(keys[key]))
                 {
                     // Keys collection isn't up to date anymore!
-                    this.Update(mesh, true);
+                    Update(mesh, true);
                     i--;
                 }
                 else

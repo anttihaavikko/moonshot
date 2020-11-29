@@ -1,12 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TextUtils
 {
-    public TextUtils()
-    {
-    }
-
     public static string TextWith(string text, int size)
     {
         return "<size=" + size + ">" + text + "</size>";

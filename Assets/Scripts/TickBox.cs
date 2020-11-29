@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 
 public class TickBox : MonoBehaviour
 {
-    public TMPro.TMP_Text text;
+    public TMP_Text text;
     public Transform mark;
 
     private Camera cam;
@@ -23,13 +22,14 @@ public class TickBox : MonoBehaviour
 
     public void Check()
     {
-        if(!done)
+        if (!done)
         {
             done = true;
 
             gameObject.SetActive(true);
 
-            this.StartCoroutine(() => {
+            this.StartCoroutine(() =>
+            {
                 var pos = cam.ScreenToWorldPoint(transform.position);
                 AudioManager.Instance.PlayEffectAt(25, pos, 1f);
                 AudioManager.Instance.PlayEffectAt(26, pos, 1f);

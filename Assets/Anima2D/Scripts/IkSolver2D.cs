@@ -1,204 +1,167 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Anima2D
 {
-	[Serializable]
-	public abstract class IkSolver2D
-	{
-		[Serializable]
-		public class SolverPose 
-		{
-			[SerializeField]
-			Transform m_BoneTransform;
+    [Serializable]
+    public abstract class IkSolver2D
+    {
+        [SerializeField] private Transform m_RootBoneTransform;
 
-			Bone2D m_CachedBone;
-			
-			public Bone2D bone
-			{
-				get
-				{					
-					if(m_CachedBone && m_BoneTransform != m_CachedBone.transform)
-					{
-						m_CachedBone = null;
-					}
-					
-					if(!m_CachedBone && m_BoneTransform)
-					{
-						m_CachedBone = m_BoneTransform.GetComponent<Bone2D>();
-					}
-					
-					return m_CachedBone;
-				}
-				
-				set
-				{
-					m_CachedBone = value;
-					m_BoneTransform = null;
+        [SerializeField] private List<SolverPose> m_SolverPoses = new List<SolverPose>();
+        [SerializeField] private float m_Weight = 1f;
+        [SerializeField] private bool m_RestoreDefaultPose = true;
 
-					if(value)
-					{
-						m_BoneTransform = m_CachedBone.transform;
-					}
-				}
-			}
-			public Vector3 solverPosition = Vector3.zero;
-			public Quaternion solverRotation = Quaternion.identity;
-			public Quaternion defaultLocalRotation = Quaternion.identity;
+        public Vector3 targetPosition;
 
-			public void StoreDefaultPose()
-			{
-				defaultLocalRotation = bone.transform.localRotation;
-			}
+        private Bone2D m_CachedRootBone;
 
-			public void RestoreDefaultPose()
-			{
-				if(bone)
-				{
-					bone.transform.localRotation = defaultLocalRotation;
-				}
-			}
-		}
+        public Bone2D rootBone
+        {
+            get
+            {
+                if (m_CachedRootBone && m_RootBoneTransform != m_CachedRootBone.transform) m_CachedRootBone = null;
 
-		[SerializeField]
-		Transform m_RootBoneTransform;
+                if (!m_CachedRootBone && m_RootBoneTransform)
+                    m_CachedRootBone = m_RootBoneTransform.GetComponent<Bone2D>();
 
-		[SerializeField] List<SolverPose> m_SolverPoses = new List<SolverPose>();
-		[SerializeField] float m_Weight = 1f;
-		[SerializeField] bool m_RestoreDefaultPose = true;
+                return m_CachedRootBone;
+            }
+            private set
+            {
+                m_CachedRootBone = value;
+                m_RootBoneTransform = null;
 
-		Bone2D m_CachedRootBone;
+                if (value) m_RootBoneTransform = value.transform;
+            }
+        }
 
-		public Bone2D rootBone {
-			get
-			{	
-				if(m_CachedRootBone && m_RootBoneTransform != m_CachedRootBone.transform)
-				{
-					m_CachedRootBone = null;
-				}
-				
-				if(!m_CachedRootBone && m_RootBoneTransform)
-				{
-					m_CachedRootBone = m_RootBoneTransform.GetComponent<Bone2D>();
-				}
-				
-				return m_CachedRootBone;
-			}
-			private set
-			{
-				m_CachedRootBone = value;
-				m_RootBoneTransform = null;
+        public List<SolverPose> solverPoses => m_SolverPoses;
 
-				if(value)
-				{
-					m_RootBoneTransform = value.transform;
-				}
-			}
-		}
+        public float weight
+        {
+            get => m_Weight;
+            set => m_Weight = Mathf.Clamp01(value);
+        }
 
-		public List<SolverPose> solverPoses { get { return m_SolverPoses; } }
-		public float weight { 
-			get { return m_Weight; } 
-			set { 
-				m_Weight = Mathf.Clamp01(value);
-			}
-		}
+        public bool restoreDefaultPose
+        {
+            get => m_RestoreDefaultPose;
+            set => m_RestoreDefaultPose = value;
+        }
 
-		public bool restoreDefaultPose {
-			get {
-				return m_RestoreDefaultPose;
-			}
-			set {
-				m_RestoreDefaultPose = value;
-			}
-		}
+        public void Initialize(Bone2D _rootBone, int numChilds)
+        {
+            rootBone = _rootBone;
 
-		public Vector3 targetPosition;
+            var bone = rootBone;
+            solverPoses.Clear();
 
-		public void Initialize(Bone2D _rootBone, int numChilds)
-		{
-			rootBone = _rootBone;
+            for (var i = 0; i < numChilds; ++i)
+                if (bone)
+                {
+                    var solverPose = new SolverPose();
+                    solverPose.bone = bone;
+                    solverPoses.Add(solverPose);
+                    bone = bone.child;
+                }
 
-			Bone2D bone = rootBone;
-			solverPoses.Clear();
+            StoreDefaultPoses();
+        }
 
-			for(int i = 0; i < numChilds; ++i)
-			{
-				if(bone)
-				{
-					SolverPose solverPose = new SolverPose();
-					solverPose.bone = bone;
-					solverPoses.Add(solverPose);
-					bone = bone.child;
-				}
-			}
+        public void Update()
+        {
+            if (weight > 0f)
+            {
+                if (restoreDefaultPose) RestoreDefaultPoses();
 
-			StoreDefaultPoses();
-		}
+                DoSolverUpdate();
+                UpdateBones();
+            }
+        }
 
-		public void Update()
-		{
-			if(weight > 0f)
-			{
-				if(restoreDefaultPose)
-				{
-					RestoreDefaultPoses();
-				}
+        public void StoreDefaultPoses()
+        {
+            for (var i = 0; i < solverPoses.Count; i++)
+            {
+                var pose = solverPoses[i];
 
-				DoSolverUpdate();
-				UpdateBones();
-			}
-		}
+                if (pose != null) pose.StoreDefaultPose();
+            }
+        }
 
-		public void StoreDefaultPoses()
-		{
-			for (int i = 0; i < solverPoses.Count; i++)
-			{
-				SolverPose pose = solverPoses [i];
-				
-				if(pose != null)
-				{
-					pose.StoreDefaultPose();
-				}
-			}
-		}
+        public void RestoreDefaultPoses()
+        {
+            for (var i = 0; i < solverPoses.Count; i++)
+            {
+                var pose = solverPoses[i];
 
-		public void RestoreDefaultPoses()
-		{
-			for (int i = 0; i < solverPoses.Count; i++)
-			{
-				SolverPose pose = solverPoses [i];
-				
-				if(pose != null)
-				{
-					pose.RestoreDefaultPose();
-				}
-			}
-		}
+                if (pose != null) pose.RestoreDefaultPose();
+            }
+        }
 
-		void UpdateBones()
-		{
-			for(int i = 0; i < solverPoses.Count; ++i)
-			{
-				SolverPose solverPose = solverPoses[i];
-				
-				if(solverPose != null && solverPose.bone)
-				{
-					if(weight == 1f)
-					{
-						solverPose.bone.transform.localRotation = solverPose.solverRotation;
-					}else{
-						solverPose.bone.transform.localRotation = Quaternion.Slerp(solverPose.bone.transform.localRotation,
-						                                                           solverPose.solverRotation,
-						                                                           weight);
-					}
-				}
-			}
-		}
+        private void UpdateBones()
+        {
+            for (var i = 0; i < solverPoses.Count; ++i)
+            {
+                var solverPose = solverPoses[i];
 
-		protected abstract void DoSolverUpdate();
-	}
+                if (solverPose != null && solverPose.bone)
+                {
+                    if (weight == 1f)
+                        solverPose.bone.transform.localRotation = solverPose.solverRotation;
+                    else
+                        solverPose.bone.transform.localRotation = Quaternion.Slerp(
+                            solverPose.bone.transform.localRotation,
+                            solverPose.solverRotation,
+                            weight);
+                }
+            }
+        }
+
+        protected abstract void DoSolverUpdate();
+
+        [Serializable]
+        public class SolverPose
+        {
+            [SerializeField] private Transform m_BoneTransform;
+
+            public Vector3 solverPosition = Vector3.zero;
+            public Quaternion solverRotation = Quaternion.identity;
+            public Quaternion defaultLocalRotation = Quaternion.identity;
+
+            private Bone2D m_CachedBone;
+
+            public Bone2D bone
+            {
+                get
+                {
+                    if (m_CachedBone && m_BoneTransform != m_CachedBone.transform) m_CachedBone = null;
+
+                    if (!m_CachedBone && m_BoneTransform) m_CachedBone = m_BoneTransform.GetComponent<Bone2D>();
+
+                    return m_CachedBone;
+                }
+
+                set
+                {
+                    m_CachedBone = value;
+                    m_BoneTransform = null;
+
+                    if (value) m_BoneTransform = m_CachedBone.transform;
+                }
+            }
+
+            public void StoreDefaultPose()
+            {
+                defaultLocalRotation = bone.transform.localRotation;
+            }
+
+            public void RestoreDefaultPose()
+            {
+                if (bone) bone.transform.localRotation = defaultLocalRotation;
+            }
+        }
+    }
 }

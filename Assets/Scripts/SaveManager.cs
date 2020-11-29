@@ -1,14 +1,13 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class SaveManager : SingletonManager<SaveManager>
 {
     private SaveData data;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         data = new SaveData();
     }
@@ -47,7 +46,7 @@ public class SaveManager : SingletonManager<SaveManager>
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class SaveData
 {
     public List<LevelSaveData> levelSaveData;
@@ -60,7 +59,7 @@ public class SaveData
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class LevelSaveData
 {
     public bool completed;

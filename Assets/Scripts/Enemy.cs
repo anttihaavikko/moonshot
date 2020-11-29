@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDier
 {
@@ -21,59 +19,18 @@ public class Enemy : MonoBehaviour, IDier
         cam = Camera.main.GetComponent<EffectCamera>();
     }
 
-    public void Hurt(Vector3 point, Vector3 dir)
-    {
-        if(body)
-        {
-            body.AddForceAtPosition(dir * 10f * moveForce, point, ForceMode2D.Impulse);
-        }
-
-        if(bleeds)
-        {
-            EffectManager.Instance.AddEffect(2, point);
-
-            if(hp > 0)
-            {
-                this.StartCoroutine(() =>
-                {
-                    AudioManager.Instance.PlayEffectAt(8, transform.position, 1f);
-                    AudioManager.Instance.PlayEffectAt(12, transform.position, 0.767f);
-                    AudioManager.Instance.PlayEffectAt(14, transform.position, 1.184f);
-                    AudioManager.Instance.PlayEffectAt(16, transform.position, 0.384f);
-                    AudioManager.Instance.PlayEffectAt(11, transform.position, 0.588f);
-                    AudioManager.Instance.PlayEffectAt(15, transform.position, 0.457f);
-                }, 0.1f);
-            }
-        }
-
-        Damage(1);
-    }
-
-    public void Damage(int amount)
-    {
-        hp -= amount;
-
-        cam.BaseEffect(0.3f);
-
-        if (flasher)
-            flasher.Flash();
-
-        if (hp <= 0)
-            Die();
-    }
-
     public void Die()
     {
         if (hasDied) return;
 
-        if(spawnOnDeath)
+        if (spawnOnDeath)
         {
             EffectManager.Instance.AddEffect(3, transform.position);
             EffectManager.Instance.AddEffect(1, transform.position);
             spawnOnDeath.position = transform.position;
         }
 
-        if(bleeds)
+        if (bleeds)
         {
             EffectManager.Instance.AddEffect(3, transform.position);
             EffectManager.Instance.AddEffect(4, transform.position);
@@ -103,8 +60,45 @@ public class Enemy : MonoBehaviour, IDier
 
         cam.BaseEffect(0.5f);
     }
+
+    public void Hurt(Vector3 point, Vector3 dir)
+    {
+        if (body) body.AddForceAtPosition(dir * 10f * moveForce, point, ForceMode2D.Impulse);
+
+        if (bleeds)
+        {
+            EffectManager.Instance.AddEffect(2, point);
+
+            if (hp > 0)
+                this.StartCoroutine(() =>
+                {
+                    AudioManager.Instance.PlayEffectAt(8, transform.position, 1f);
+                    AudioManager.Instance.PlayEffectAt(12, transform.position, 0.767f);
+                    AudioManager.Instance.PlayEffectAt(14, transform.position, 1.184f);
+                    AudioManager.Instance.PlayEffectAt(16, transform.position, 0.384f);
+                    AudioManager.Instance.PlayEffectAt(11, transform.position, 0.588f);
+                    AudioManager.Instance.PlayEffectAt(15, transform.position, 0.457f);
+                }, 0.1f);
+        }
+
+        Damage(1);
+    }
+
+    public void Damage(int amount)
+    {
+        hp -= amount;
+
+        cam.BaseEffect(0.3f);
+
+        if (flasher)
+            flasher.Flash();
+
+        if (hp <= 0)
+            Die();
+    }
 }
 
-public interface IDier {
+public interface IDier
+{
     void Die();
 }

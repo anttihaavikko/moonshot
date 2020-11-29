@@ -1,104 +1,86 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
-using System;
-using System.Linq;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Anima2D
 {
-	[Serializable]
-	public class VertexSelection : ISerializationCallbackReceiver
-	{
-		[SerializeField]
-		int[] m_Keys = new int[0];
+    [Serializable]
+    public class VertexSelection : ISerializationCallbackReceiver
+    {
+        [SerializeField] private int[] m_Keys = new int[0];
 
-		HashSet<int> m_Selection = new HashSet<int>();
+        private HashSet<int> m_Selection = new HashSet<int>();
 
-		HashSet<int> m_TemporalSelection = new HashSet<int>();
+        private bool m_SelectionInProgress;
 
-		bool m_SelectionInProgress = false;
+        private HashSet<int> m_TemporalSelection = new HashSet<int>();
 
-		HashSet<int> selection {
-			get {
-				if(m_SelectionInProgress)
-				{
-					return m_TemporalSelection;
-				}
+        private HashSet<int> selection
+        {
+            get
+            {
+                if (m_SelectionInProgress) return m_TemporalSelection;
 
-				return m_Selection;
-			}
-		}
+                return m_Selection;
+            }
+        }
 
-		public void OnBeforeSerialize()
-		{
-			m_Keys = m_Selection.ToArray();
-		}
+        public int Count => m_Selection.Count;
 
-		public void OnAfterDeserialize()
-		{
-			m_Selection.Clear();
+        public void OnBeforeSerialize()
+        {
+            m_Keys = m_Selection.ToArray();
+        }
 
-			m_Selection.UnionWith(m_Keys);
-		}
-		
-		public int Count {
-			get {
-				return m_Selection.Count;
-			}
-		}
+        public void OnAfterDeserialize()
+        {
+            m_Selection.Clear();
 
-		public int First()
-		{
-			return m_Selection.First();
-		}
+            m_Selection.UnionWith(m_Keys);
+        }
 
-		public void Clear()
-		{
-			selection.Clear();
-		}
+        public int First()
+        {
+            return m_Selection.First();
+        }
 
-		public void BeginSelection()
-		{
-			m_TemporalSelection.Clear();
+        public void Clear()
+        {
+            selection.Clear();
+        }
 
-			m_SelectionInProgress = true;
-		}
+        public void BeginSelection()
+        {
+            m_TemporalSelection.Clear();
 
-		public void EndSelection(bool select)
-		{
-			m_SelectionInProgress = false;
+            m_SelectionInProgress = true;
+        }
 
-			if(select)
-			{
-				m_Selection.UnionWith(m_TemporalSelection);
-			}else{
-				foreach(int value in m_TemporalSelection)
-				{
-					if(m_Selection.Contains(value))
-					{
-						m_Selection.Remove(value);
-					}
-				}
-			}
+        public void EndSelection(bool select)
+        {
+            m_SelectionInProgress = false;
 
-			m_TemporalSelection.Clear();
-		}
+            if (select)
+                m_Selection.UnionWith(m_TemporalSelection);
+            else
+                foreach (var value in m_TemporalSelection)
+                    if (m_Selection.Contains(value))
+                        m_Selection.Remove(value);
 
-		public void Select(int index, bool select)
-		{
-			if(select)
-			{
-				selection.Add(index);
-			}else if(IsSelected(index))
-			{
-				selection.Remove(index);
-			}
-		}
+            m_TemporalSelection.Clear();
+        }
 
-		public bool IsSelected(int index)
-		{
-			return m_Selection.Contains(index) || m_TemporalSelection.Contains(index);
-		}
-	}
+        public void Select(int index, bool select)
+        {
+            if (select)
+                selection.Add(index);
+            else if (IsSelected(index)) selection.Remove(index);
+        }
+
+        public bool IsSelected(int index)
+        {
+            return m_Selection.Contains(index) || m_TemporalSelection.Contains(index);
+        }
+    }
 }

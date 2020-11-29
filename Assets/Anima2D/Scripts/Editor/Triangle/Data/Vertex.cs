@@ -5,27 +5,25 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using TriangleNet.Geometry;
+
 namespace TriangleNet.Data
 {
     //using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using TriangleNet.Geometry;
-
     /// <summary>
-    /// The vertex data structure.
+    ///     The vertex data structure.
     /// </summary>
     public class Vertex : Point
     {
         // Hash for dictionary. Will be set by mesh instance.
         internal int hash;
-
-        internal VertexType type;
         internal Otri tri;
 
+        internal VertexType type;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vertex" /> class.
+        ///     Initializes a new instance of the <see cref="Vertex" /> class.
         /// </summary>
         public Vertex()
             : this(0, 0, 0, 0)
@@ -33,7 +31,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vertex" /> class.
+        ///     Initializes a new instance of the <see cref="Vertex" /> class.
         /// </summary>
         /// <param name="x">The x coordinate of the vertex.</param>
         /// <param name="y">The y coordinate of the vertex.</param>
@@ -43,7 +41,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vertex" /> class.
+        ///     Initializes a new instance of the <see cref="Vertex" /> class.
         /// </summary>
         /// <param name="x">The x coordinate of the vertex.</param>
         /// <param name="y">The y coordinate of the vertex.</param>
@@ -54,7 +52,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vertex" /> class.
+        ///     Initializes a new instance of the <see cref="Vertex" /> class.
         /// </summary>
         /// <param name="x">The x coordinate of the vertex.</param>
         /// <param name="y">The y coordinate of the vertex.</param>
@@ -63,26 +61,25 @@ namespace TriangleNet.Data
         public Vertex(double x, double y, int mark, int attribs)
             : base(x, y, mark)
         {
-            this.type = VertexType.InputVertex;
+            type = VertexType.InputVertex;
 
-            if (attribs > 0)
-            {
-                this.attributes = new double[attribs];
-            }
+            if (attribs > 0) attributes = new double[attribs];
+        }
+
+        public override int GetHashCode()
+        {
+            return hash;
         }
 
         #region Public properties
 
         /// <summary>
-        /// Gets the vertex type.
+        ///     Gets the vertex type.
         /// </summary>
-        public VertexType Type
-        {
-            get { return this.type; }
-        }
+        public VertexType Type => type;
 
         /// <summary>
-        /// Gets the specified coordinate of the vertex.
+        ///     Gets the specified coordinate of the vertex.
         /// </summary>
         /// <param name="i">Coordinate index.</param>
         /// <returns>X coordinate, if index is 0, Y coordinate, if index is 1.</returns>
@@ -90,25 +87,14 @@ namespace TriangleNet.Data
         {
             get
             {
-                if (i == 0)
-                {
-                    return x;
-                }
+                if (i == 0) return x;
 
-                if (i == 1)
-                {
-                    return y;
-                }
+                if (i == 1) return y;
 
-                throw new System.ArgumentOutOfRangeException("Index must be 0 or 1.");
+                throw new ArgumentOutOfRangeException("Index must be 0 or 1.");
             }
         }
 
         #endregion
-
-        public override int GetHashCode()
-        {
-            return this.hash;
-        }
     }
 }

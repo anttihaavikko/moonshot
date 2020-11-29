@@ -9,7 +9,7 @@ public class DisableOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(moon)
+        if (moon)
             moon.SetClicksDisabled(true);
 
         if (startView)
@@ -21,7 +21,7 @@ public class DisableOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(moon)
+        if (moon)
             moon.SetClicksDisabled(false);
 
         if (startView)

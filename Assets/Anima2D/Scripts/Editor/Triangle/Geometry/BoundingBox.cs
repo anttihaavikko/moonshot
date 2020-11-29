@@ -4,31 +4,29 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+
 namespace TriangleNet.Geometry
 {
-    using System;
-
     /// <summary>
-    /// A simple bounding box class.
+    ///     A simple bounding box class.
     /// </summary>
     public class BoundingBox
     {
-        double xmin, ymin, xmax, ymax;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundingBox" /> class.
+        ///     Initializes a new instance of the <see cref="BoundingBox" /> class.
         /// </summary>
         public BoundingBox()
         {
-            xmin = double.MaxValue;
-            ymin = double.MaxValue;
-            xmax = -double.MaxValue;
-            ymax = -double.MaxValue;
+            Xmin = double.MaxValue;
+            Ymin = double.MaxValue;
+            Xmax = -double.MaxValue;
+            Ymax = -double.MaxValue;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundingBox" /> class
-        /// with predefined bounds.
+        ///     Initializes a new instance of the <see cref="BoundingBox" /> class
+        ///     with predefined bounds.
         /// </summary>
         /// <param name="xmin">Minimum x value.</param>
         /// <param name="ymin">Minimum y value.</param>
@@ -36,94 +34,76 @@ namespace TriangleNet.Geometry
         /// <param name="ymax">Maximum y value.</param>
         public BoundingBox(double xmin, double ymin, double xmax, double ymax)
         {
-            this.xmin = xmin;
-            this.ymin = ymin;
-            this.xmax = xmax;
-            this.ymax = ymax;
+            this.Xmin = xmin;
+            this.Ymin = ymin;
+            this.Xmax = xmax;
+            this.Ymax = ymax;
         }
 
         /// <summary>
-        /// Gets the minimum x value (left boundary).
+        ///     Gets the minimum x value (left boundary).
         /// </summary>
-        public double Xmin
-        {
-            get { return xmin; }
-        }
+        public double Xmin { get; private set; }
 
         /// <summary>
-        /// Gets the minimum y value (bottom boundary).
+        ///     Gets the minimum y value (bottom boundary).
         /// </summary>
-        public double Ymin
-        {
-            get { return ymin; }
-        }
+        public double Ymin { get; private set; }
 
         /// <summary>
-        /// Gets the maximum x value (right boundary).
+        ///     Gets the maximum x value (right boundary).
         /// </summary>
-        public double Xmax
-        {
-            get { return xmax; }
-        }
+        public double Xmax { get; private set; }
 
         /// <summary>
-        /// Gets the maximum y value (top boundary).
+        ///     Gets the maximum y value (top boundary).
         /// </summary>
-        public double Ymax
-        {
-            get { return ymax; }
-        }
+        public double Ymax { get; private set; }
 
         /// <summary>
-        /// Gets the width of the bounding box.
+        ///     Gets the width of the bounding box.
         /// </summary>
-        public double Width
-        {
-            get { return xmax - xmin; }
-        }
+        public double Width => Xmax - Xmin;
 
         /// <summary>
-        /// Gets the height of the bounding box.
+        ///     Gets the height of the bounding box.
         /// </summary>
-        public double Height
-        {
-            get { return ymax - ymin; }
-        }
+        public double Height => Ymax - Ymin;
 
         /// <summary>
-        /// Update bounds.
+        ///     Update bounds.
         /// </summary>
         /// <param name="x">X coordinate.</param>
         /// <param name="y">Y coordinate.</param>
         public void Update(double x, double y)
         {
-            xmin = Math.Min(xmin, x);
-            ymin = Math.Min(ymin, y);
-            xmax = Math.Max(xmax, x);
-            ymax = Math.Max(ymax, y);
+            Xmin = Math.Min(Xmin, x);
+            Ymin = Math.Min(Ymin, y);
+            Xmax = Math.Max(Xmax, x);
+            Ymax = Math.Max(Ymax, y);
         }
 
         /// <summary>
-        /// Scale bounds.
+        ///     Scale bounds.
         /// </summary>
         /// <param name="dx">Add dx to left and right bounds.</param>
         /// <param name="dy">Add dy to top and bottom bounds.</param>
         public void Scale(double dx, double dy)
         {
-            xmin -= dx;
-            xmax += dx;
-            ymin -= dy;
-            ymax += dy;
+            Xmin -= dx;
+            Xmax += dx;
+            Ymin -= dy;
+            Ymax += dy;
         }
 
         /// <summary>
-        /// Check if given point is inside bounding box.
+        ///     Check if given point is inside bounding box.
         /// </summary>
         /// <param name="pt">Point to check.</param>
         /// <returns>Return true, if bounding box contains given point.</returns>
         public bool Contains(Point pt)
         {
-            return ((pt.x >= xmin) && (pt.x <= xmax) && (pt.y >= ymin) && (pt.y <= ymax));
+            return pt.x >= Xmin && pt.x <= Xmax && pt.y >= Ymin && pt.y <= Ymax;
         }
     }
 }

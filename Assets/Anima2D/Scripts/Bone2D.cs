@@ -1,213 +1,178 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
-using UnityEngine.Serialization;
 
-namespace Anima2D 
+namespace Anima2D
 {
-	public class Bone2D : MonoBehaviour
-	{
-		[SerializeField]
-		private Color m_Color = Color.white;
-		[SerializeField]
-		private float m_Length = 1f;
-		[SerializeField][HideInInspector]
-		private Transform m_ChildTransform;
-		[SerializeField]
-		private Ik2D m_AttachedIK;
-		private Bone2D m_CachedChild;
-		private Bone2D m_ParentBone = null;
+    public class Bone2D : MonoBehaviour
+    {
+        [SerializeField] private Color m_Color = Color.white;
 
-		public Ik2D attachedIK
-		{
-			get { return m_AttachedIK; }
-			set { m_AttachedIK = value; }
-		}
+        [SerializeField] private float m_Length = 1f;
 
-		public Color color {
-			get {
-				return m_Color;
-			}
-			set {
-				m_Color = value;
-			}
-		}
+        [SerializeField] [HideInInspector] private Transform m_ChildTransform;
 
-		public Bone2D child
-		{
-			get {
-				if(m_CachedChild && m_ChildTransform != m_CachedChild.transform)
-				{
-					m_CachedChild = null;
-				}
+        [SerializeField] private Ik2D m_AttachedIK;
 
-				if(m_ChildTransform && m_ChildTransform.parent != transform)
-				{
-					m_CachedChild = null;
-				}
+        private Bone2D m_CachedChild;
+        private Bone2D m_ParentBone;
 
-				if(!m_CachedChild && m_ChildTransform && m_ChildTransform.parent == transform)
-				{
-					m_CachedChild = m_ChildTransform.GetComponent<Bone2D>();
-				}
+        public Ik2D attachedIK
+        {
+            get => m_AttachedIK;
+            set => m_AttachedIK = value;
+        }
 
-				return m_CachedChild;
-			}
+        public Color color
+        {
+            get => m_Color;
+            set => m_Color = value;
+        }
 
-			set {
-				m_CachedChild = value;
-				m_ChildTransform = m_CachedChild.transform;
-			}
-		}
+        public Bone2D child
+        {
+            get
+            {
+                if (m_CachedChild && m_ChildTransform != m_CachedChild.transform) m_CachedChild = null;
 
-		public Vector3 localEndPosition
-		{
-			get { return Vector3.right*localLength; }
-		}
+                if (m_ChildTransform && m_ChildTransform.parent != transform) m_CachedChild = null;
 
-		public Vector3 endPosition
-		{
-			get { return transform.TransformPoint(localEndPosition); }
-		}
+                if (!m_CachedChild && m_ChildTransform && m_ChildTransform.parent == transform)
+                    m_CachedChild = m_ChildTransform.GetComponent<Bone2D>();
 
-		public float localLength
-		{
-			get
-			{
-				if(child)
-				{
-					Vector3 childPosition = transform.InverseTransformPoint(child.transform.position);
-					m_Length = Mathf.Clamp(childPosition.x,0f,childPosition.x);
-				}
+                return m_CachedChild;
+            }
 
-				return m_Length;
-			}
+            set
+            {
+                m_CachedChild = value;
+                m_ChildTransform = m_CachedChild.transform;
+            }
+        }
 
-			set
-			{
-				if(!child)
-				{
-					m_Length = value;
-				}
-			}
-		}
+        public Vector3 localEndPosition => Vector3.right * localLength;
 
-		public float length
-		{
-			get { return transform.TransformVector(localEndPosition).magnitude; }
-		}
+        public Vector3 endPosition => transform.TransformPoint(localEndPosition);
 
-		public Bone2D parentBone
-		{
-			get
-			{
-				Transform parentTransform = transform.parent;
+        public float localLength
+        {
+            get
+            {
+                if (child)
+                {
+                    var childPosition = transform.InverseTransformPoint(child.transform.position);
+                    m_Length = Mathf.Clamp(childPosition.x, 0f, childPosition.x);
+                }
 
-				if(!m_ParentBone)
-				{
-					if(parentTransform)
-						m_ParentBone = parentTransform.GetComponent<Bone2D>();
-				}
-				else if(parentTransform != m_ParentBone.transform)
-				{
-					if(parentTransform)
-						m_ParentBone = parentTransform.GetComponent<Bone2D>();
-					else
-						m_ParentBone = null;
-				}
-				
-				return m_ParentBone;
-			}
-		}
+                return m_Length;
+            }
 
-		public Bone2D linkedParentBone
-		{
-			get
-			{
-				if(parentBone && parentBone.child == this)
-				{
-					return parentBone;
-				}
-				
-				return null;
-			}
-		}
-		
-		public Bone2D root
-		{
-			get
-			{
-				Bone2D rootBone = this;
-				
-				while(rootBone.parentBone)
-				{
-					rootBone = rootBone.parentBone;
-				}
-				
-				return rootBone;
-			}
-		}
+            set
+            {
+                if (!child) m_Length = value;
+            }
+        }
 
-		public Bone2D chainRoot
-		{
-			get
-			{
-				Bone2D chainRoot = this;
-				
-				while(chainRoot.parentBone && chainRoot.parentBone.child == chainRoot)
-				{
-					chainRoot = chainRoot.parentBone;
-				}
-				
-				return chainRoot;
-			}
-		}
+        public float length => transform.TransformVector(localEndPosition).magnitude;
 
-		public int chainLength
-		{
-			get
-			{
-				Bone2D chainRoot = this;
+        public Bone2D parentBone
+        {
+            get
+            {
+                var parentTransform = transform.parent;
 
-				int length = 1;
+                if (!m_ParentBone)
+                {
+                    if (parentTransform)
+                        m_ParentBone = parentTransform.GetComponent<Bone2D>();
+                }
+                else if (parentTransform != m_ParentBone.transform)
+                {
+                    if (parentTransform)
+                        m_ParentBone = parentTransform.GetComponent<Bone2D>();
+                    else
+                        m_ParentBone = null;
+                }
 
-				while(chainRoot.parentBone && chainRoot.parentBone.child == chainRoot)
-				{
-					++length;
-					chainRoot = chainRoot.parentBone;
-				}
-				
-				return length;
-			}
-		}
+                return m_ParentBone;
+            }
+        }
 
-		public static Bone2D GetChainBoneByIndex(Bone2D chainTip, int index)
-		{
-			if(!chainTip)
-				return null;
-			
-			Bone2D bone = chainTip;
-			
-			int chainLength = bone.chainLength;
-			
-			for(int i = 0; i < chainLength && bone; ++i)
-			{
-				if(i == index)
-				{
-					return bone;
-				}
-				
-				if(bone.linkedParentBone)
-				{
-					bone = bone.parentBone;
-				}else{
-					return null;
-				}
-			}
-			
-			return null;
-		}
+        public Bone2D linkedParentBone
+        {
+            get
+            {
+                if (parentBone && parentBone.child == this) return parentBone;
 
-		private void OnDrawGizmos() {}
-	}
+                return null;
+            }
+        }
+
+        public Bone2D root
+        {
+            get
+            {
+                var rootBone = this;
+
+                while (rootBone.parentBone) rootBone = rootBone.parentBone;
+
+                return rootBone;
+            }
+        }
+
+        public Bone2D chainRoot
+        {
+            get
+            {
+                var chainRoot = this;
+
+                while (chainRoot.parentBone && chainRoot.parentBone.child == chainRoot)
+                    chainRoot = chainRoot.parentBone;
+
+                return chainRoot;
+            }
+        }
+
+        public int chainLength
+        {
+            get
+            {
+                var chainRoot = this;
+
+                var length = 1;
+
+                while (chainRoot.parentBone && chainRoot.parentBone.child == chainRoot)
+                {
+                    ++length;
+                    chainRoot = chainRoot.parentBone;
+                }
+
+                return length;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+        }
+
+        public static Bone2D GetChainBoneByIndex(Bone2D chainTip, int index)
+        {
+            if (!chainTip)
+                return null;
+
+            var bone = chainTip;
+
+            var chainLength = bone.chainLength;
+
+            for (var i = 0; i < chainLength && bone; ++i)
+            {
+                if (i == index) return bone;
+
+                if (bone.linkedParentBone)
+                    bone = bone.parentBone;
+                else
+                    return null;
+            }
+
+            return null;
+        }
+    }
 }

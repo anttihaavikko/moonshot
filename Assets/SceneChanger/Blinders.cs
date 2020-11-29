@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Blinders : MonoBehaviour
 {
     public Transform left, right;
     public bool startsOpen, openAtStart = true;
 
-    private float duration = 0.3f;
+    private readonly float duration = 0.3f;
     private bool isOpen;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         isOpen = startsOpen;
 
@@ -20,7 +18,7 @@ public class Blinders : MonoBehaviour
         left.transform.localScale = new Vector3(1f, 5f, 1f);
         right.transform.localScale = new Vector3(1f, 5f, 1f);
 
-        if(openAtStart)
+        if (openAtStart)
             Invoke("Open", 0.5f);
     }
 
@@ -31,7 +29,7 @@ public class Blinders : MonoBehaviour
         Tweener.Instance.ScaleTo(left, new Vector3(1f, 2f, 1f), duration, 0f, TweenEasings.BounceEaseOut);
         Tweener.Instance.ScaleTo(right, new Vector3(1f, 2f, 1f), duration, 0f, TweenEasings.BounceEaseOut);
 
-        if(AudioManager.Instance)
+        if (AudioManager.Instance)
         {
             //AudioManager.Instance.PlayEffectAt(12, Vector3.zero, 1.107f);
             //AudioManager.Instance.PlayEffectAt(14, Vector3.zero, 1.177f);
@@ -48,7 +46,7 @@ public class Blinders : MonoBehaviour
         Tweener.Instance.ScaleTo(left, new Vector3(0f, 2f, 1f), duration, 0f, TweenEasings.BounceEaseOut);
         Tweener.Instance.ScaleTo(right, new Vector3(0f, 2f, 1f), duration, 0f, TweenEasings.BounceEaseOut);
 
-        if(AudioManager.Instance)
+        if (AudioManager.Instance)
         {
             //AudioManager.Instance.PlayEffectAt(12, Vector3.zero, 1.107f);
             //AudioManager.Instance.PlayEffectAt(14, Vector3.zero, 1.177f);
@@ -63,7 +61,7 @@ public class Blinders : MonoBehaviour
         return duration;
     }
 
-    void Clang()
+    private void Clang()
     {
         if (AudioManager.Instance)
         {
@@ -74,6 +72,5 @@ public class Blinders : MonoBehaviour
             //AudioManager.Instance.PlayEffectAt(15, Vector3.zero, 1.511f);
             //AudioManager.Instance.PlayEffectAt(3, Vector3.zero, 1.605f);
         }
-
     }
 }

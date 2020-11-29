@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class LevelSelect : MonoBehaviour
@@ -9,13 +8,13 @@ public class LevelSelect : MonoBehaviour
     public Transform container;
     public RectTransform scroller, scrollContent;
     public ButtonMenu menu;
-    public TMPro.TMP_Text pointsText, pointsShadow;
+    public TMP_Text pointsText, pointsShadow;
 
     private bool hasStarted;
     private int points;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         points = SaveManager.Instance.GetPoints();
 
@@ -26,17 +25,17 @@ public class LevelSelect : MonoBehaviour
             var b = Instantiate(buttonPrefab, container);
             var limit = level.boss ? 30 : num;
             b.button.interactable = limit <= points;
-            b.text.text = b.button.interactable ? (num + 1) + ". " + level.name : "Earn <size=25>" + limit + "</size> to unlock";
+            b.text.text = b.button.interactable
+                ? num + 1 + ". " + level.name
+                : "Earn <size=25>" + limit + "</size> to unlock";
             if (!b.button.interactable)
             {
                 b.text.fontSize = 20;
                 b.text.color = b.textColor = Color.gray;
                 b.extraFgs.ForEach(e => e.color = Color.gray);
             }
-            if(level.boss)
-            {
-                b.BossMode();
-            }
+
+            if (level.boss) b.BossMode();
             b.menu = menu;
             menu.buttons.Add(b);
             b.index = num;
@@ -52,7 +51,7 @@ public class LevelSelect : MonoBehaviour
 
         pointsText.text = pointsShadow.text = points + "/" + (Levels.levelData.Length * 4 - 3);
         var lvl = Manager.Instance.level;
-        if(lvl > 0)
+        if (lvl > 0)
         {
             this.StartCoroutine(() => menu.Focus(0, Manager.Instance.level), 0.3f);
             scrollContent.anchoredPosition = new Vector2(scrollContent.anchoredPosition.x, lvl * 100f);
@@ -68,20 +67,20 @@ public class LevelSelect : MonoBehaviour
         }
     }
 
-    void ScrollTo(RectTransform rt)
+    private void ScrollTo(RectTransform rt)
     {
         Canvas.ForceUpdateCanvases();
-        var pos = scroller.transform.InverseTransformPoint(scrollContent.position).y - scroller.transform.InverseTransformPoint(rt.position).y;
+        var pos = scroller.transform.InverseTransformPoint(scrollContent.position).y -
+                  scroller.transform.InverseTransformPoint(rt.position).y;
         var diff = pos - scrollContent.anchoredPosition.y;
-        if(diff < 0 || diff > 500)
+        if (diff < 0 || diff > 500)
         {
             var dir = new Vector2(scrollContent.anchoredPosition.x, pos);
             scrollContent.anchoredPosition = Vector2.MoveTowards(scrollContent.anchoredPosition, dir, 100f);
         }
-            
     }
 
-    void StartLevel(int index)
+    private void StartLevel(int index)
     {
         if (hasStarted) return;
 

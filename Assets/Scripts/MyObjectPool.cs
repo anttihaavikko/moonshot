@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class MyObjectPool<T> : MonoBehaviour where T : Component
 {
-    [SerializeField]
-    private T prefab;
+    [SerializeField] private T prefab;
 
     private Queue<T> pool;
 
@@ -25,7 +24,7 @@ public abstract class MyObjectPool<T> : MonoBehaviour where T : Component
 
     private void AddObjects(int count)
     {
-        for(var i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             var obj = Instantiate(prefab);
             pool.Enqueue(obj);

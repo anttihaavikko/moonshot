@@ -4,44 +4,20 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace TriangleNet.Log
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     /// <summary>
-    /// A simple logger, which logs messages to a List.
+    ///     A simple logger, which logs messages to a List.
     /// </summary>
-    /// <remarks>Using singleton pattern as proposed by Jon Skeet.
-    /// http://csharpindepth.com/Articles/General/Singleton.aspx
+    /// <remarks>
+    ///     Using singleton pattern as proposed by Jon Skeet.
+    ///     http://csharpindepth.com/Articles/General/Singleton.aspx
     /// </remarks>
     public sealed class SimpleLog : ILog<SimpleLogItem>
     {
-        private List<SimpleLogItem> log = new List<SimpleLogItem>();
-
-        private LogLevel level = LogLevel.Info;
-
-        #region Singleton pattern
-
-        private static readonly SimpleLog instance = new SimpleLog();
-
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit
-        static SimpleLog() { }
-
-        private SimpleLog() { }
-
-        public static ILog<SimpleLogItem> Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
-        #endregion
+        private readonly List<SimpleLogItem> log = new List<SimpleLogItem>();
 
         public void Add(SimpleLogItem item)
         {
@@ -68,14 +44,26 @@ namespace TriangleNet.Log
             log.Add(new SimpleLogItem(LogLevel.Error, message, location));
         }
 
-        public IList<SimpleLogItem> Data
+        public IList<SimpleLogItem> Data => log;
+
+        public LogLevel Level { get; } = LogLevel.Info;
+
+        #region Singleton pattern
+
+        private static readonly SimpleLog instance = new SimpleLog();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static SimpleLog()
         {
-            get { return log; }
         }
 
-        public LogLevel Level
+        private SimpleLog()
         {
-            get { return level; }
         }
+
+        public static ILog<SimpleLogItem> Instance => instance;
+
+        #endregion
     }
 }

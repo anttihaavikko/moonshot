@@ -1,21 +1,19 @@
-using UnityEngine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
-namespace Anima2D 
+namespace Anima2D
 {
-	[Serializable]
-	public class Node : ScriptableObject
-	{
-		public int index = -1;
+    [Serializable]
+    public class Node : ScriptableObject
+    {
+        public int index = -1;
 
-		public static Node Create(int index)
-		{
-			Node node = ScriptableObject.CreateInstance<Node>();
-			node.hideFlags = HideFlags.DontSave;
-			node.index = index;
-			return node;
-		}
-	}
+        public static Node Create(int index)
+        {
+            var node = CreateInstance<Node>();
+            node.hideFlags = HideFlags.DontSave;
+            node.index = index;
+            return node;
+        }
+    }
 }

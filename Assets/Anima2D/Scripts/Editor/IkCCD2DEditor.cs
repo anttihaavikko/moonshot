@@ -1,62 +1,53 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 
-namespace Anima2D 
+namespace Anima2D
 {
-	[CanEditMultipleObjects]
-	[CustomEditor(typeof(IkCCD2D))]
-	public class IkCCD2DEditor : Ik2DEditor
-	{
-		override public void OnInspectorGUI()
-		{
-			IkCCD2D ikCCD2D = target as IkCCD2D;
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(IkCCD2D))]
+    public class IkCCD2DEditor : Ik2DEditor
+    {
+        public override void OnInspectorGUI()
+        {
+            var ikCCD2D = target as IkCCD2D;
 
-			base.OnInspectorGUI();
+            base.OnInspectorGUI();
 
-			SerializedProperty numBonesProp = serializedObject.FindProperty("m_NumBones");
-			SerializedProperty iterationsProp = serializedObject.FindProperty("iterations");
-			SerializedProperty dampingProp = serializedObject.FindProperty("damping");
+            var numBonesProp = serializedObject.FindProperty("m_NumBones");
+            var iterationsProp = serializedObject.FindProperty("iterations");
+            var dampingProp = serializedObject.FindProperty("damping");
 
-			Bone2D targetBone = ikCCD2D.target;
+            var targetBone = ikCCD2D.target;
 
-			serializedObject.Update();
+            serializedObject.Update();
 
-			EditorGUI.BeginDisabledGroup(!targetBone);
+            EditorGUI.BeginDisabledGroup(!targetBone);
 
-			EditorGUI.BeginChangeCheck();
+            EditorGUI.BeginChangeCheck();
 
-			int chainLength = 0;
+            var chainLength = 0;
 
-			if(targetBone)
-			{
-				chainLength = targetBone.chainLength;
-			}
+            if (targetBone) chainLength = targetBone.chainLength;
 
-			EditorGUILayout.IntSlider(numBonesProp,0,chainLength);
-			
-			if(EditorGUI.EndChangeCheck())
-			{
-				Undo.RegisterCompleteObjectUndo(ikCCD2D,"Set num bones");
+            EditorGUILayout.IntSlider(numBonesProp, 0, chainLength);
 
-				IkUtils.InitializeIk2D(serializedObject);
-				EditorUpdater.SetDirty("Set num bones");
-			}
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RegisterCompleteObjectUndo(ikCCD2D, "Set num bones");
 
-			EditorGUI.EndDisabledGroup();
+                IkUtils.InitializeIk2D(serializedObject);
+                EditorUpdater.SetDirty("Set num bones");
+            }
 
-			EditorGUI.BeginChangeCheck();
+            EditorGUI.EndDisabledGroup();
 
-			EditorGUILayout.PropertyField(iterationsProp);
-			EditorGUILayout.PropertyField(dampingProp);
+            EditorGUI.BeginChangeCheck();
 
-			if(EditorGUI.EndChangeCheck())
-			{
-				EditorUpdater.SetDirty(Undo.GetCurrentGroupName());
-			}
+            EditorGUILayout.PropertyField(iterationsProp);
+            EditorGUILayout.PropertyField(dampingProp);
 
-			serializedObject.ApplyModifiedProperties();
-		}
-	}	
+            if (EditorGUI.EndChangeCheck()) EditorUpdater.SetDirty(Undo.GetCurrentGroupName());
+
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
 }

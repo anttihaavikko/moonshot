@@ -5,57 +5,52 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using TriangleNet.Data;
+using TriangleNet.Geometry;
+using TriangleNet.Log;
+
 namespace TriangleNet.IO
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Globalization;
-    using TriangleNet.Data;
-    using TriangleNet.Log;
-    using TriangleNet.Geometry;
-
     /// <summary>
-    /// The DataReader class provides methods for mesh reconstruction.
+    ///     The DataReader class provides methods for mesh reconstruction.
     /// </summary>
-    static class DataReader
+    internal static class DataReader
     {
         /// <summary>
-        /// Reconstruct a triangulation from its raw data representation.
+        ///     Reconstruct a triangulation from its raw data representation.
         /// </summary>
         /// <param name="mesh"></param>
         /// <param name="input"></param>
         /// <returns></returns>
         /// <remarks>
-        /// Reads an .ele file and reconstructs the original mesh.  If the -p switch
-        /// is used, this procedure will also read a .poly file and reconstruct the
-        /// subsegments of the original mesh.  If the -a switch is used, this
-        /// procedure will also read an .area file and set a maximum area constraint
-        /// on each triangle.
-        ///
-        /// Vertices that are not corners of triangles, such as nodes on edges of
-        /// subparametric elements, are discarded.
-        ///
-        /// This routine finds the adjacencies between triangles (and subsegments)
-        /// by forming one stack of triangles for each vertex. Each triangle is on
-        /// three different stacks simultaneously. Each triangle's subsegment
-        /// pointers are used to link the items in each stack. This memory-saving
-        /// feature makes the code harder to read. The most important thing to keep
-        /// in mind is that each triangle is removed from a stack precisely when
-        /// the corresponding pointer is adjusted to refer to a subsegment rather
-        /// than the next triangle of the stack.
+        ///     Reads an .ele file and reconstructs the original mesh.  If the -p switch
+        ///     is used, this procedure will also read a .poly file and reconstruct the
+        ///     subsegments of the original mesh.  If the -a switch is used, this
+        ///     procedure will also read an .area file and set a maximum area constraint
+        ///     on each triangle.
+        ///     Vertices that are not corners of triangles, such as nodes on edges of
+        ///     subparametric elements, are discarded.
+        ///     This routine finds the adjacencies between triangles (and subsegments)
+        ///     by forming one stack of triangles for each vertex. Each triangle is on
+        ///     three different stacks simultaneously. Each triangle's subsegment
+        ///     pointers are used to link the items in each stack. This memory-saving
+        ///     feature makes the code harder to read. The most important thing to keep
+        ///     in mind is that each triangle is removed from a stack precisely when
+        ///     the corresponding pointer is adjusted to refer to a subsegment rather
+        ///     than the next triangle of the stack.
         /// </remarks>
         public static int Reconstruct(Mesh mesh, InputGeometry input, ITriangle[] triangles)
         {
-            int hullsize = 0;
+            var hullsize = 0;
 
-            Otri tri = default(Otri);
-            Otri triangleleft = default(Otri);
-            Otri checktri = default(Otri);
-            Otri checkleft = default(Otri);
-            Otri checkneighbor = default(Otri);
-            Osub subseg = default(Osub);
+            Otri tri = default;
+            Otri triangleleft = default;
+            Otri checktri = default;
+            Otri checkleft = default;
+            Otri checkneighbor = default;
+            Osub subseg = default;
             List<Otri>[] vertexarray; // Triangle
             Otri prevlink; // Triangle
             Otri nexttri; // Triangle
@@ -63,27 +58,25 @@ namespace TriangleNet.IO
             Vertex checkdest, checkapex;
             Vertex shorg;
             Vertex segmentorg, segmentdest;
-            int[] corner = new int[3];
-            int[] end = new int[2];
+            var corner = new int[3];
+            var end = new int[2];
             //bool segmentmarkers = false;
             int boundmarker;
             int aroundvertex;
             bool notfound;
-            int i = 0;
+            var i = 0;
 
-            int elements = triangles == null ? 0 : triangles.Length;
-            int numberofsegments = input.segments.Count;
+            var elements = triangles == null ? 0 : triangles.Length;
+            var numberofsegments = input.segments.Count;
 
             mesh.inelements = elements;
             mesh.regions.AddRange(input.regions);
 
             // Create the triangles.
             for (i = 0; i < mesh.inelements; i++)
-            {
                 mesh.MakeTriangle(ref tri);
-                // Mark the triangle as living.
-                //tri.triangle.neighbors[0].triangle = tri.triangle;
-            }
+            // Mark the triangle as living.
+            //tri.triangle.neighbors[0].triangle = tri.triangle;
 
             if (mesh.behavior.Poly)
             {
@@ -91,11 +84,9 @@ namespace TriangleNet.IO
 
                 // Create the subsegments.
                 for (i = 0; i < mesh.insegments; i++)
-                {
                     mesh.MakeSegment(ref subseg);
-                    // Mark the subsegment as living.
-                    //subseg.ss.subsegs[0].ss = subseg.ss;
-                }
+                // Mark the subsegment as living.
+                //subseg.ss.subsegs[0].ss = subseg.ss;
             }
 
             // Allocate a temporary array that maps each vertex to some adjacent
@@ -105,7 +96,7 @@ namespace TriangleNet.IO
             // Each vertex is initially unrepresented.
             for (i = 0; i < mesh.vertices.Count; i++)
             {
-                Otri tmp = default(Otri);
+                Otri tmp = default;
                 tmp.triangle = Mesh.dummytri;
                 vertexarray[i] = new List<Otri>(3);
                 vertexarray[i].Add(tmp);
@@ -124,23 +115,18 @@ namespace TriangleNet.IO
                 corner[2] = triangles[i].P2;
 
                 // Copy the triangle's three corners.
-                for (int j = 0; j < 3; j++)
-                {
-                    if ((corner[j] < 0) || (corner[j] >= mesh.invertices))
+                for (var j = 0; j < 3; j++)
+                    if (corner[j] < 0 || corner[j] >= mesh.invertices)
                     {
                         SimpleLog.Instance.Error("Triangle has an invalid vertex index.", "MeshReader.Reconstruct()");
                         throw new Exception("Triangle has an invalid vertex index.");
                     }
-                }
 
                 // Read the triangle's attributes.
                 tri.triangle.region = triangles[i].Region;
 
                 // TODO: VarArea
-                if (mesh.behavior.VarArea)
-                {
-                    tri.triangle.area = triangles[i].Area;
-                }
+                if (mesh.behavior.VarArea) tri.triangle.area = triangles[i].Area;
 
                 // Set the triangle's vertices.
                 tri.orient = 0;
@@ -153,7 +139,7 @@ namespace TriangleNet.IO
                 {
                     // Take the number for the origin of triangleloop.
                     aroundvertex = corner[tri.orient];
-                    int index = vertexarray[aroundvertex].Count - 1;
+                    var index = vertexarray[aroundvertex].Count - 1;
                     // Look for other triangles having this vertex.
                     nexttri = vertexarray[aroundvertex][index];
                     // Link the current triangle to the next one in the stack.
@@ -180,12 +166,14 @@ namespace TriangleNet.IO
                                 tri.Lprev(ref triangleleft);
                                 triangleleft.Bond(ref checktri);
                             }
+
                             if (tdest == checkapex)
                             {
                                 // The two triangles share an edge; bond them together.
                                 checktri.Lprev(ref checkleft);
                                 tri.Bond(ref checkleft);
                             }
+
                             // Find the next triangle in the stack.
                             index--;
                             nexttri = vertexarray[aroundvertex][index];
@@ -214,14 +202,13 @@ namespace TriangleNet.IO
                     end[1] = input.segments[i].P1;
                     boundmarker = input.segments[i].Boundary;
 
-                    for (int j = 0; j < 2; j++)
-                    {
-                        if ((end[j] < 0) || (end[j] >= mesh.invertices))
+                    for (var j = 0; j < 2; j++)
+                        if (end[j] < 0 || end[j] >= mesh.invertices)
                         {
-                            SimpleLog.Instance.Error("Segment has an invalid vertex index.", "MeshReader.Reconstruct()");
+                            SimpleLog.Instance.Error("Segment has an invalid vertex index.",
+                                "MeshReader.Reconstruct()");
                             throw new Exception("Segment has an invalid vertex index.");
                         }
-                    }
 
                     // set the subsegment's vertices.
                     subseg.orient = 0;
@@ -237,7 +224,7 @@ namespace TriangleNet.IO
                     {
                         // Take the number for the destination of subsegloop.
                         aroundvertex = end[1 - subseg.orient];
-                        int index = vertexarray[aroundvertex].Count - 1;
+                        var index = vertexarray[aroundvertex].Count - 1;
                         // Look for triangles having this vertex.
                         prevlink = vertexarray[aroundvertex][index];
                         nexttri = vertexarray[aroundvertex][index];
@@ -252,7 +239,7 @@ namespace TriangleNet.IO
                         // occurrence of a triangle on a list can (and does) represent
                         // an edge.  In this way, most edges are represented twice, and
                         // every triangle-subsegment bond is represented once.
-                        while (notfound && (checktri.triangle != Mesh.dummytri))
+                        while (notfound && checktri.triangle != Mesh.dummytri)
                         {
                             checkdest = checktri.Dest();
 
@@ -273,8 +260,10 @@ namespace TriangleNet.IO
                                     mesh.InsertSubseg(ref checktri, 1);
                                     hullsize++;
                                 }
+
                                 notfound = false;
                             }
+
                             index--;
                             // Find the next triangle in the stack.
                             prevlink = vertexarray[aroundvertex][index];
@@ -293,7 +282,7 @@ namespace TriangleNet.IO
             for (i = 0; i < mesh.vertices.Count; i++)
             {
                 // Search the stack of triangles adjacent to a vertex.
-                int index = vertexarray[i].Count - 1;
+                var index = vertexarray[i].Count - 1;
                 nexttri = vertexarray[i][index];
                 checktri = nexttri;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ShellManager : MyObjectPool<Rigidbody2D>
@@ -20,10 +19,10 @@ public class ShellManager : MyObjectPool<Rigidbody2D>
         shell.AddTorque(Random.Range(-0.5f, 0.5f));
     }
 
-    Rigidbody2D GetShell()
+    private Rigidbody2D GetShell()
     {
         if (shells.Count < 20)
-            return Get(true);
+            return Get();
 
         return shells.Dequeue();
     }

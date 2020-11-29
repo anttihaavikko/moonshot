@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Anima2D
 {
-	public class PoseManager : MonoBehaviour
-	{
-		[SerializeField][HideInInspector]
-		List<Pose> m_Poses;
-	}
+    public class PoseManager : MonoBehaviour
+    {
+        [SerializeField] [HideInInspector] private List<Pose> m_Poses;
+    }
 }

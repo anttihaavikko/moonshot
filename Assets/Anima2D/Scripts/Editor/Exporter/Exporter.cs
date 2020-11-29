@@ -1,113 +1,97 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace Anima2D
 {
-	public class Exporter
-	{
-		[MenuItem("Window/Anima2D/Export Prefab",true)]
-		static bool ExportValidate()
-		{
-			SpriteMeshInstance[] spriteMeshInstances = null;
+    public class Exporter
+    {
+        [MenuItem("Window/Anima2D/Export Prefab", true)]
+        private static bool ExportValidate()
+        {
+            SpriteMeshInstance[] spriteMeshInstances = null;
 
-			if(Selection.activeGameObject)
-			{
-				spriteMeshInstances = Selection.activeGameObject.GetComponentsInChildren<SpriteMeshInstance>(true);
-			}
+            if (Selection.activeGameObject)
+                spriteMeshInstances = Selection.activeGameObject.GetComponentsInChildren<SpriteMeshInstance>(true);
 
-			return !Application.isPlaying && spriteMeshInstances != null && spriteMeshInstances.Length > 0;
-		}
-		
-		[MenuItem("Window/Anima2D/Export Prefab",false,40)]
-		static void Export()
-		{
-			string path = EditorUtility.SaveFilePanelInProject("Export",Selection.activeGameObject.name + ".prefab","prefab","Export to prefab");
+            return !Application.isPlaying && spriteMeshInstances != null && spriteMeshInstances.Length > 0;
+        }
 
-			if(path.Length <= 0)
-			{
-				return;
-			}
+        [MenuItem("Window/Anima2D/Export Prefab", false, 40)]
+        private static void Export()
+        {
+            var path = EditorUtility.SaveFilePanelInProject("Export", Selection.activeGameObject.name + ".prefab",
+                "prefab", "Export to prefab");
 
-			GameObject instance = GameObject.Instantiate(Selection.activeGameObject) as GameObject;
+            if (path.Length <= 0) return;
+
+            var instance = Object.Instantiate(Selection.activeGameObject);
 
 #if UNITY_2018_3_OR_NEWER
-			GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, path);
+            var prefab = PrefabUtility.SaveAsPrefabAsset(instance, path);
 #else
 			GameObject prefab = PrefabUtility.CreatePrefab(path,instance);
 #endif
 
-			GameObject.DestroyImmediate(instance);
+            Object.DestroyImmediate(instance);
 
-			List<SpriteMeshInstance> spriteMeshInstances = new List<SpriteMeshInstance>();
+            var spriteMeshInstances = new List<SpriteMeshInstance>();
 
-			prefab.GetComponentsInChildren<SpriteMeshInstance>(true,spriteMeshInstances);
+            prefab.GetComponentsInChildren(true, spriteMeshInstances);
 
-			foreach(SpriteMeshInstance spriteMeshInstance in spriteMeshInstances)
-			{
-				if(spriteMeshInstance.spriteMesh &&
-				   spriteMeshInstance.spriteMesh.sprite)
-				{
-					if(spriteMeshInstance.spriteMesh.sharedMesh)
-					{
-						Mesh mesh = GameObject.Instantiate(spriteMeshInstance.spriteMesh.sharedMesh) as Mesh;
+            foreach (var spriteMeshInstance in spriteMeshInstances)
+                if (spriteMeshInstance.spriteMesh &&
+                    spriteMeshInstance.spriteMesh.sprite)
+                {
+                    if (spriteMeshInstance.spriteMesh.sharedMesh)
+                    {
+                        var mesh = Object.Instantiate(spriteMeshInstance.spriteMesh.sharedMesh);
 
-						mesh.name = spriteMeshInstance.spriteMesh.sharedMesh.name;
+                        mesh.name = spriteMeshInstance.spriteMesh.sharedMesh.name;
 
-						AssetDatabase.AddObjectToAsset(mesh,prefab);
+                        AssetDatabase.AddObjectToAsset(mesh, prefab);
 
-						if(spriteMeshInstance.cachedMeshFilter)
-						{
-							spriteMeshInstance.cachedMeshFilter.sharedMesh = mesh;
-						}else if(spriteMeshInstance.cachedSkinnedRenderer)
-						{
-							spriteMeshInstance.cachedSkinnedRenderer.sharedMesh = mesh;
-						}
+                        if (spriteMeshInstance.cachedMeshFilter)
+                            spriteMeshInstance.cachedMeshFilter.sharedMesh = mesh;
+                        else if (spriteMeshInstance.cachedSkinnedRenderer)
+                            spriteMeshInstance.cachedSkinnedRenderer.sharedMesh = mesh;
+                    }
 
-					}
+                    if (spriteMeshInstance.sharedMaterial)
+                    {
+                        var material = Object.Instantiate(spriteMeshInstance.sharedMaterial);
 
-					if(spriteMeshInstance.sharedMaterial)
-					{
-						Material material = GameObject.Instantiate(spriteMeshInstance.sharedMaterial) as Material;
+                        material.name = spriteMeshInstance.name;
+                        material.mainTexture = spriteMeshInstance.spriteMesh.sprite.texture;
+                        material.color = spriteMeshInstance.color;
 
-						material.name = spriteMeshInstance.name;
-						material.mainTexture = spriteMeshInstance.spriteMesh.sprite.texture;
-						material.color = spriteMeshInstance.color;
+                        AssetDatabase.AddObjectToAsset(material, prefab);
 
-						AssetDatabase.AddObjectToAsset(material,prefab);
+                        if (spriteMeshInstance.cachedRenderer)
+                            spriteMeshInstance.cachedRenderer.sharedMaterial = material;
+                    }
+                }
 
-						if(spriteMeshInstance.cachedRenderer)
-						{
-							spriteMeshInstance.cachedRenderer.sharedMaterial = material;
-						}
-					}
-				}
-			}
+            DestroyComponents<SpriteMeshInstance>(prefab);
+            DestroyComponents<SpriteMeshAnimation>(prefab);
+            DestroyComponents<Ik2D>(prefab);
+            DestroyComponents<IkGroup>(prefab);
+            DestroyComponents<Control>(prefab);
+            DestroyComponents<Bone2D>(prefab);
+            DestroyComponents<PoseManager>(prefab);
 
-			DestroyComponents<SpriteMeshInstance>(prefab);
-			DestroyComponents<SpriteMeshAnimation>(prefab);
-			DestroyComponents<Ik2D>(prefab);
-			DestroyComponents<IkGroup>(prefab);
-			DestroyComponents<Control>(prefab);
-			DestroyComponents<Bone2D>(prefab);
-			DestroyComponents<PoseManager>(prefab);
+            EditorUtility.SetDirty(prefab);
 
-			EditorUtility.SetDirty(prefab);
+            AssetDatabase.SaveAssets();
+        }
 
-			AssetDatabase.SaveAssets();
-		}
+        private static void DestroyComponents<T>(GameObject gameObject) where T : MonoBehaviour
+        {
+            var components = new List<T>();
 
-		static void DestroyComponents<T>(GameObject gameObject) where T : MonoBehaviour
-		{
-			List<T> components = new List<T>();
+            gameObject.GetComponentsInChildren(true, components);
 
-			gameObject.GetComponentsInChildren<T>(true,components);
-
-			foreach(T component in components)
-			{
-				GameObject.DestroyImmediate(component,true);
-			}
-		}
-	}
+            foreach (var component in components) Object.DestroyImmediate(component, true);
+        }
+    }
 }

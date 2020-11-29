@@ -5,368 +5,41 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using TriangleNet.Data;
+using TriangleNet.Geometry;
+using TriangleNet.Log;
+using TriangleNet.Tools;
+
 namespace TriangleNet.Algorithm
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using TriangleNet.Data;
-    using TriangleNet.Log;
-    using TriangleNet.Geometry;
-    using TriangleNet.Tools;
-
     /// <summary>
-    /// Builds a delaunay triangulation using the sweepline algorithm.
+    ///     Builds a delaunay triangulation using the sweepline algorithm.
     /// </summary>
-    class SweepLine
+    internal class SweepLine
     {
-        static int randomseed = 1;
-        static int SAMPLERATE = 10;
+        private static int randomseed = 1;
+        private static readonly int SAMPLERATE = 10;
 
-        int randomnation(int choices)
+        private Mesh mesh;
+        private List<SplayNode> splaynodes;
+        private double xminextreme; // Nonexistent x value used as a flag in sweepline.
+
+        private int randomnation(int choices)
         {
             randomseed = (randomseed * 1366 + 150889) % 714025;
             return randomseed / (714025 / choices + 1);
         }
 
-        Mesh mesh;
-        double xminextreme;      // Nonexistent x value used as a flag in sweepline.
-        List<SplayNode> splaynodes;
-
-        #region Heap
-
-        void HeapInsert(SweepEvent[] heap, int heapsize, SweepEvent newevent)
-        {
-            double eventx, eventy;
-            int eventnum;
-            int parent;
-            bool notdone;
-
-            eventx = newevent.xkey;
-            eventy = newevent.ykey;
-            eventnum = heapsize;
-            notdone = eventnum > 0;
-            while (notdone)
-            {
-                parent = (eventnum - 1) >> 1;
-                if ((heap[parent].ykey < eventy) ||
-                    ((heap[parent].ykey == eventy)
-                     && (heap[parent].xkey <= eventx)))
-                {
-                    notdone = false;
-                }
-                else
-                {
-                    heap[eventnum] = heap[parent];
-                    heap[eventnum].heapposition = eventnum;
-
-                    eventnum = parent;
-                    notdone = eventnum > 0;
-                }
-            }
-            heap[eventnum] = newevent;
-            newevent.heapposition = eventnum;
-        }
-
-        void Heapify(SweepEvent[] heap, int heapsize, int eventnum)
-        {
-            SweepEvent thisevent;
-            double eventx, eventy;
-            int leftchild, rightchild;
-            int smallest;
-            bool notdone;
-
-            thisevent = heap[eventnum];
-            eventx = thisevent.xkey;
-            eventy = thisevent.ykey;
-            leftchild = 2 * eventnum + 1;
-            notdone = leftchild < heapsize;
-            while (notdone)
-            {
-                if ((heap[leftchild].ykey < eventy) ||
-                    ((heap[leftchild].ykey == eventy)
-                     && (heap[leftchild].xkey < eventx)))
-                {
-                    smallest = leftchild;
-                }
-                else
-                {
-                    smallest = eventnum;
-                }
-                rightchild = leftchild + 1;
-                if (rightchild < heapsize)
-                {
-                    if ((heap[rightchild].ykey < heap[smallest].ykey) ||
-                        ((heap[rightchild].ykey == heap[smallest].ykey)
-                         && (heap[rightchild].xkey < heap[smallest].xkey)))
-                    {
-                        smallest = rightchild;
-                    }
-                }
-                if (smallest == eventnum)
-                {
-                    notdone = false;
-                }
-                else
-                {
-                    heap[eventnum] = heap[smallest];
-                    heap[eventnum].heapposition = eventnum;
-                    heap[smallest] = thisevent;
-                    thisevent.heapposition = smallest;
-
-                    eventnum = smallest;
-                    leftchild = 2 * eventnum + 1;
-                    notdone = leftchild < heapsize;
-                }
-            }
-        }
-
-        void HeapDelete(SweepEvent[] heap, int heapsize, int eventnum)
-        {
-            SweepEvent moveevent;
-            double eventx, eventy;
-            int parent;
-            bool notdone;
-
-            moveevent = heap[heapsize - 1];
-            if (eventnum > 0)
-            {
-                eventx = moveevent.xkey;
-                eventy = moveevent.ykey;
-                do
-                {
-                    parent = (eventnum - 1) >> 1;
-                    if ((heap[parent].ykey < eventy) ||
-                        ((heap[parent].ykey == eventy)
-                         && (heap[parent].xkey <= eventx)))
-                    {
-                        notdone = false;
-                    }
-                    else
-                    {
-                        heap[eventnum] = heap[parent];
-                        heap[eventnum].heapposition = eventnum;
-
-                        eventnum = parent;
-                        notdone = eventnum > 0;
-                    }
-                } while (notdone);
-            }
-            heap[eventnum] = moveevent;
-            moveevent.heapposition = eventnum;
-            Heapify(heap, heapsize - 1, eventnum);
-        }
-
-        void CreateHeap(out SweepEvent[] eventheap)
-        {
-            Vertex thisvertex;
-            int maxevents;
-            int i;
-            SweepEvent evt;
-
-            maxevents = (3 * mesh.invertices) / 2;
-            eventheap = new SweepEvent[maxevents];
-
-            i = 0;
-            foreach (var v in mesh.vertices.Values)
-            {
-                thisvertex = v;
-                evt = new SweepEvent();
-                evt.vertexEvent = thisvertex;
-                evt.xkey = thisvertex.x;
-                evt.ykey = thisvertex.y;
-                HeapInsert(eventheap, i++, evt);
-                
-            }
-        }
-
-        #endregion
-
-        #region Splaytree
-
-        SplayNode Splay(SplayNode splaytree, Point searchpoint, ref Otri searchtri)
-        {
-            SplayNode child, grandchild;
-            SplayNode lefttree, righttree;
-            SplayNode leftright;
-            Vertex checkvertex;
-            bool rightofroot, rightofchild;
-
-            if (splaytree == null)
-            {
-                return null;
-            }
-            checkvertex = splaytree.keyedge.Dest();
-            if (checkvertex == splaytree.keydest)
-            {
-                rightofroot = RightOfHyperbola(ref splaytree.keyedge, searchpoint);
-                if (rightofroot)
-                {
-                    splaytree.keyedge.Copy(ref searchtri);
-                    child = splaytree.rchild;
-                }
-                else
-                {
-                    child = splaytree.lchild;
-                }
-                if (child == null)
-                {
-                    return splaytree;
-                }
-                checkvertex = child.keyedge.Dest();
-                if (checkvertex != child.keydest)
-                {
-                    child = Splay(child, searchpoint, ref searchtri);
-                    if (child == null)
-                    {
-                        if (rightofroot)
-                        {
-                            splaytree.rchild = null;
-                        }
-                        else
-                        {
-                            splaytree.lchild = null;
-                        }
-                        return splaytree;
-                    }
-                }
-                rightofchild = RightOfHyperbola(ref child.keyedge, searchpoint);
-                if (rightofchild)
-                {
-                    child.keyedge.Copy(ref searchtri);
-                    grandchild = Splay(child.rchild, searchpoint, ref searchtri);
-                    child.rchild = grandchild;
-                }
-                else
-                {
-                    grandchild = Splay(child.lchild, searchpoint, ref searchtri);
-                    child.lchild = grandchild;
-                }
-                if (grandchild == null)
-                {
-                    if (rightofroot)
-                    {
-                        splaytree.rchild = child.lchild;
-                        child.lchild = splaytree;
-                    }
-                    else
-                    {
-                        splaytree.lchild = child.rchild;
-                        child.rchild = splaytree;
-                    }
-                    return child;
-                }
-                if (rightofchild)
-                {
-                    if (rightofroot)
-                    {
-                        splaytree.rchild = child.lchild;
-                        child.lchild = splaytree;
-                    }
-                    else
-                    {
-                        splaytree.lchild = grandchild.rchild;
-                        grandchild.rchild = splaytree;
-                    }
-                    child.rchild = grandchild.lchild;
-                    grandchild.lchild = child;
-                }
-                else
-                {
-                    if (rightofroot)
-                    {
-                        splaytree.rchild = grandchild.lchild;
-                        grandchild.lchild = splaytree;
-                    }
-                    else
-                    {
-                        splaytree.lchild = child.rchild;
-                        child.rchild = splaytree;
-                    }
-                    child.lchild = grandchild.rchild;
-                    grandchild.rchild = child;
-                }
-                return grandchild;
-            }
-            else
-            {
-                lefttree = Splay(splaytree.lchild, searchpoint, ref searchtri);
-                righttree = Splay(splaytree.rchild, searchpoint, ref searchtri);
-
-                splaynodes.Remove(splaytree);
-                if (lefttree == null)
-                {
-                    return righttree;
-                }
-                else if (righttree == null)
-                {
-                    return lefttree;
-                }
-                else if (lefttree.rchild == null)
-                {
-                    lefttree.rchild = righttree.lchild;
-                    righttree.lchild = lefttree;
-                    return righttree;
-                }
-                else if (righttree.lchild == null)
-                {
-                    righttree.lchild = lefttree.rchild;
-                    lefttree.rchild = righttree;
-                    return lefttree;
-                }
-                else
-                {
-                    //      printf("Holy Toledo!!!\n");
-                    leftright = lefttree.rchild;
-                    while (leftright.rchild != null)
-                    {
-                        leftright = leftright.rchild;
-                    }
-                    leftright.rchild = righttree;
-                    return lefttree;
-                }
-            }
-        }
-
-        SplayNode SplayInsert(SplayNode splayroot, Otri newkey, Point searchpoint)
-        {
-            SplayNode newsplaynode;
-
-            newsplaynode = new SplayNode(); //poolalloc(m.splaynodes);
-            splaynodes.Add(newsplaynode);
-            newkey.Copy(ref newsplaynode.keyedge);
-            newsplaynode.keydest = newkey.Dest();
-            if (splayroot == null)
-            {
-                newsplaynode.lchild = null;
-                newsplaynode.rchild = null;
-            }
-            else if (RightOfHyperbola(ref splayroot.keyedge, searchpoint))
-            {
-                newsplaynode.lchild = splayroot;
-                newsplaynode.rchild = splayroot.rchild;
-                splayroot.rchild = null;
-            }
-            else
-            {
-                newsplaynode.lchild = splayroot.lchild;
-                newsplaynode.rchild = splayroot;
-                splayroot.lchild = null;
-            }
-            return newsplaynode;
-        }
-
-        #endregion
-
-        SplayNode CircleTopInsert(SplayNode splayroot, Otri newkey,
-                                  Vertex pa, Vertex pb, Vertex pc, double topy)
+        private SplayNode CircleTopInsert(SplayNode splayroot, Otri newkey,
+            Vertex pa, Vertex pb, Vertex pc, double topy)
         {
             double ccwabc;
             double xac, yac, xbc, ybc;
             double aclen2, bclen2;
-            Point searchpoint = new Point(); // TODO: mesh.nextras
-            Otri dummytri = default(Otri);
+            var searchpoint = new Point(); // TODO: mesh.nextras
+            Otri dummytri = default;
 
             ccwabc = Primitives.CounterClockwise(pa, pb, pc);
             xac = pa.x - pc.x;
@@ -380,7 +53,7 @@ namespace TriangleNet.Algorithm
             return SplayInsert(Splay(splayroot, searchpoint, ref dummytri), newkey, searchpoint);
         }
 
-        bool RightOfHyperbola(ref Otri fronttri, Point newsite)
+        private bool RightOfHyperbola(ref Otri fronttri, Point newsite)
         {
             Vertex leftvertex, rightvertex;
             double dxa, dya, dxb, dyb;
@@ -389,22 +62,17 @@ namespace TriangleNet.Algorithm
 
             leftvertex = fronttri.Dest();
             rightvertex = fronttri.Apex();
-            if ((leftvertex.y < rightvertex.y) ||
-                ((leftvertex.y == rightvertex.y) &&
-                 (leftvertex.x < rightvertex.x)))
+            if (leftvertex.y < rightvertex.y ||
+                leftvertex.y == rightvertex.y &&
+                leftvertex.x < rightvertex.x)
             {
-                if (newsite.x >= rightvertex.x)
-                {
-                    return true;
-                }
+                if (newsite.x >= rightvertex.x) return true;
             }
             else
             {
-                if (newsite.x <= leftvertex.x)
-                {
-                    return false;
-                }
+                if (newsite.x <= leftvertex.x) return false;
             }
+
             dxa = leftvertex.x - newsite.x;
             dya = leftvertex.y - newsite.y;
             dxb = rightvertex.x - newsite.x;
@@ -412,7 +80,7 @@ namespace TriangleNet.Algorithm
             return dya * (dxb * dxb + dyb * dyb) > dyb * (dxa * dxa + dya * dya);
         }
 
-        double CircleTop(Vertex pa, Vertex pb, Vertex pc, double ccwabc)
+        private double CircleTop(Vertex pa, Vertex pb, Vertex pc, double ccwabc)
         {
             double xac, yac, xbc, ybc, xab, yab;
             double aclen2, bclen2, ablen2;
@@ -431,11 +99,11 @@ namespace TriangleNet.Algorithm
             return pc.y + (xac * bclen2 - xbc * aclen2 + Math.Sqrt(aclen2 * bclen2 * ablen2)) / (2.0 * ccwabc);
         }
 
-        void Check4DeadEvent(ref Otri checktri, SweepEvent[] eventheap, ref int heapsize)
+        private void Check4DeadEvent(ref Otri checktri, SweepEvent[] eventheap, ref int heapsize)
         {
             SweepEvent deadevent;
             SweepEventVertex eventvertex;
-            int eventnum = -1;
+            var eventnum = -1;
 
             eventvertex = checktri.Org() as SweepEventVertex;
             if (eventvertex != null)
@@ -449,8 +117,8 @@ namespace TriangleNet.Algorithm
             }
         }
 
-        SplayNode FrontLocate(SplayNode splayroot, Otri bottommost, Vertex searchvertex,
-                              ref Otri searchtri, ref bool farright)
+        private SplayNode FrontLocate(SplayNode splayroot, Otri bottommost, Vertex searchvertex,
+            ref Otri searchtri, ref bool farright)
         {
             bool farrightflag;
 
@@ -463,24 +131,25 @@ namespace TriangleNet.Algorithm
                 searchtri.OnextSelf();
                 farrightflag = searchtri.Equal(bottommost);
             }
+
             farright = farrightflag;
             return splayroot;
         }
 
         /// <summary>
-        /// Removes ghost triangles.
+        ///     Removes ghost triangles.
         /// </summary>
         /// <param name="startghost"></param>
         /// <returns>Number of vertices on the hull.</returns>
-        int RemoveGhosts(ref Otri startghost)
+        private int RemoveGhosts(ref Otri startghost)
         {
-            Otri searchedge = default(Otri);
-            Otri dissolveedge = default(Otri);
-            Otri deadtriangle = default(Otri);
+            Otri searchedge = default;
+            Otri dissolveedge = default;
+            Otri deadtriangle = default;
             Vertex markorg;
             int hullsize;
 
-            bool noPoly = !mesh.behavior.Poly;
+            var noPoly = !mesh.behavior.Poly;
 
             // Find an edge on the convex hull to start point location from.
             startghost.Lprev(ref searchedge);
@@ -499,17 +168,13 @@ namespace TriangleNet.Algorithm
                 // If no PSLG is involved, set the boundary markers of all the vertices
                 // on the convex hull.  If a PSLG is used, this step is done later.
                 if (noPoly)
-                {
                     // Watch out for the case where all the input vertices are collinear.
                     if (dissolveedge.triangle != Mesh.dummytri)
                     {
                         markorg = dissolveedge.Org();
-                        if (markorg.mark == 0)
-                        {
-                            markorg.mark = 1;
-                        }
+                        if (markorg.mark == 0) markorg.mark = 1;
                     }
-                }
+
                 // Remove a bounding triangle from a convex hull triangle.
                 dissolveedge.Dissolve();
                 // Find the next bounding triangle.
@@ -535,14 +200,14 @@ namespace TriangleNet.Algorithm
             SweepEvent nextevent;
             SweepEvent newevent;
             SplayNode splayroot;
-            Otri bottommost = default(Otri);
-            Otri searchtri = default(Otri);
+            Otri bottommost = default;
+            Otri searchtri = default;
             Otri fliptri;
-            Otri lefttri = default(Otri);
-            Otri righttri = default(Otri);
-            Otri farlefttri = default(Otri);
-            Otri farrighttri = default(Otri);
-            Otri inserttri = default(Otri);
+            Otri lefttri = default;
+            Otri righttri = default;
+            Otri farlefttri = default;
+            Otri farrighttri = default;
+            Otri inserttri = default;
             Vertex firstvertex, secondvertex;
             Vertex nextvertex, lastvertex;
             Vertex connectvertex;
@@ -554,7 +219,7 @@ namespace TriangleNet.Algorithm
             splaynodes = new List<SplayNode>();
             splayroot = null;
 
-            CreateHeap(out eventheap);//, out events, out freeevents);
+            CreateHeap(out eventheap); //, out events, out freeevents);
             heapsize = mesh.invertices;
 
             mesh.MakeTriangle(ref lefttri);
@@ -577,22 +242,22 @@ namespace TriangleNet.Algorithm
                     SimpleLog.Instance.Error("Input vertices are all identical.", "SweepLine.SweepLineDelaunay()");
                     throw new Exception("Input vertices are all identical.");
                 }
+
                 secondvertex = eventheap[0].vertexEvent;
                 HeapDelete(eventheap, heapsize, 0);
                 heapsize--;
-                if ((firstvertex.x == secondvertex.x) &&
-                    (firstvertex.y == secondvertex.y))
+                if (firstvertex.x == secondvertex.x &&
+                    firstvertex.y == secondvertex.y)
                 {
                     if (Behavior.Verbose)
-                    {
-                        SimpleLog.Instance.Warning("A duplicate vertex appeared and was ignored.", 
+                        SimpleLog.Instance.Warning("A duplicate vertex appeared and was ignored.",
                             "SweepLine.SweepLineDelaunay().1");
-                    }
                     secondvertex.type = VertexType.UndeadVertex;
                     mesh.undeads++;
                 }
-            } while ((firstvertex.x == secondvertex.x) &&
-                     (firstvertex.y == secondvertex.y));
+            } while (firstvertex.x == secondvertex.x &&
+                     firstvertex.y == secondvertex.y);
+
             lefttri.SetOrg(firstvertex);
             lefttri.SetDest(secondvertex);
             righttri.SetOrg(secondvertex);
@@ -614,10 +279,7 @@ namespace TriangleNet.Algorithm
                     fliptri.Onext(ref farrighttri);
                     Check4DeadEvent(ref farrighttri, eventheap, ref heapsize);
 
-                    if (farlefttri.Equal(bottommost))
-                    {
-                        fliptri.Lprev(ref bottommost);
-                    }
+                    if (farlefttri.Equal(bottommost)) fliptri.Lprev(ref bottommost);
                     mesh.Flip(ref fliptri);
                     fliptri.SetApex(null);
                     fliptri.Lprev(ref lefttri);
@@ -630,20 +292,19 @@ namespace TriangleNet.Algorithm
                         leftvertex = fliptri.Dest();
                         midvertex = fliptri.Apex();
                         rightvertex = fliptri.Org();
-                        splayroot = CircleTopInsert(splayroot, lefttri, leftvertex, midvertex, rightvertex, nextevent.ykey);
+                        splayroot = CircleTopInsert(splayroot, lefttri, leftvertex, midvertex, rightvertex,
+                            nextevent.ykey);
                     }
                 }
                 else
                 {
                     nextvertex = nextevent.vertexEvent;
-                    if ((nextvertex.x == lastvertex.x) &&
-                        (nextvertex.y == lastvertex.y))
+                    if (nextvertex.x == lastvertex.x &&
+                        nextvertex.y == lastvertex.y)
                     {
                         if (Behavior.Verbose)
-                        {
-                            SimpleLog.Instance.Warning("A duplicate vertex appeared and was ignored.", 
+                            SimpleLog.Instance.Warning("A duplicate vertex appeared and was ignored.",
                                 "SweepLine.SweepLineDelaunay().2");
-                        }
                         nextvertex.type = VertexType.UndeadVertex;
                         mesh.undeads++;
                         check4events = false;
@@ -653,7 +314,7 @@ namespace TriangleNet.Algorithm
                         lastvertex = nextvertex;
 
                         splayroot = FrontLocate(splayroot, bottommost, nextvertex,
-                                                ref searchtri, ref farrightflag);
+                            ref searchtri, ref farrightflag);
                         //
                         bottommost.Copy(ref searchtri);
                         farrightflag = false;
@@ -683,10 +344,7 @@ namespace TriangleNet.Algorithm
                         righttri.LprevSelf();
                         lefttri.Bond(ref farlefttri);
                         righttri.Bond(ref farrighttri);
-                        if (!farrightflag && farrighttri.Equal(bottommost))
-                        {
-                            lefttri.Copy(ref bottommost);
-                        }
+                        if (!farrightflag && farrighttri.Equal(bottommost)) lefttri.Copy(ref bottommost);
 
                         if (randomnation(SAMPLERATE) == 0)
                         {
@@ -717,6 +375,7 @@ namespace TriangleNet.Algorithm
                         heapsize++;
                         lefttri.SetOrg(new SweepEventVertex(newevent));
                     }
+
                     leftvertex = righttri.Apex();
                     midvertex = righttri.Org();
                     rightvertex = farrighttri.Apex();
@@ -740,35 +399,341 @@ namespace TriangleNet.Algorithm
             return RemoveGhosts(ref bottommost);
         }
 
+        #region Heap
+
+        private void HeapInsert(SweepEvent[] heap, int heapsize, SweepEvent newevent)
+        {
+            double eventx, eventy;
+            int eventnum;
+            int parent;
+            bool notdone;
+
+            eventx = newevent.xkey;
+            eventy = newevent.ykey;
+            eventnum = heapsize;
+            notdone = eventnum > 0;
+            while (notdone)
+            {
+                parent = (eventnum - 1) >> 1;
+                if (heap[parent].ykey < eventy ||
+                    heap[parent].ykey == eventy
+                    && heap[parent].xkey <= eventx)
+                {
+                    notdone = false;
+                }
+                else
+                {
+                    heap[eventnum] = heap[parent];
+                    heap[eventnum].heapposition = eventnum;
+
+                    eventnum = parent;
+                    notdone = eventnum > 0;
+                }
+            }
+
+            heap[eventnum] = newevent;
+            newevent.heapposition = eventnum;
+        }
+
+        private void Heapify(SweepEvent[] heap, int heapsize, int eventnum)
+        {
+            SweepEvent thisevent;
+            double eventx, eventy;
+            int leftchild, rightchild;
+            int smallest;
+            bool notdone;
+
+            thisevent = heap[eventnum];
+            eventx = thisevent.xkey;
+            eventy = thisevent.ykey;
+            leftchild = 2 * eventnum + 1;
+            notdone = leftchild < heapsize;
+            while (notdone)
+            {
+                if (heap[leftchild].ykey < eventy ||
+                    heap[leftchild].ykey == eventy
+                    && heap[leftchild].xkey < eventx)
+                    smallest = leftchild;
+                else
+                    smallest = eventnum;
+                rightchild = leftchild + 1;
+                if (rightchild < heapsize)
+                    if (heap[rightchild].ykey < heap[smallest].ykey ||
+                        heap[rightchild].ykey == heap[smallest].ykey
+                        && heap[rightchild].xkey < heap[smallest].xkey)
+                        smallest = rightchild;
+                if (smallest == eventnum)
+                {
+                    notdone = false;
+                }
+                else
+                {
+                    heap[eventnum] = heap[smallest];
+                    heap[eventnum].heapposition = eventnum;
+                    heap[smallest] = thisevent;
+                    thisevent.heapposition = smallest;
+
+                    eventnum = smallest;
+                    leftchild = 2 * eventnum + 1;
+                    notdone = leftchild < heapsize;
+                }
+            }
+        }
+
+        private void HeapDelete(SweepEvent[] heap, int heapsize, int eventnum)
+        {
+            SweepEvent moveevent;
+            double eventx, eventy;
+            int parent;
+            bool notdone;
+
+            moveevent = heap[heapsize - 1];
+            if (eventnum > 0)
+            {
+                eventx = moveevent.xkey;
+                eventy = moveevent.ykey;
+                do
+                {
+                    parent = (eventnum - 1) >> 1;
+                    if (heap[parent].ykey < eventy ||
+                        heap[parent].ykey == eventy
+                        && heap[parent].xkey <= eventx)
+                    {
+                        notdone = false;
+                    }
+                    else
+                    {
+                        heap[eventnum] = heap[parent];
+                        heap[eventnum].heapposition = eventnum;
+
+                        eventnum = parent;
+                        notdone = eventnum > 0;
+                    }
+                } while (notdone);
+            }
+
+            heap[eventnum] = moveevent;
+            moveevent.heapposition = eventnum;
+            Heapify(heap, heapsize - 1, eventnum);
+        }
+
+        private void CreateHeap(out SweepEvent[] eventheap)
+        {
+            Vertex thisvertex;
+            int maxevents;
+            int i;
+            SweepEvent evt;
+
+            maxevents = 3 * mesh.invertices / 2;
+            eventheap = new SweepEvent[maxevents];
+
+            i = 0;
+            foreach (var v in mesh.vertices.Values)
+            {
+                thisvertex = v;
+                evt = new SweepEvent();
+                evt.vertexEvent = thisvertex;
+                evt.xkey = thisvertex.x;
+                evt.ykey = thisvertex.y;
+                HeapInsert(eventheap, i++, evt);
+            }
+        }
+
+        #endregion
+
+        #region Splaytree
+
+        private SplayNode Splay(SplayNode splaytree, Point searchpoint, ref Otri searchtri)
+        {
+            SplayNode child, grandchild;
+            SplayNode lefttree, righttree;
+            SplayNode leftright;
+            Vertex checkvertex;
+            bool rightofroot, rightofchild;
+
+            if (splaytree == null) return null;
+            checkvertex = splaytree.keyedge.Dest();
+            if (checkvertex == splaytree.keydest)
+            {
+                rightofroot = RightOfHyperbola(ref splaytree.keyedge, searchpoint);
+                if (rightofroot)
+                {
+                    splaytree.keyedge.Copy(ref searchtri);
+                    child = splaytree.rchild;
+                }
+                else
+                {
+                    child = splaytree.lchild;
+                }
+
+                if (child == null) return splaytree;
+                checkvertex = child.keyedge.Dest();
+                if (checkvertex != child.keydest)
+                {
+                    child = Splay(child, searchpoint, ref searchtri);
+                    if (child == null)
+                    {
+                        if (rightofroot)
+                            splaytree.rchild = null;
+                        else
+                            splaytree.lchild = null;
+                        return splaytree;
+                    }
+                }
+
+                rightofchild = RightOfHyperbola(ref child.keyedge, searchpoint);
+                if (rightofchild)
+                {
+                    child.keyedge.Copy(ref searchtri);
+                    grandchild = Splay(child.rchild, searchpoint, ref searchtri);
+                    child.rchild = grandchild;
+                }
+                else
+                {
+                    grandchild = Splay(child.lchild, searchpoint, ref searchtri);
+                    child.lchild = grandchild;
+                }
+
+                if (grandchild == null)
+                {
+                    if (rightofroot)
+                    {
+                        splaytree.rchild = child.lchild;
+                        child.lchild = splaytree;
+                    }
+                    else
+                    {
+                        splaytree.lchild = child.rchild;
+                        child.rchild = splaytree;
+                    }
+
+                    return child;
+                }
+
+                if (rightofchild)
+                {
+                    if (rightofroot)
+                    {
+                        splaytree.rchild = child.lchild;
+                        child.lchild = splaytree;
+                    }
+                    else
+                    {
+                        splaytree.lchild = grandchild.rchild;
+                        grandchild.rchild = splaytree;
+                    }
+
+                    child.rchild = grandchild.lchild;
+                    grandchild.lchild = child;
+                }
+                else
+                {
+                    if (rightofroot)
+                    {
+                        splaytree.rchild = grandchild.lchild;
+                        grandchild.lchild = splaytree;
+                    }
+                    else
+                    {
+                        splaytree.lchild = child.rchild;
+                        child.rchild = splaytree;
+                    }
+
+                    child.lchild = grandchild.rchild;
+                    grandchild.rchild = child;
+                }
+
+                return grandchild;
+            }
+
+            lefttree = Splay(splaytree.lchild, searchpoint, ref searchtri);
+            righttree = Splay(splaytree.rchild, searchpoint, ref searchtri);
+
+            splaynodes.Remove(splaytree);
+            if (lefttree == null) return righttree;
+
+            if (righttree == null) return lefttree;
+
+            if (lefttree.rchild == null)
+            {
+                lefttree.rchild = righttree.lchild;
+                righttree.lchild = lefttree;
+                return righttree;
+            }
+
+            if (righttree.lchild == null)
+            {
+                righttree.lchild = lefttree.rchild;
+                lefttree.rchild = righttree;
+                return lefttree;
+            }
+
+            //      printf("Holy Toledo!!!\n");
+            leftright = lefttree.rchild;
+            while (leftright.rchild != null) leftright = leftright.rchild;
+            leftright.rchild = righttree;
+            return lefttree;
+        }
+
+        private SplayNode SplayInsert(SplayNode splayroot, Otri newkey, Point searchpoint)
+        {
+            SplayNode newsplaynode;
+
+            newsplaynode = new SplayNode(); //poolalloc(m.splaynodes);
+            splaynodes.Add(newsplaynode);
+            newkey.Copy(ref newsplaynode.keyedge);
+            newsplaynode.keydest = newkey.Dest();
+            if (splayroot == null)
+            {
+                newsplaynode.lchild = null;
+                newsplaynode.rchild = null;
+            }
+            else if (RightOfHyperbola(ref splayroot.keyedge, searchpoint))
+            {
+                newsplaynode.lchild = splayroot;
+                newsplaynode.rchild = splayroot.rchild;
+                splayroot.rchild = null;
+            }
+            else
+            {
+                newsplaynode.lchild = splayroot.lchild;
+                newsplaynode.rchild = splayroot;
+                splayroot.lchild = null;
+            }
+
+            return newsplaynode;
+        }
+
+        #endregion
+
         #region Internal classes
 
         /// <summary>
-        /// A node in a heap used to store events for the sweepline Delaunay algorithm.
+        ///     A node in a heap used to store events for the sweepline Delaunay algorithm.
         /// </summary>
         /// <remarks>
-        /// Only used in the sweepline algorithm.
-        /// 
-        /// Nodes do not point directly to their parents or children in the heap. Instead, each
-        /// node knows its position in the heap, and can look up its parent and children in a
-        /// separate array. To distinguish site events from circle events, all circle events are
-        /// given an invalid (smaller than 'xmin') x-coordinate 'xkey'.
+        ///     Only used in the sweepline algorithm.
+        ///     Nodes do not point directly to their parents or children in the heap. Instead, each
+        ///     node knows its position in the heap, and can look up its parent and children in a
+        ///     separate array. To distinguish site events from circle events, all circle events are
+        ///     given an invalid (smaller than 'xmin') x-coordinate 'xkey'.
         /// </remarks>
-        class SweepEvent
+        private class SweepEvent
         {
-            public double xkey, ykey;     // Coordinates of the event.
-            public Vertex vertexEvent;    // Vertex event.
-            public Otri otriEvent;        // Circle event.
-            public int heapposition;      // Marks this event's position in the heap.
+            public int heapposition; // Marks this event's position in the heap.
+            public Otri otriEvent; // Circle event.
+            public Vertex vertexEvent; // Vertex event.
+            public double xkey, ykey; // Coordinates of the event.
         }
 
         /// <summary>
-        /// Introducing a new class which aggregates a sweep event is the easiest way
-        /// to handle the pointer magic of the original code (casting a sweep event 
-        /// to vertex etc.).
+        ///     Introducing a new class which aggregates a sweep event is the easiest way
+        ///     to handle the pointer magic of the original code (casting a sweep event
+        ///     to vertex etc.).
         /// </summary>
-        class SweepEventVertex : Vertex
+        private class SweepEventVertex : Vertex
         {
-            public SweepEvent evt;
+            public readonly SweepEvent evt;
 
             public SweepEventVertex(SweepEvent e)
             {
@@ -777,26 +742,25 @@ namespace TriangleNet.Algorithm
         }
 
         /// <summary>
-        /// A node in the splay tree.
+        ///     A node in the splay tree.
         /// </summary>
         /// <remarks>
-        /// Only used in the sweepline algorithm.
-        /// 
-        /// Each node holds an oriented ghost triangle that represents a boundary edge
-        /// of the growing triangulation. When a circle event covers two boundary edges
-        /// with a triangle, so that they are no longer boundary edges, those edges are
-        /// not immediately deleted from the tree; rather, they are lazily deleted when
-        /// they are next encountered. (Since only a random sample of boundary edges are
-        /// kept in the tree, lazy deletion is faster.) 'keydest' is used to verify that
-        /// a triangle is still the same as when it entered the splay tree; if it has
-        /// been rotated (due to a circle event), it no longer represents a boundary
-        /// edge and should be deleted.
+        ///     Only used in the sweepline algorithm.
+        ///     Each node holds an oriented ghost triangle that represents a boundary edge
+        ///     of the growing triangulation. When a circle event covers two boundary edges
+        ///     with a triangle, so that they are no longer boundary edges, those edges are
+        ///     not immediately deleted from the tree; rather, they are lazily deleted when
+        ///     they are next encountered. (Since only a random sample of boundary edges are
+        ///     kept in the tree, lazy deletion is faster.) 'keydest' is used to verify that
+        ///     a triangle is still the same as when it entered the splay tree; if it has
+        ///     been rotated (due to a circle event), it no longer represents a boundary
+        ///     edge and should be deleted.
         /// </remarks>
-        class SplayNode
+        private class SplayNode
         {
-            public Otri keyedge;              // Lprev of an edge on the front.
-            public Vertex keydest;            // Used to verify that splay node is still live.
-            public SplayNode lchild, rchild;  // Children in splay tree.
+            public Vertex keydest; // Used to verify that splay node is still live.
+            public Otri keyedge; // Lprev of an edge on the front.
+            public SplayNode lchild, rchild; // Children in splay tree.
         }
 
         #endregion

@@ -5,47 +5,18 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
+using TriangleNet.Log;
+
 namespace TriangleNet
 {
-    using System;
-    using TriangleNet.Log;
-
     /// <summary>
-    /// Controls the behavior of the meshing software.
+    ///     Controls the behavior of the meshing software.
     /// </summary>
     public class Behavior
     {
-        #region Class members
-
-        bool poly = false;
-        bool quality = false;
-        bool varArea = false;
-        bool usertest = false;
-        bool convex = false;
-        bool jettison = false;
-        bool boundaryMarkers = true;
-        bool noHoles = false;
-        bool conformDel = false;
-        TriangulationAlgorithm algorithm = TriangulationAlgorithm.Dwyer;
-
-        int noBisect = 0;
-        int steiner = -1;
-
-        double minAngle = 0.0;
-        double maxAngle = 0.0;
-        double maxArea = -1.0;
-
-        internal bool fixedArea = false;
-        internal bool useSegments = true;
-        internal bool useRegions = false;
-        internal double goodAngle = 0.0;
-        internal double maxGoodAngle = 0.0;
-        internal double offconstant = 0.0;
-
-        #endregion
-
         /// <summary>
-        /// Creates an instance of the Behavior class.
+        ///     Creates an instance of the Behavior class.
         /// </summary>
         public Behavior(bool quality = false, double minAngle = 20.0)
         {
@@ -59,53 +30,68 @@ namespace TriangleNet
         }
 
         /// <summary>
-        /// Update quality options dependencies.
+        ///     Update quality options dependencies.
         /// </summary>
         private void Update()
         {
-            this.quality = true;
+            quality = true;
 
-            if (this.minAngle < 0 || this.minAngle > 60)
+            if (minAngle < 0 || minAngle > 60)
             {
-                this.minAngle = 0;
-                this.quality = false;
+                minAngle = 0;
+                quality = false;
 
                 SimpleLog.Instance.Warning("Invalid quality option (minimum angle).", "Mesh.Behavior");
             }
 
-            if ((this.maxAngle != 0.0) && this.maxAngle < 90 || this.maxAngle > 180)
+            if (maxAngle != 0.0 && maxAngle < 90 || maxAngle > 180)
             {
-                this.maxAngle = 0;
-                this.quality = false;
+                maxAngle = 0;
+                quality = false;
 
                 SimpleLog.Instance.Warning("Invalid quality option (maximum angle).", "Mesh.Behavior");
             }
 
-            this.useSegments = this.Poly || this.Quality || this.Convex;
-            this.goodAngle = Math.Cos(this.MinAngle * Math.PI / 180.0);
-            this.maxGoodAngle = Math.Cos(this.MaxAngle * Math.PI / 180.0);
+            useSegments = Poly || Quality || Convex;
+            goodAngle = Math.Cos(MinAngle * Math.PI / 180.0);
+            maxGoodAngle = Math.Cos(MaxAngle * Math.PI / 180.0);
 
-            if (this.goodAngle == 1.0)
-            {
-                this.offconstant = 0.0;
-            }
+            if (goodAngle == 1.0)
+                offconstant = 0.0;
             else
-            {
-                this.offconstant = 0.475 * Math.Sqrt((1.0 + this.goodAngle) / (1.0 - this.goodAngle));
-            }
+                offconstant = 0.475 * Math.Sqrt((1.0 + goodAngle) / (1.0 - goodAngle));
 
-            this.goodAngle *= this.goodAngle;
+            goodAngle *= goodAngle;
         }
+
+        #region Class members
+
+        private bool quality;
+
+        private int noBisect;
+
+        private double minAngle;
+        private double maxAngle;
+        private double maxArea = -1.0;
+
+        internal bool fixedArea;
+        internal bool useSegments = true;
+        internal bool useRegions = false;
+        internal double goodAngle;
+        internal double maxGoodAngle;
+        internal double offconstant;
+
+        #endregion
 
         #region Static properties
 
         /// <summary>
-        /// No exact arithmetic.
+        ///     No exact arithmetic.
         /// </summary>
         public static bool NoExact { get; set; }
 
         /// <summary>
-        /// Log detailed information.
+        ///     Log detailed information.
         /// </summary>
         public static bool Verbose { get; set; }
 
@@ -114,45 +100,50 @@ namespace TriangleNet
         #region Public properties
 
         /// <summary>
-        /// Quality mesh generation.
+        ///     Quality mesh generation.
         /// </summary>
         public bool Quality
         {
-            get { return quality; }
+            get => quality;
             set
             {
                 quality = value;
-                if (quality)
-                {
-                    Update();
-                }
+                if (quality) Update();
             }
         }
 
         /// <summary>
-        /// Minimum angle constraint.
+        ///     Minimum angle constraint.
         /// </summary>
         public double MinAngle
         {
-            get { return minAngle; }
-            set { minAngle = value; Update(); }
+            get => minAngle;
+            set
+            {
+                minAngle = value;
+                Update();
+            }
         }
 
         /// <summary>
-        /// Maximum angle constraint.
+        ///     Maximum angle constraint.
         /// </summary>
         public double MaxAngle
         {
-            get { return maxAngle; }
-            set { maxAngle = value; Update(); }
+            get => maxAngle;
+            set
+            {
+                maxAngle = value;
+                Update();
+            }
         }
 
         /// <summary>
-        /// Maximum area constraint.
+        ///     Maximum area constraint.
         /// </summary>
         public double MaxArea
         {
-            get { return maxArea; }
+            get => maxArea;
             set
             {
                 maxArea = value;
@@ -161,115 +152,72 @@ namespace TriangleNet
         }
 
         /// <summary>
-        /// Apply a maximum triangle area constraint.
+        ///     Apply a maximum triangle area constraint.
         /// </summary>
-        public bool VarArea
-        {
-            get { return varArea; }
-            set { varArea = value; }
-        }
+        public bool VarArea { get; set; } = false;
 
         /// <summary>
-        /// Input is a Planar Straight Line Graph.
+        ///     Input is a Planar Straight Line Graph.
         /// </summary>
-        public bool Poly
-        {
-            get { return poly; }
-            set { poly = value; }
-        }
+        public bool Poly { get; set; } = false;
 
         /// <summary>
-        /// Apply a user-defined triangle constraint.
+        ///     Apply a user-defined triangle constraint.
         /// </summary>
-        public bool Usertest
-        {
-            get { return usertest; }
-            set { usertest = value; }
-        }
+        public bool Usertest { get; set; } = false;
 
         /// <summary>
-        /// Enclose the convex hull with segments.
+        ///     Enclose the convex hull with segments.
         /// </summary>
-        public bool Convex
-        {
-            get { return convex; }
-            set { convex = value; }
-        }
+        public bool Convex { get; set; } = false;
 
         /// <summary>
-        /// Conforming Delaunay (all triangles are truly Delaunay).
+        ///     Conforming Delaunay (all triangles are truly Delaunay).
         /// </summary>
-        public bool ConformingDelaunay
-        {
-            get { return conformDel; }
-            set { conformDel = value; }
-        }
+        public bool ConformingDelaunay { get; set; } = false;
 
         /// <summary>
-        /// Algorithm to use for triangulation.
+        ///     Algorithm to use for triangulation.
         /// </summary>
-        public TriangulationAlgorithm Algorithm
-        {
-            get { return algorithm; }
-            set { algorithm = value; }
-        }
+        public TriangulationAlgorithm Algorithm { get; set; } = TriangulationAlgorithm.Dwyer;
 
         /// <summary>
-        /// Suppresses boundary segment splitting.
+        ///     Suppresses boundary segment splitting.
         /// </summary>
         /// <remarks>
-        /// 0 = split segments
-        /// 1 = no new vertices on the boundary
-        /// 2 = prevent all segment splitting, including internal boundaries
+        ///     0 = split segments
+        ///     1 = no new vertices on the boundary
+        ///     2 = prevent all segment splitting, including internal boundaries
         /// </remarks>
         public int NoBisect
         {
-            get { return noBisect; }
+            get => noBisect;
             set
             {
                 noBisect = value;
-                if (noBisect < 0 || noBisect > 2)
-                {
-                    noBisect = 0;
-                }
+                if (noBisect < 0 || noBisect > 2) noBisect = 0;
             }
         }
 
         /// <summary>
-        /// Use maximum number of Steiner points.
+        ///     Use maximum number of Steiner points.
         /// </summary>
-        public int SteinerPoints
-        {
-            get { return steiner; }
-            set { steiner = value; }
-        }
+        public int SteinerPoints { get; set; } = -1;
 
         /// <summary>
-        /// Compute boundary information.
+        ///     Compute boundary information.
         /// </summary>
-        public bool UseBoundaryMarkers
-        {
-            get { return boundaryMarkers; }
-            set { boundaryMarkers = value; }
-        }
+        public bool UseBoundaryMarkers { get; set; } = true;
 
         /// <summary>
-        /// Ignores holes in polygons.
+        ///     Ignores holes in polygons.
         /// </summary>
-        public bool NoHoles
-        {
-            get { return noHoles; }
-            set { noHoles = value; }
-        }
+        public bool NoHoles { get; set; } = false;
 
         /// <summary>
-        /// Jettison unused vertices from output.
+        ///     Jettison unused vertices from output.
         /// </summary>
-        public bool Jettison
-        {
-            get { return jettison; }
-            set { jettison = value; }
-        }
+        public bool Jettison { get; set; } = false;
 
         #endregion
     }

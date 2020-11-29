@@ -13,28 +13,25 @@ using TriangleNet.Geometry;
 namespace TriangleNet.Tools
 {
     /// <summary>
-    /// The Voronoi Diagram is the dual of a pointset triangulation.
+    ///     The Voronoi Diagram is the dual of a pointset triangulation.
     /// </summary>
     public class Voronoi : IVoronoi
     {
-        Mesh mesh;
+        // Bounding box of the triangles circumcenters.
+        private BoundingBox bounds;
+        private readonly Mesh mesh;
 
-        Point[] points;
-        List<VoronoiRegion> regions;
+        private int rayIndex;
 
         // Stores the endpoints of rays of infinite Voronoi cells
-        Dictionary<int, Point> rayPoints;
-        int rayIndex;
-
-        // Bounding box of the triangles circumcenters.
-        BoundingBox bounds;
+        private Dictionary<int, Point> rayPoints;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Voronoi" /> class.
+        ///     Initializes a new instance of the <see cref="Voronoi" /> class.
         /// </summary>
         /// <param name="mesh"></param>
         /// <remarks>
-        /// Be sure MakeVertexMap has been called (should always be the case).
+        ///     Be sure MakeVertexMap has been called (should always be the case).
         /// </remarks>
         public Voronoi(Mesh mesh)
         {
@@ -44,40 +41,34 @@ namespace TriangleNet.Tools
         }
 
         /// <summary>
-        /// Gets the list of Voronoi vertices.
+        ///     Gets the list of Voronoi vertices.
         /// </summary>
-        public Point[] Points
-        {
-            get { return points; }
-        }
+        public Point[] Points { get; private set; }
 
         /// <summary>
-        /// Gets the list of Voronoi regions.
+        ///     Gets the list of Voronoi regions.
         /// </summary>
-        public List<VoronoiRegion> Regions
-        {
-            get { return regions; }
-        }
+        public List<VoronoiRegion> Regions { get; private set; }
 
         /// <summary>
-        /// Gets the Voronoi diagram as raw output data.
+        ///     Gets the Voronoi diagram as raw output data.
         /// </summary>
         /// <param name="mesh"></param>
         /// <returns></returns>
         /// <remarks>
-        /// The Voronoi diagram is the geometric dual of the Delaunay triangulation.
-        /// Hence, the Voronoi vertices are listed by traversing the Delaunay
-        /// triangles, and the Voronoi edges are listed by traversing the Delaunay
-        /// edges.
-        ///</remarks>
+        ///     The Voronoi diagram is the geometric dual of the Delaunay triangulation.
+        ///     Hence, the Voronoi vertices are listed by traversing the Delaunay
+        ///     triangles, and the Voronoi edges are listed by traversing the Delaunay
+        ///     edges.
+        /// </remarks>
         private void Generate()
         {
             mesh.Renumber();
             mesh.MakeVertexMap();
 
             // Allocate space for voronoi diagram
-            this.points = new Point[mesh.triangles.Count + mesh.hullsize];
-            this.regions = new List<VoronoiRegion>(mesh.vertices.Count);
+            Points = new Point[mesh.triangles.Count + mesh.hullsize];
+            Regions = new List<VoronoiRegion>(mesh.vertices.Count);
 
             rayPoints = new Dictionary<int, Point>();
             rayIndex = 0;
@@ -89,17 +80,13 @@ namespace TriangleNet.Tools
 
             // Loop over the mesh vertices (Voronoi generators).
             foreach (var item in mesh.vertices.Values)
-            {
                 //if (item.Boundary == 0)
-                {
-                    ConstructVoronoiRegion(item);
-                }
-            }
+                ConstructVoronoiRegion(item);
         }
 
         private void ComputeCircumCenters()
         {
-            Otri tri = default(Otri);
+            Otri tri = default;
             double xi = 0, eta = 0;
             Point pt;
 
@@ -111,33 +98,33 @@ namespace TriangleNet.Tools
                 pt = Primitives.FindCircumcenter(tri.Org(), tri.Dest(), tri.Apex(), ref xi, ref eta);
                 pt.id = item.id;
 
-                points[item.id] = pt;
+                Points[item.id] = pt;
 
                 bounds.Update(pt.x, pt.y);
             }
 
-            double ds = Math.Max(bounds.Width, bounds.Height);
+            var ds = Math.Max(bounds.Width, bounds.Height);
             bounds.Scale(ds, ds);
         }
 
         /// <summary>
-        /// Construct Voronoi region for given vertex.
+        ///     Construct Voronoi region for given vertex.
         /// </summary>
         /// <param name="vertex"></param>
         /// <returns>The circumcenter indices which make up the cell.</returns>
         private void ConstructVoronoiRegion(Vertex vertex)
         {
-            VoronoiRegion region = new VoronoiRegion(vertex);
-            regions.Add(region);
+            var region = new VoronoiRegion(vertex);
+            Regions.Add(region);
 
-            List<Point> vpoints = new List<Point>();
+            var vpoints = new List<Point>();
 
-            Otri f = default(Otri);
-            Otri f_init = default(Otri);
-            Otri f_next = default(Otri);
-            Otri f_prev = default(Otri);
+            Otri f = default;
+            Otri f_init = default;
+            Otri f_next = default;
+            Otri f_prev = default;
 
-            Osub sub = default(Osub);
+            Osub sub = default;
 
             // Call f_init a triangle incident to x
             vertex.tri.Copy(ref f_init);
@@ -163,7 +150,7 @@ namespace TriangleNet.Tools
             while (f_next.triangle != Mesh.dummytri)
             {
                 // Add circumcenter of current triangle
-                vpoints.Add(points[f.triangle.id]);
+                vpoints.Add(Points[f.triangle.id]);
 
                 if (f_next.Equal(f_init))
                 {
@@ -188,7 +175,7 @@ namespace TriangleNet.Tools
             sid = sub.seg.hash;
 
             // Last valid f lies at the boundary. Add the circumcenter.
-            vpoints.Add(points[f.triangle.id]);
+            vpoints.Add(Points[f.triangle.id]);
 
             // Check if the intersection with the bounding box has already been computed.
             if (rayPoints.ContainsKey(sid))
@@ -199,12 +186,12 @@ namespace TriangleNet.Tools
             {
                 torg = f.Org();
                 tapex = f.Apex();
-                BoxRayIntersection(points[f.triangle.id], torg.y - tapex.y, tapex.x - torg.x, out intersection);
+                BoxRayIntersection(Points[f.triangle.id], torg.y - tapex.y, tapex.x - torg.x, out intersection);
 
                 // Set the correct id for the vertex
                 intersection.id = n + rayIndex;
 
-                points[n + rayIndex] = intersection;
+                Points[n + rayIndex] = intersection;
 
                 rayIndex++;
 
@@ -220,7 +207,7 @@ namespace TriangleNet.Tools
 
             while (f_prev.triangle != Mesh.dummytri)
             {
-                vpoints.Add(points[f_prev.triangle.id]);
+                vpoints.Add(Points[f_prev.triangle.id]);
 
                 f_prev.Copy(ref f);
                 f_prev.OprevSelf();
@@ -229,7 +216,7 @@ namespace TriangleNet.Tools
             // Find the boundary segment id.
             f.SegPivot(ref sub);
             sid = sub.seg.hash;
-            
+
             if (rayPoints.ContainsKey(sid))
             {
                 vpoints.Add(rayPoints[sid]);
@@ -240,12 +227,12 @@ namespace TriangleNet.Tools
                 torg = f.Org();
                 tdest = f.Dest();
 
-                BoxRayIntersection(points[f.triangle.id], tdest.y - torg.y, torg.x - tdest.x, out intersection);
+                BoxRayIntersection(Points[f.triangle.id], tdest.y - torg.y, torg.x - tdest.x, out intersection);
 
                 // Set the correct id for the vertex
                 intersection.id = n + rayIndex;
 
-                points[n + rayIndex] = intersection;
+                Points[n + rayIndex] = intersection;
 
                 rayIndex++;
 
@@ -260,16 +247,16 @@ namespace TriangleNet.Tools
 
         private bool BoxRayIntersection(Point pt, double dx, double dy, out Vertex intersect)
         {
-            double x = pt.X;
-            double y = pt.Y;
+            var x = pt.X;
+            var y = pt.Y;
 
             double t1, x1, y1, t2, x2, y2;
 
             // Bounding box
-            double minX = bounds.Xmin;
-            double maxX = bounds.Xmax;
-            double minY = bounds.Ymin;
-            double maxY = bounds.Ymax;
+            var minX = bounds.Xmin;
+            var maxX = bounds.Xmax;
+            var minY = bounds.Ymin;
+            var maxY = bounds.Ymax;
 
             // Check if point is inside the bounds
             if (x < minX || x > maxX || y < minY || y > maxY)
@@ -323,13 +310,9 @@ namespace TriangleNet.Tools
             }
 
             if (t1 < t2)
-            {
                 intersect = new Vertex(x1, y1, -1);
-            }
             else
-            {
                 intersect = new Vertex(x2, y2, -1);
-            }
 
             return true;
         }

@@ -1,23 +1,15 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PaletteAssigner : EditorWindow
 {
-    private List<Color> palette;
     private Color newColor = Color.white;
-
-    [MenuItem("Window/Palette")]
-    public static void ShowWindow()
-    {
-        var window = GetWindow(typeof(PaletteAssigner));
-        var icon = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Editor/Icons/palette.png");
-        GUIContent titleContent = new GUIContent("Palette", icon);
-        window.titleContent = titleContent;
-    }
+    private List<Color> palette;
 
     private void OnEnable()
     {
@@ -25,7 +17,7 @@ public class PaletteAssigner : EditorWindow
         LoadPalette();
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
         EditorGUILayout.LabelField("Assign color");
         EditorGUILayout.BeginHorizontal();
@@ -38,25 +30,18 @@ public class PaletteAssigner : EditorWindow
         {
             var style = new GUIStyle
             {
-                 fontSize = 40,
-                 stretchWidth = false,
-                 padding = new RectOffset(5, 5, 5, 5)
+                fontSize = 40,
+                stretchWidth = false,
+                padding = new RectOffset(5, 5, 5, 5)
             };
             var hex = ColorUtility.ToHtmlStringRGB(color);
-            if (GUILayout.Button("<color=#"+hex+">██</a>", style))
+            if (GUILayout.Button("<color=#" + hex + ">██</a>", style))
             {
-                if (Event.current.alt)
-                {
-                    removeIndex = index;
-                }
+                if (Event.current.alt) removeIndex = index;
                 if (Event.current.shift)
-                {
                     EditorGUIUtility.systemCopyBuffer = hex;
-                }
                 else
-                {
                     AssignColor(color);
-                }
             }
 
             index++;
@@ -67,9 +52,10 @@ public class PaletteAssigner : EditorWindow
                 EditorGUILayout.BeginHorizontal();
             }
         }
+
         EditorGUILayout.EndHorizontal();
 
-        if(removeIndex > -1)
+        if (removeIndex > -1)
         {
             palette.RemoveAt(removeIndex);
             SavePalette();
@@ -77,14 +63,23 @@ public class PaletteAssigner : EditorWindow
 
         EditorGUILayout.LabelField("Add color");
         newColor = EditorGUILayout.ColorField(newColor);
-        if(GUILayout.Button("Add color"))
+        if (GUILayout.Button("Add color"))
         {
             palette.Add(newColor);
             SavePalette();
         }
     }
 
-    void LoadPalette()
+    [MenuItem("Window/Palette")]
+    public static void ShowWindow()
+    {
+        var window = GetWindow(typeof(PaletteAssigner));
+        var icon = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Editor/Icons/palette.png");
+        var titleContent = new GUIContent("Palette", icon);
+        window.titleContent = titleContent;
+    }
+
+    private void LoadPalette()
     {
         var key = GetKeyName();
         if (EditorPrefs.HasKey(key))
@@ -92,7 +87,6 @@ public class PaletteAssigner : EditorWindow
             var json = EditorPrefs.GetString(key);
             var data = JsonUtility.FromJson<Palette>(json);
             palette = data.ToList();
-
         }
         else
         {
@@ -101,30 +95,30 @@ public class PaletteAssigner : EditorWindow
         }
     }
 
-    void SavePalette()
+    private void SavePalette()
     {
         var data = new Palette(palette);
         var json = JsonUtility.ToJson(data);
         EditorPrefs.SetString(GetKeyName(), json);
     }
 
-    string GetKeyName()
+    private string GetKeyName()
     {
         var dp = Application.dataPath;
         var s = dp.Split("/"[0]);
         return s[s.Length - 2] + "SavedPalette";
     }
 
-    void AssignColor(Color color)
+    private void AssignColor(Color color)
     {
-        foreach(var obj in Selection.gameObjects)
+        foreach (var obj in Selection.gameObjects)
         {
             // sprite
             var sprite = obj.GetComponent<SpriteRenderer>();
-            if(sprite) sprite.color = color;
+            if (sprite) sprite.color = color;
 
             // textmeshpro
-            var text = obj.GetComponent<TMPro.TMP_Text>();
+            var text = obj.GetComponent<TMP_Text>();
             if (text) text.color = color;
 
             // ui image
@@ -134,7 +128,7 @@ public class PaletteAssigner : EditorWindow
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class Palette
 {
     public List<string> colors;
@@ -146,7 +140,8 @@ public class Palette
 
     public List<Color> ToList()
     {
-        return colors.Select(c => {
+        return colors.Select(c =>
+        {
             ColorUtility.TryParseHtmlString("#" + c, out var parsed);
             return parsed;
         }).ToList();

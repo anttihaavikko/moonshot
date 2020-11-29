@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
@@ -8,13 +6,12 @@ public class Platform : MonoBehaviour
     public Vector3 direction;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         transform.position += direction * Time.deltaTime;
 
-        if(transform.position.y > end.position.y && direction.y > 0 || transform.position.y < end.position.y && direction.y < 0)
-        {
+        if (transform.position.y > end.position.y && direction.y > 0 ||
+            transform.position.y < end.position.y && direction.y < 0)
             transform.position = new Vector3(transform.position.x, start.position.y, 0);
-        }
     }
 }

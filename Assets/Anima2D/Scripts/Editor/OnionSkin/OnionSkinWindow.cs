@@ -1,224 +1,206 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEditor;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace Anima2D
 {
-	public class OnionSkinWindow : EditorWindow
-	{
-		const int MaxFrames = 60;
+    public class OnionSkinWindow : EditorWindow
+    {
+        private const int MaxFrames = 60;
 
-		[SerializeField]
-		float m_AlphaMultiplier = 1f;
+        [SerializeField] private float m_AlphaMultiplier = 1f;
 
-		[SerializeField]
-		int m_Step = 1;
+        [SerializeField] private int m_Step = 1;
 
-		[SerializeField]
-		int m_NumFrames = 15;
+        [SerializeField] private int m_NumFrames = 15;
 
-		[SerializeField]
-		Color m_ColorPrevFrames = Color.red;
+        [SerializeField] private Color m_ColorPrevFrames = Color.red;
 
-		[SerializeField]
-		Color m_ColorNextFrames = Color.green;
+        [SerializeField] private Color m_ColorNextFrames = Color.green;
 
-		[SerializeField]
-		bool m_EnableOnionSkin = true;
+        [SerializeField] private bool m_EnableOnionSkin = true;
 
-		[SerializeField]
-		GameObject m_InstanceRoot;
+        [SerializeField] private GameObject m_InstanceRoot;
 
-		int frameCount
-		{
-			get {
-				if(AnimationWindowExtra.activeAnimationClip)
-				{
-					return (int)(AnimationWindowExtra.activeAnimationClip.length * AnimationWindowExtra.activeAnimationClip.frameRate);
-				}
-				
-				return 0;
-			}
-		}
-		
-		int clampedFrame
-		{
-			get {
-				return Mathf.Clamp(AnimationWindowExtra.frame,0,frameCount);
-			}
-		}
+        private AnimationClip m_OldClip;
+        private int m_OldFrame;
 
-		bool m_OldInAnimationMode;
-		AnimationClip m_OldClip;
-		int m_OldFrame;
+        private bool m_OldInAnimationMode;
 
-		OnionLayerManager m_OnionLayerManager = new OnionLayerManager();
+        private readonly OnionLayerManager m_OnionLayerManager = new OnionLayerManager();
 
-		[MenuItem("Window/Anima2D/Onion Skin",false,30)]
-		static void ContextInitialize()
-		{
-			EditorWindow.GetWindow<OnionSkinWindow>("Onion Skin");
-		}
+        private int frameCount
+        {
+            get
+            {
+                if (AnimationWindowExtra.activeAnimationClip)
+                    return (int) (AnimationWindowExtra.activeAnimationClip.length *
+                                  AnimationWindowExtra.activeAnimationClip.frameRate);
 
-		void OnEnable()
-		{
-			EditorApplication.update += OnUpdate;
-			Undo.undoRedoPerformed += UndoRedoPerformed;
-		}
+                return 0;
+            }
+        }
 
-		void OnDisable()
-		{
-			EditorApplication.update -= OnUpdate;
-			Undo.undoRedoPerformed -= UndoRedoPerformed;
+        private int clampedFrame => Mathf.Clamp(AnimationWindowExtra.frame, 0, frameCount);
 
-			DestroyPreview();
-		}
+        private void OnEnable()
+        {
+            EditorApplication.update += OnUpdate;
+            Undo.undoRedoPerformed += UndoRedoPerformed;
+        }
 
-		void UndoRedoPerformed()
-		{
-			UpdatePreview();
-			ResamplePreview();
-		}
+        private void OnDisable()
+        {
+            EditorApplication.update -= OnUpdate;
+            Undo.undoRedoPerformed -= UndoRedoPerformed;
 
-		void OnGUI()
-		{
-			EditorGUIUtility.labelWidth = 60f;
-			EditorGUIUtility.fieldWidth = 22f;
+            DestroyPreview();
+        }
 
-			EditorGUILayout.Space();
+        private void OnGUI()
+        {
+            EditorGUIUtility.labelWidth = 60f;
+            EditorGUIUtility.fieldWidth = 22f;
 
-			EditorGUI.BeginChangeCheck();
+            EditorGUILayout.Space();
 
-			m_EnableOnionSkin = EditorGUILayout.Toggle("Activate", m_EnableOnionSkin);
+            EditorGUI.BeginChangeCheck();
 
-			if(EditorGUI.EndChangeCheck())
-			{
-				if(m_EnableOnionSkin)
-				{
-					CreatePreview();
-					UpdatePreview();
-				}else{
-					DestroyPreview();
-				}
+            m_EnableOnionSkin = EditorGUILayout.Toggle("Activate", m_EnableOnionSkin);
 
-				SceneView.RepaintAll();
-			}
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (m_EnableOnionSkin)
+                {
+                    CreatePreview();
+                    UpdatePreview();
+                }
+                else
+                {
+                    DestroyPreview();
+                }
 
-			EditorGUI.BeginChangeCheck();
+                SceneView.RepaintAll();
+            }
 
-			EditorGUILayout.LabelField("Frames:");
-			m_NumFrames = EditorGUILayout.IntSlider(GUIContent.none, m_NumFrames,0,MaxFrames); 
+            EditorGUI.BeginChangeCheck();
 
-			EditorGUILayout.LabelField("Step:");
-			m_Step = EditorGUILayout.IntSlider(GUIContent.none,m_Step,1,MaxFrames);
+            EditorGUILayout.LabelField("Frames:");
+            m_NumFrames = EditorGUILayout.IntSlider(GUIContent.none, m_NumFrames, 0, MaxFrames);
 
-			EditorGUILayout.LabelField("Alpha:");
-			m_AlphaMultiplier = EditorGUILayout.Slider(GUIContent.none,m_AlphaMultiplier,0f,1f);
+            EditorGUILayout.LabelField("Step:");
+            m_Step = EditorGUILayout.IntSlider(GUIContent.none, m_Step, 1, MaxFrames);
 
-			EditorGUILayout.LabelField("Previous:");
-			m_ColorPrevFrames = EditorGUILayout.ColorField(m_ColorPrevFrames);
+            EditorGUILayout.LabelField("Alpha:");
+            m_AlphaMultiplier = EditorGUILayout.Slider(GUIContent.none, m_AlphaMultiplier, 0f, 1f);
 
-			EditorGUILayout.LabelField("Next:");
-			m_ColorNextFrames = EditorGUILayout.ColorField(m_ColorNextFrames);
+            EditorGUILayout.LabelField("Previous:");
+            m_ColorPrevFrames = EditorGUILayout.ColorField(m_ColorPrevFrames);
 
-			if(EditorGUI.EndChangeCheck() && m_EnableOnionSkin && m_OldInAnimationMode)
-			{
-				UpdatePreview();
-				SceneView.RepaintAll();
-			}
-		}
+            EditorGUILayout.LabelField("Next:");
+            m_ColorNextFrames = EditorGUILayout.ColorField(m_ColorNextFrames);
 
-		void OnUpdate()
-		{
-			if(m_EnableOnionSkin)
-			{
-				if(AnimationMode.InAnimationMode() != m_OldInAnimationMode)
-				{
-					if(AnimationMode.InAnimationMode())
-					{
-						CreatePreview();
-						UpdatePreview();
-					}else{
-						DestroyPreview();
-					}
-				}
+            if (EditorGUI.EndChangeCheck() && m_EnableOnionSkin && m_OldInAnimationMode)
+            {
+                UpdatePreview();
+                SceneView.RepaintAll();
+            }
+        }
 
-				if(m_OldInAnimationMode)
-				{
-					if(m_OldClip != AnimationWindowExtra.activeAnimationClip)
-					{
-						CreatePreview();
-						UpdatePreview();
-					}
+        [MenuItem("Window/Anima2D/Onion Skin", false, 30)]
+        private static void ContextInitialize()
+        {
+            GetWindow<OnionSkinWindow>("Onion Skin");
+        }
 
-					if(m_OldFrame != clampedFrame)
-					{
-						UpdatePreview();
-					}
+        private void UndoRedoPerformed()
+        {
+            UpdatePreview();
+            ResamplePreview();
+        }
 
-					if(AnimationWindowExtra.refresh > 0)
-					{
-						ResamplePreview();
-					}
-				}
-			}
+        private void OnUpdate()
+        {
+            if (m_EnableOnionSkin)
+            {
+                if (AnimationMode.InAnimationMode() != m_OldInAnimationMode)
+                {
+                    if (AnimationMode.InAnimationMode())
+                    {
+                        CreatePreview();
+                        UpdatePreview();
+                    }
+                    else
+                    {
+                        DestroyPreview();
+                    }
+                }
 
-			m_OldClip = AnimationWindowExtra.activeAnimationClip;
-			m_OldFrame = clampedFrame;
-			m_OldInAnimationMode = AnimationMode.InAnimationMode();
-		}
+                if (m_OldInAnimationMode)
+                {
+                    if (m_OldClip != AnimationWindowExtra.activeAnimationClip)
+                    {
+                        CreatePreview();
+                        UpdatePreview();
+                    }
 
-		void CreatePreview()
-		{
-			DestroyPreview();
+                    if (m_OldFrame != clampedFrame) UpdatePreview();
 
-			if(!AnimationMode.InAnimationMode())
-			{
-				return;
-			}
+                    if (AnimationWindowExtra.refresh > 0) ResamplePreview();
+                }
+            }
 
-			m_InstanceRoot = EditorExtra.InstantiateForAnimatorPreview(AnimationWindowExtra.rootGameObject) as GameObject;
+            m_OldClip = AnimationWindowExtra.activeAnimationClip;
+            m_OldFrame = clampedFrame;
+            m_OldInAnimationMode = AnimationMode.InAnimationMode();
+        }
 
-			EditorExtra.InitInstantiatedPreviewRecursive(m_InstanceRoot);
+        private void CreatePreview()
+        {
+            DestroyPreview();
 
-			List<Ik2D> ik2Ds = new List<Ik2D>();
-			m_InstanceRoot.GetComponentsInChildren<Ik2D>(ik2Ds);
-			
-			IkUtils.UpdateAttachedIKs(ik2Ds);
-			
-			m_OnionLayerManager.source = m_InstanceRoot;
+            if (!AnimationMode.InAnimationMode()) return;
 
-			m_InstanceRoot.SetActive(false);
-		}
+            m_InstanceRoot = EditorExtra.InstantiateForAnimatorPreview(AnimationWindowExtra.rootGameObject);
 
-		void ResamplePreview()
-		{
-			if(!m_EnableOnionSkin || !AnimationMode.InAnimationMode()) return;
+            EditorExtra.InitInstantiatedPreviewRecursive(m_InstanceRoot);
 
-			m_OnionLayerManager.ResampleOnionLayers(AnimationWindowExtra.activeAnimationClip);
-		}
+            var ik2Ds = new List<Ik2D>();
+            m_InstanceRoot.GetComponentsInChildren(ik2Ds);
 
-		void UpdatePreview()
-		{
-			if(!m_EnableOnionSkin || !AnimationMode.InAnimationMode()) return;
+            IkUtils.UpdateAttachedIKs(ik2Ds);
 
-			m_OnionLayerManager.UpdateOnionLayers(AnimationWindowExtra.activeAnimationClip,
-			                                      clampedFrame,
-			                                      m_NumFrames,
-			                                      m_Step,
-			                                      m_AlphaMultiplier,
-			                                      m_ColorPrevFrames,
-			                                      m_ColorNextFrames);
-		}
+            m_OnionLayerManager.source = m_InstanceRoot;
 
-		void DestroyPreview()
-		{
-			m_OnionLayerManager.source = null;
+            m_InstanceRoot.SetActive(false);
+        }
 
-			if(m_InstanceRoot)
-				EditorExtra.DestroyAnimatorPreviewInstance(m_InstanceRoot);
-		}
-	}
+        private void ResamplePreview()
+        {
+            if (!m_EnableOnionSkin || !AnimationMode.InAnimationMode()) return;
+
+            m_OnionLayerManager.ResampleOnionLayers(AnimationWindowExtra.activeAnimationClip);
+        }
+
+        private void UpdatePreview()
+        {
+            if (!m_EnableOnionSkin || !AnimationMode.InAnimationMode()) return;
+
+            m_OnionLayerManager.UpdateOnionLayers(AnimationWindowExtra.activeAnimationClip,
+                clampedFrame,
+                m_NumFrames,
+                m_Step,
+                m_AlphaMultiplier,
+                m_ColorPrevFrames,
+                m_ColorNextFrames);
+        }
+
+        private void DestroyPreview()
+        {
+            m_OnionLayerManager.source = null;
+
+            if (m_InstanceRoot)
+                EditorExtra.DestroyAnimatorPreviewInstance(m_InstanceRoot);
+        }
+    }
 }

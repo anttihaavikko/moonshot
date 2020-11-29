@@ -7,40 +7,33 @@
 
 namespace TriangleNet.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     /// <summary>
-    /// An oriented subsegment.
+    ///     An oriented subsegment.
     /// </summary>
     /// <remarks>
-    /// Iincludes a pointer to a subsegment and an orientation. The orientation
-    /// denotes a side of the edge.  Hence, there are two possible orientations.
-    /// By convention, the edge is always directed so that the "side" denoted
-    /// is the right side of the edge.
+    ///     Iincludes a pointer to a subsegment and an orientation. The orientation
+    ///     denotes a side of the edge.  Hence, there are two possible orientations.
+    ///     By convention, the edge is always directed so that the "side" denoted
+    ///     is the right side of the edge.
     /// </remarks>
-    struct Osub
+    internal struct Osub
     {
         public Segment seg;
         public int orient; // Ranges from 0 to 1.
 
         public override string ToString()
         {
-            if (seg == null)
-            {
-                return "O-TID [null]";
-            }
-            return String.Format("O-SID {0}", seg.hash);
+            if (seg == null) return "O-TID [null]";
+            return string.Format("O-SID {0}", seg.hash);
         }
 
         #region Osub primitives
 
         /// <summary>
-        /// Reverse the orientation of a subsegment. [sym(ab) -> ba]
+        ///     Reverse the orientation of a subsegment. [sym(ab) -> ba]
         /// </summary>
-        /// <remarks>ssym() toggles the orientation of a subsegment.
+        /// <remarks>
+        ///     ssym() toggles the orientation of a subsegment.
         /// </remarks>
         public void Sym(ref Osub o2)
         {
@@ -49,7 +42,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Reverse the orientation of a subsegment. [sym(ab) -> ba]
+        ///     Reverse the orientation of a subsegment. [sym(ab) -> ba]
         /// </summary>
         public void SymSelf()
         {
@@ -57,10 +50,11 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Find adjoining subsegment with the same origin. [pivot(ab) -> a*]
+        ///     Find adjoining subsegment with the same origin. [pivot(ab) -> a*]
         /// </summary>
-        /// <remarks>spivot() finds the other subsegment (from the same segment) 
-        /// that shares the same origin.
+        /// <remarks>
+        ///     spivot() finds the other subsegment (from the same segment)
+        ///     that shares the same origin.
         /// </remarks>
         public void Pivot(ref Osub o2)
         {
@@ -69,7 +63,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Find adjoining subsegment with the same origin. [pivot(ab) -> a*]
+        ///     Find adjoining subsegment with the same origin. [pivot(ab) -> a*]
         /// </summary>
         public void PivotSelf()
         {
@@ -78,10 +72,11 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Find next subsegment in sequence. [next(ab) -> b*]
+        ///     Find next subsegment in sequence. [next(ab) -> b*]
         /// </summary>
-        /// <remarks>snext() finds the next subsegment (from the same segment) in 
-        /// sequence; one whose origin is the input subsegment's destination.
+        /// <remarks>
+        ///     snext() finds the next subsegment (from the same segment) in
+        ///     sequence; one whose origin is the input subsegment's destination.
         /// </remarks>
         public void Next(ref Osub o2)
         {
@@ -90,7 +85,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Find next subsegment in sequence. [next(ab) -> b*]
+        ///     Find next subsegment in sequence. [next(ab) -> b*]
         /// </summary>
         public void NextSelf()
         {
@@ -99,7 +94,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Get the origin of a subsegment
+        ///     Get the origin of a subsegment
         /// </summary>
         public Vertex Org()
         {
@@ -107,7 +102,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Get the destination of a subsegment
+        ///     Get the destination of a subsegment
         /// </summary>
         public Vertex Dest()
         {
@@ -115,7 +110,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Set the origin or destination of a subsegment.
+        ///     Set the origin or destination of a subsegment.
         /// </summary>
         public void SetOrg(Vertex ptr)
         {
@@ -123,7 +118,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Set destination of a subsegment.
+        ///     Set destination of a subsegment.
         /// </summary>
         public void SetDest(Vertex ptr)
         {
@@ -131,7 +126,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Get the origin of the segment that includes the subsegment.
+        ///     Get the origin of the segment that includes the subsegment.
         /// </summary>
         public Vertex SegOrg()
         {
@@ -139,7 +134,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Get the destination of the segment that includes the subsegment.
+        ///     Get the destination of the segment that includes the subsegment.
         /// </summary>
         public Vertex SegDest()
         {
@@ -147,7 +142,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Set the origin of the segment that includes the subsegment.
+        ///     Set the origin of the segment that includes the subsegment.
         /// </summary>
         public void SetSegOrg(Vertex ptr)
         {
@@ -155,7 +150,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Set the destination of the segment that includes the subsegment.
+        ///     Set the destination of the segment that includes the subsegment.
         /// </summary>
         public void SetSegDest(Vertex ptr)
         {
@@ -163,17 +158,19 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Read a boundary marker.
+        ///     Read a boundary marker.
         /// </summary>
-        /// <remarks>Boundary markers are used to hold user-defined tags for 
-        /// setting boundary conditions in finite element solvers.</remarks>
+        /// <remarks>
+        ///     Boundary markers are used to hold user-defined tags for
+        ///     setting boundary conditions in finite element solvers.
+        /// </remarks>
         public int Mark()
         {
             return seg.boundary;
         }
 
         /// <summary>
-        /// Set a boundary marker.
+        ///     Set a boundary marker.
         /// </summary>
         public void SetMark(int value)
         {
@@ -181,7 +178,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Bond two subsegments together. [bond(abc, ba)]
+        ///     Bond two subsegments together. [bond(abc, ba)]
         /// </summary>
         public void Bond(ref Osub o2)
         {
@@ -190,17 +187,19 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Dissolve a subsegment bond (from one side).
+        ///     Dissolve a subsegment bond (from one side).
         /// </summary>
-        /// <remarks>Note that the other subsegment will still think it's 
-        /// connected to this subsegment.</remarks>
+        /// <remarks>
+        ///     Note that the other subsegment will still think it's
+        ///     connected to this subsegment.
+        /// </remarks>
         public void Dissolve()
         {
             seg.subsegs[orient].seg = Mesh.dummysub;
         }
 
         /// <summary>
-        /// Copy a subsegment.
+        ///     Copy a subsegment.
         /// </summary>
         public void Copy(ref Osub o2)
         {
@@ -209,15 +208,15 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Test for equality of subsegments.
+        ///     Test for equality of subsegments.
         /// </summary>
         public bool Equal(Osub o2)
         {
-            return ((seg == o2.seg) && (orient == o2.orient));
+            return seg == o2.seg && orient == o2.orient;
         }
 
         /// <summary>
-        /// Check a subsegment's deallocation.
+        ///     Check a subsegment's deallocation.
         /// </summary>
         public static bool IsDead(Segment sub)
         {
@@ -225,7 +224,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Set a subsegment's deallocation.
+        ///     Set a subsegment's deallocation.
         /// </summary>
         public static void Kill(Segment sub)
         {
@@ -234,7 +233,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Finds a triangle abutting a subsegment.
+        ///     Finds a triangle abutting a subsegment.
         /// </summary>
         public void TriPivot(ref Otri ot)
         {
@@ -243,7 +242,7 @@ namespace TriangleNet.Data
         }
 
         /// <summary>
-        /// Dissolve a bond (from the subsegment side).
+        ///     Dissolve a bond (from the subsegment side).
         /// </summary>
         public void TriDissolve()
         {

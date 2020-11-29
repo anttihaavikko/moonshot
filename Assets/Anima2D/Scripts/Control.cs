@@ -1,58 +1,52 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Anima2D
 {
-	public class Control : MonoBehaviour
-	{
-		[SerializeField]
-		Transform m_BoneTransform;
+    public class Control : MonoBehaviour
+    {
+        [SerializeField] private Transform m_BoneTransform;
 
-		public Color color {
-			get {
-				if(m_CachedBone)
-				{
-					Color color = m_CachedBone.color;
-					color.a = 1f;
-					return color;
-				}
+        private Bone2D m_CachedBone;
 
-				return Color.white;
-			}
-		}
+        public Color color
+        {
+            get
+            {
+                if (m_CachedBone)
+                {
+                    var color = m_CachedBone.color;
+                    color.a = 1f;
+                    return color;
+                }
 
-		Bone2D m_CachedBone;
-		public Bone2D bone {
-			get {
-				if(m_CachedBone && m_BoneTransform != m_CachedBone.transform)
-				{
-					m_CachedBone = null;
-				}
-				
-				if(!m_CachedBone && m_BoneTransform)
-				{
-					m_CachedBone = m_BoneTransform.GetComponent<Bone2D>();
-				}
+                return Color.white;
+            }
+        }
 
-				return m_CachedBone;
-			}
-			set {
-				m_BoneTransform = value.transform;
-			}
-		}
+        public Bone2D bone
+        {
+            get
+            {
+                if (m_CachedBone && m_BoneTransform != m_CachedBone.transform) m_CachedBone = null;
 
-		void Start()
-		{
+                if (!m_CachedBone && m_BoneTransform) m_CachedBone = m_BoneTransform.GetComponent<Bone2D>();
 
-		}
+                return m_CachedBone;
+            }
+            set => m_BoneTransform = value.transform;
+        }
 
-		void LateUpdate()
-		{
-			if(bone)
-			{
-				transform.position = bone.transform.position;
-				transform.rotation = bone.transform.rotation;
-			}
-		}
-	}
+        private void Start()
+        {
+        }
+
+        private void LateUpdate()
+        {
+            if (bone)
+            {
+                transform.position = bone.transform.position;
+                transform.rotation = bone.transform.rotation;
+            }
+        }
+    }
 }

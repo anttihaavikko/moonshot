@@ -1,60 +1,60 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
-using System.Collections;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Anima2D
 {
-	public class AnimationWindowImpl_56 : AnimationWindowImpl_51_52_53_54_55
-	{
-		PropertyInfo m_CurrentFrameProperty = null;
-		MethodInfo m_StartRecording = null;
-		MethodInfo m_StopRecording = null;
-		
+    public class AnimationWindowImpl_56 : AnimationWindowImpl_51_52_53_54_55
+    {
+        private PropertyInfo m_CurrentFrameProperty;
+        private MethodInfo m_StartRecording;
+        private MethodInfo m_StopRecording;
 
-		public override void InitializeReflection()
-		{
-			base.InitializeReflection();
+        public override bool recording
+        {
+            get => base.recording;
 
-			m_CurrentFrameProperty = m_AnimationWindowStateType.GetProperty("currentFrame",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-			m_StartRecording = m_AnimationWindowStateType.GetMethod("StartRecording",BindingFlags.Public | BindingFlags.Static);
-			m_StopRecording = m_AnimationWindowStateType.GetMethod("StopRecording",BindingFlags.Public | BindingFlags.Static);
-		}
+            set
+            {
+                if (value)
+                {
+                    if (m_StartRecording != null)
+                        m_StartRecording.Invoke(null, null);
+                }
+                else
+                {
+                    if (m_StopRecording != null)
+                        m_StopRecording.Invoke(null, null);
+                }
+            }
+        }
 
-		public override bool recording {
-			get {
-				return base.recording;
-			}
+        public override int frame
+        {
+            get
+            {
+                if (state != null && m_CurrentFrameProperty != null)
+                    return (int) m_CurrentFrameProperty.GetValue(state, null);
 
-			set {
-				if(value)
-				{
-					if(m_StartRecording != null)
-						m_StartRecording.Invoke(null,null);
-				} else {
-					if(m_StopRecording != null)
-						m_StopRecording.Invoke(null,null);
-				}
-			}
-		}
+                return 0;
+            }
 
-		public override int frame {
-			get {
-				if(state != null && m_CurrentFrameProperty != null)
-				{
-					return (int)m_CurrentFrameProperty.GetValue(state,null);
-				}
+            set
+            {
+                if (state != null && m_CurrentFrameProperty != null)
+                    m_CurrentFrameProperty.SetValue(state, value, null);
+            }
+        }
 
-				return 0;
-			}
 
-			set {
-				if(state != null && m_CurrentFrameProperty != null)
-				{
-					m_CurrentFrameProperty.SetValue(state, value, null);
-				}
-			}
-		}
-	}
+        public override void InitializeReflection()
+        {
+            base.InitializeReflection();
+
+            m_CurrentFrameProperty = m_AnimationWindowStateType.GetProperty("currentFrame",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            m_StartRecording =
+                m_AnimationWindowStateType.GetMethod("StartRecording", BindingFlags.Public | BindingFlags.Static);
+            m_StopRecording =
+                m_AnimationWindowStateType.GetMethod("StopRecording", BindingFlags.Public | BindingFlags.Static);
+        }
+    }
 }

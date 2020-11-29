@@ -1,88 +1,86 @@
-﻿using UnityEngine;
-using UnityEditor;
-using UnityEditorInternal;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using UnityEditor;
+using UnityEngine;
 
-namespace Anima2D 
+namespace Anima2D
 {
-	public class MeshToolEditor : WindowEditorTool
-	{
-		public enum MeshTool {
-			None,
-			Hole
-		}
+    public class MeshToolEditor : WindowEditorTool
+    {
+        public enum MeshTool
+        {
+            None,
+            Hole
+        }
 
-		public SpriteMeshCache spriteMeshCache;
+        public SpriteMeshCache spriteMeshCache;
 
-		public MeshTool tool { get; set; }
+        public MeshToolEditor()
+        {
+            windowRect = new Rect(0f, 0f, 200f, 45f);
 
-		public bool sliceToggle { get; set; }
+            sliceToggle = false;
+        }
 
-		protected override string GetHeader() { return ""; }
+        public MeshTool tool { get; set; }
 
-		public MeshToolEditor()
-		{
-			windowRect = new Rect(0f, 0f, 200f, 45f);
+        public bool sliceToggle { get; set; }
 
-			sliceToggle = false;
-		}
+        protected override string GetHeader()
+        {
+            return "";
+        }
 
-		public override void OnWindowGUI(Rect viewRect)
-		{
-			windowRect.position = new Vector2(0f, -15f);
+        public override void OnWindowGUI(Rect viewRect)
+        {
+            windowRect.position = new Vector2(0f, -15f);
 
-			base.OnWindowGUI(viewRect);
-		}
+            base.OnWindowGUI(viewRect);
+        }
 
-		protected override void DoWindow(int windowId)
-		{
-			GUI.color = Color.white;
-			
-			EditorGUILayout.BeginHorizontal();
-			
-			sliceToggle = GUILayout.Toggle(sliceToggle,new GUIContent("Slice", "Slice the sprite"),EditorStyles.miniButton,GUILayout.Width(50f));
+        protected override void DoWindow(int windowId)
+        {
+            GUI.color = Color.white;
 
-			EditorGUILayout.Space();
+            EditorGUILayout.BeginHorizontal();
 
-			bool holeToggle = GUILayout.Toggle(tool == MeshTool.Hole,new GUIContent("Hole", "Create holes (H)"), EditorStyles.miniButton,GUILayout.Width(50f));
+            sliceToggle = GUILayout.Toggle(sliceToggle, new GUIContent("Slice", "Slice the sprite"),
+                EditorStyles.miniButton, GUILayout.Width(50f));
 
-			if(holeToggle)
-			{
-				tool = MeshTool.Hole;
-			}else{
-				tool = MeshTool.None;
-			}
+            EditorGUILayout.Space();
 
-			EditorGUILayout.Space();
+            var holeToggle = GUILayout.Toggle(tool == MeshTool.Hole, new GUIContent("Hole", "Create holes (H)"),
+                EditorStyles.miniButton, GUILayout.Width(50f));
 
-			EditorGUI.BeginDisabledGroup(!spriteMeshCache.spriteMeshInstance);
+            if (holeToggle)
+                tool = MeshTool.Hole;
+            else
+                tool = MeshTool.None;
 
-			if(GUILayout.Toggle(spriteMeshCache.isBound,new GUIContent("Bind", "Bind bones"), EditorStyles.miniButtonLeft,GUILayout.Width(50f)))
-			{
-				if(!spriteMeshCache.isBound && spriteMeshCache.spriteMeshInstance)
-				{
-					spriteMeshCache.RegisterUndo("Bind bones");
-					spriteMeshCache.BindBones();
-					spriteMeshCache.CalculateAutomaticWeights();
-				}
-			}
+            EditorGUILayout.Space();
 
-			EditorGUI.EndDisabledGroup();
+            EditorGUI.BeginDisabledGroup(!spriteMeshCache.spriteMeshInstance);
 
-			if(GUILayout.Toggle(!spriteMeshCache.isBound,new GUIContent("Unbind", "Clear binding data"), EditorStyles.miniButtonRight,GUILayout.Width(50f)))
-			{
-				if(spriteMeshCache.isBound)
-				{
-					spriteMeshCache.RegisterUndo("Clear weights");
-					spriteMeshCache.ClearWeights();
-				}
-			}
+            if (GUILayout.Toggle(spriteMeshCache.isBound, new GUIContent("Bind", "Bind bones"),
+                EditorStyles.miniButtonLeft, GUILayout.Width(50f)))
+                if (!spriteMeshCache.isBound && spriteMeshCache.spriteMeshInstance)
+                {
+                    spriteMeshCache.RegisterUndo("Bind bones");
+                    spriteMeshCache.BindBones();
+                    spriteMeshCache.CalculateAutomaticWeights();
+                }
 
-			GUILayout.Space(1f);
-			
-			EditorGUILayout.EndHorizontal();
-		}
-	}
+            EditorGUI.EndDisabledGroup();
+
+            if (GUILayout.Toggle(!spriteMeshCache.isBound, new GUIContent("Unbind", "Clear binding data"),
+                EditorStyles.miniButtonRight, GUILayout.Width(50f)))
+                if (spriteMeshCache.isBound)
+                {
+                    spriteMeshCache.RegisterUndo("Clear weights");
+                    spriteMeshCache.ClearWeights();
+                }
+
+            GUILayout.Space(1f);
+
+            EditorGUILayout.EndHorizontal();
+        }
+    }
 }

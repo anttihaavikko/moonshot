@@ -1,30 +1,25 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections;
+﻿using UnityEditor;
 
 namespace Anima2D
 {
-	[CustomEditor(typeof(IkLimb2D))]
-	public class IkLimb2DEditor : Ik2DEditor
-	{
-		override public void OnInspectorGUI()
-		{
-			base.OnInspectorGUI();
+    [CustomEditor(typeof(IkLimb2D))]
+    public class IkLimb2DEditor : Ik2DEditor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
 
-			serializedObject.Update();
-			
-			SerializedProperty flipProp = serializedObject.FindProperty("flip");
+            serializedObject.Update();
 
-			EditorGUI.BeginChangeCheck();
+            var flipProp = serializedObject.FindProperty("flip");
 
-			EditorGUILayout.PropertyField(flipProp);
+            EditorGUI.BeginChangeCheck();
 
-			if(EditorGUI.EndChangeCheck())
-			{
-				EditorUpdater.SetDirty("Flip");
-			}
+            EditorGUILayout.PropertyField(flipProp);
 
-			serializedObject.ApplyModifiedProperties();
-		}
-	}
+            if (EditorGUI.EndChangeCheck()) EditorUpdater.SetDirty("Flip");
+
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
 }

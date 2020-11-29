@@ -1,330 +1,296 @@
-using UnityEngine;
-using UnityEditor;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.Callbacks;
+using UnityEngine;
 
 namespace Anima2D
 {
-	[InitializeOnLoad]
-	public class EditorEventHandler
-	{
-		static List<SpriteMeshInstance> s_SpriteMeshInstances = new List<SpriteMeshInstance>();
+    [InitializeOnLoad]
+    public class EditorEventHandler
+    {
+        private static List<SpriteMeshInstance> s_SpriteMeshInstances = new List<SpriteMeshInstance>();
 
-		static EditorEventHandler()
-		{
-			EditorCallbacks.onSceneGUIDelegate += OnSceneGUI;
-			EditorCallbacks.hierarchyWindowItemOnGUI += HierarchyWindowItemCallback;
-			EditorCallbacks.hierarchyChanged += HierarchyChanged;
-		}
+        private static SpriteMesh spriteMesh;
+        private static SpriteMeshInstance instance;
+        private static SpriteMeshInstance currentDestination;
+        private static List<Bone2D> s_InstanceBones = new List<Bone2D>();
+        private static bool init;
+        private static Vector3 instancePosition = Vector3.zero;
+        private static Transform parentTransform;
 
-		static SpriteMesh spriteMesh = null;
-		static SpriteMeshInstance instance = null;
-		static SpriteMeshInstance currentDestination = null;
-		static List<Bone2D> s_InstanceBones = new List<Bone2D>();
-		static bool init = false;
-		static Vector3 instancePosition = Vector3.zero;
-		static Transform parentTransform = null;
+        static EditorEventHandler()
+        {
+            EditorCallbacks.onSceneGUIDelegate += OnSceneGUI;
+            EditorCallbacks.hierarchyWindowItemOnGUI += HierarchyWindowItemCallback;
+            EditorCallbacks.hierarchyChanged += HierarchyChanged;
+        }
 
-		static SpriteMesh GetSpriteMesh()
-		{
-			SpriteMesh l_spriteMesh = null;
+        private static SpriteMesh GetSpriteMesh()
+        {
+            SpriteMesh l_spriteMesh = null;
 
-			if(DragAndDrop.objectReferences.Length > 0)
-			{
-				Object obj = DragAndDrop.objectReferences[0];
+            if (DragAndDrop.objectReferences.Length > 0)
+            {
+                var obj = DragAndDrop.objectReferences[0];
 
-				l_spriteMesh = obj as SpriteMesh;
-			}
+                l_spriteMesh = obj as SpriteMesh;
+            }
 
-			return l_spriteMesh;
-		}
+            return l_spriteMesh;
+        }
 
-		static void Cleanup()
-		{
-			init = false;
-			spriteMesh = null;
-			instance = null;
-			currentDestination = null;
-			parentTransform = null;
-			s_InstanceBones.Clear();
-		}
+        private static void Cleanup()
+        {
+            init = false;
+            spriteMesh = null;
+            instance = null;
+            currentDestination = null;
+            parentTransform = null;
+            s_InstanceBones.Clear();
+        }
 
-		static Vector3 GetMouseWorldPosition()
-		{
-			Ray mouseRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-			Plane rootPlane = new Plane(Vector3.forward,Vector3.zero);
-			
-			float distance = 0f;
-			Vector3 mouseWorldPos = Vector3.zero;
-			
-			if(rootPlane.Raycast(mouseRay, out distance))
-			{
-				mouseWorldPos = mouseRay.GetPoint(distance);
-			}
+        private static Vector3 GetMouseWorldPosition()
+        {
+            var mouseRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+            var rootPlane = new Plane(Vector3.forward, Vector3.zero);
 
-			return mouseWorldPos;
-		}
+            var distance = 0f;
+            var mouseWorldPos = Vector3.zero;
 
-		static void CreateInstance()
-		{
-			instance = SpriteMeshUtils.CreateSpriteMeshInstance(spriteMesh,false);
+            if (rootPlane.Raycast(mouseRay, out distance)) mouseWorldPos = mouseRay.GetPoint(distance);
 
-			if(instance)
-			{
-				s_InstanceBones = instance.bones;
+            return mouseWorldPos;
+        }
 
-				instance.transform.parent = parentTransform;
-				
-				if(parentTransform)
-				{
-					instance.transform.localPosition = Vector3.zero;
-				}
-			}
-		}
+        private static void CreateInstance()
+        {
+            instance = SpriteMeshUtils.CreateSpriteMeshInstance(spriteMesh, false);
 
-		[UnityEditor.Callbacks.DidReloadScripts]
-		static void HierarchyChanged()
-		{
-			s_SpriteMeshInstances = EditorExtra.FindComponentsOfType<SpriteMeshInstance>().ToList();
-		}
+            if (instance)
+            {
+                s_InstanceBones = instance.bones;
 
-		private static void HierarchyWindowItemCallback(int pID, Rect pRect)
-		{
-			instancePosition = Vector3.zero;
-			GameObject parent = null;
+                instance.transform.parent = parentTransform;
 
-			if(pRect.Contains(Event.current.mousePosition))
-			{
-				parent = EditorUtility.InstanceIDToObject(pID) as GameObject;
+                if (parentTransform) instance.transform.localPosition = Vector3.zero;
+            }
+        }
 
-				if(parent)
-				{
-					parentTransform = parent.transform;
-				}
-			}
+        [DidReloadScripts]
+        private static void HierarchyChanged()
+        {
+            s_SpriteMeshInstances = EditorExtra.FindComponentsOfType<SpriteMeshInstance>().ToList();
+        }
 
-			HandleDragAndDrop(false,parentTransform);
-		}
+        private static void HierarchyWindowItemCallback(int pID, Rect pRect)
+        {
+            instancePosition = Vector3.zero;
+            GameObject parent = null;
 
-		static void OnSceneGUI(SceneView sceneview)
-		{
-			instancePosition = GetMouseWorldPosition();
-			HandleDragAndDrop(true,null);
-		}
+            if (pRect.Contains(Event.current.mousePosition))
+            {
+                parent = EditorUtility.InstanceIDToObject(pID) as GameObject;
 
-		static SpriteMeshInstance GetClosestBindeableIntersectingSpriteMeshInstance()
-		{
-			float minDistance = float.MaxValue;
-			SpriteMeshInstance closestSpriteMeshInstance = null;
+                if (parent) parentTransform = parent.transform;
+            }
 
-			foreach(SpriteMeshInstance spriteMeshInstance in s_SpriteMeshInstances)
-			{
-				if(spriteMeshInstance && spriteMeshInstance != instance && spriteMeshInstance.spriteMesh && spriteMeshInstance.cachedRenderer)
-				{
-					Ray guiRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+            HandleDragAndDrop(false, parentTransform);
+        }
 
-					if(spriteMeshInstance.cachedRenderer.bounds.IntersectRay(guiRay))
-					{
-						if(Bindeable(instance,spriteMeshInstance))
-						{
-							Vector2 guiCenter = HandleUtility.WorldToGUIPoint(spriteMeshInstance.cachedRenderer.bounds.center);
-							float distance = (Event.current.mousePosition - guiCenter).sqrMagnitude;
-							if(distance < minDistance)
-							{
-								closestSpriteMeshInstance = spriteMeshInstance;
-							}
-						}
-					}
-				}
-			}
+        private static void OnSceneGUI(SceneView sceneview)
+        {
+            instancePosition = GetMouseWorldPosition();
+            HandleDragAndDrop(true, null);
+        }
 
-			return closestSpriteMeshInstance;
-		}
+        private static SpriteMeshInstance GetClosestBindeableIntersectingSpriteMeshInstance()
+        {
+            var minDistance = float.MaxValue;
+            SpriteMeshInstance closestSpriteMeshInstance = null;
 
-		static int FindBindInfo(BindInfo bindInfo, SpriteMeshInstance spriteMeshInstance)
-		{
-			if(spriteMeshInstance)
-			{
-				return FindBindInfo(bindInfo, SpriteMeshUtils.LoadSpriteMeshData(spriteMeshInstance.spriteMesh));
+            foreach (var spriteMeshInstance in s_SpriteMeshInstances)
+                if (spriteMeshInstance && spriteMeshInstance != instance && spriteMeshInstance.spriteMesh &&
+                    spriteMeshInstance.cachedRenderer)
+                {
+                    var guiRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
 
-			}
+                    if (spriteMeshInstance.cachedRenderer.bounds.IntersectRay(guiRay))
+                        if (Bindeable(instance, spriteMeshInstance))
+                        {
+                            var guiCenter =
+                                HandleUtility.WorldToGUIPoint(spriteMeshInstance.cachedRenderer.bounds.center);
+                            var distance = (Event.current.mousePosition - guiCenter).sqrMagnitude;
+                            if (distance < minDistance) closestSpriteMeshInstance = spriteMeshInstance;
+                        }
+                }
 
-			return -1;
-		}
+            return closestSpriteMeshInstance;
+        }
 
-		static int FindBindInfo(BindInfo bindInfo, SpriteMeshData spriteMeshData)
-		{
-			if(bindInfo && spriteMeshData)
-			{
-				for(int i = 0; i < spriteMeshData.bindPoses.Length; ++i)
-				{
-					BindInfo l_bindInfo = spriteMeshData.bindPoses[i];
-					
-					if(bindInfo.name == l_bindInfo.name /*&& Mathf.Approximately(bindInfo.boneLength,l_bindInfo.boneLength)*/)
-					{
-						return i;
-					}
-				}
-			}
+        private static int FindBindInfo(BindInfo bindInfo, SpriteMeshInstance spriteMeshInstance)
+        {
+            if (spriteMeshInstance)
+                return FindBindInfo(bindInfo, SpriteMeshUtils.LoadSpriteMeshData(spriteMeshInstance.spriteMesh));
 
-			return -1;
-		}
+            return -1;
+        }
 
-		static bool Bindeable(SpriteMeshInstance targetSpriteMeshInstance, SpriteMeshInstance destinationSpriteMeshInstance)
-		{
-			bool bindeable = false;
+        private static int FindBindInfo(BindInfo bindInfo, SpriteMeshData spriteMeshData)
+        {
+            if (bindInfo && spriteMeshData)
+                for (var i = 0; i < spriteMeshData.bindPoses.Length; ++i)
+                {
+                    var l_bindInfo = spriteMeshData.bindPoses[i];
 
-			if(targetSpriteMeshInstance &&
-			   destinationSpriteMeshInstance &&
-			   targetSpriteMeshInstance.spriteMesh &&
-			   destinationSpriteMeshInstance.spriteMesh &&
-			   targetSpriteMeshInstance.spriteMesh != destinationSpriteMeshInstance.spriteMesh &&
-			   destinationSpriteMeshInstance.cachedSkinnedRenderer)
-			{
-				SpriteMeshData targetData = SpriteMeshUtils.LoadSpriteMeshData(targetSpriteMeshInstance.spriteMesh);
-				SpriteMeshData destinationData = SpriteMeshUtils.LoadSpriteMeshData(destinationSpriteMeshInstance.spriteMesh);
+                    if (bindInfo.name ==
+                        l_bindInfo.name /*&& Mathf.Approximately(bindInfo.boneLength,l_bindInfo.boneLength)*/) return i;
+                }
 
-				bindeable = true;
+            return -1;
+        }
 
-				if(destinationData.bindPoses.Length >= targetData.bindPoses.Length)
-				{
-					for(int i = 0; i < targetData.bindPoses.Length; ++i)
-					{
-						if(bindeable)
-						{
-							BindInfo bindInfo = targetData.bindPoses[i];
+        private static bool Bindeable(SpriteMeshInstance targetSpriteMeshInstance,
+            SpriteMeshInstance destinationSpriteMeshInstance)
+        {
+            var bindeable = false;
 
-							if(FindBindInfo(bindInfo,destinationData) < 0)
-							{
-								bindeable = false;
-							}
-						}
-					}
-				}else{
-					bindeable = false;
-				}	
-			}
-			return bindeable;
-		}
+            if (targetSpriteMeshInstance &&
+                destinationSpriteMeshInstance &&
+                targetSpriteMeshInstance.spriteMesh &&
+                destinationSpriteMeshInstance.spriteMesh &&
+                targetSpriteMeshInstance.spriteMesh != destinationSpriteMeshInstance.spriteMesh &&
+                destinationSpriteMeshInstance.cachedSkinnedRenderer)
+            {
+                var targetData = SpriteMeshUtils.LoadSpriteMeshData(targetSpriteMeshInstance.spriteMesh);
+                var destinationData = SpriteMeshUtils.LoadSpriteMeshData(destinationSpriteMeshInstance.spriteMesh);
 
-		static void HandleDragAndDrop(bool createOnEnter, Transform parent)
-		{
-			switch(Event.current.type)
-			{
-			case EventType.DragUpdated:
+                bindeable = true;
 
-				if(!init)
-				{
-					spriteMesh = GetSpriteMesh();
+                if (destinationData.bindPoses.Length >= targetData.bindPoses.Length)
+                {
+                    for (var i = 0; i < targetData.bindPoses.Length; ++i)
+                        if (bindeable)
+                        {
+                            var bindInfo = targetData.bindPoses[i];
 
-					if(createOnEnter)
-					{
-						parentTransform = null;
-						CreateInstance();
-					}
+                            if (FindBindInfo(bindInfo, destinationData) < 0) bindeable = false;
+                        }
+                }
+                else
+                {
+                    bindeable = false;
+                }
+            }
 
-					Event.current.Use();
+            return bindeable;
+        }
 
-					init = true;
-				}
+        private static void HandleDragAndDrop(bool createOnEnter, Transform parent)
+        {
+            switch (Event.current.type)
+            {
+                case EventType.DragUpdated:
 
-				if(instance)
-				{
-					instance.transform.position = instancePosition;
+                    if (!init)
+                    {
+                        spriteMesh = GetSpriteMesh();
 
-					SpriteMeshInstance l_currentDestination = GetClosestBindeableIntersectingSpriteMeshInstance();
+                        if (createOnEnter)
+                        {
+                            parentTransform = null;
+                            CreateInstance();
+                        }
 
-					if(currentDestination != l_currentDestination)
-					{
-						currentDestination = l_currentDestination;
+                        Event.current.Use();
 
-						if(currentDestination)
-						{
-							List<Bone2D> destinationBones = currentDestination.bones;
-							List<Bone2D> newBones = new List<Bone2D>();
+                        init = true;
+                    }
 
-							SpriteMeshData data = SpriteMeshUtils.LoadSpriteMeshData(instance.spriteMesh);
+                    if (instance)
+                    {
+                        instance.transform.position = instancePosition;
 
-							for(int i = 0; i < data.bindPoses.Length; ++i)
-							{
-								BindInfo bindInfo = data.bindPoses[i];
-								int index = FindBindInfo(bindInfo,currentDestination);
-								if(index >= 0 && index < destinationBones.Count)
-								{
-									newBones.Add(destinationBones[index]);
-								}
-							}
+                        var l_currentDestination = GetClosestBindeableIntersectingSpriteMeshInstance();
 
-							instance.transform.parent = currentDestination.transform.parent;
-							instance.bones = newBones;
-							SpriteMeshUtils.UpdateRenderer(instance,false);
+                        if (currentDestination != l_currentDestination)
+                        {
+                            currentDestination = l_currentDestination;
 
-							foreach(Bone2D bone in s_InstanceBones)
-							{
-								bone.hideFlags = HideFlags.HideAndDontSave;
-								bone.gameObject.SetActive(false);
-							}
+                            if (currentDestination)
+                            {
+                                var destinationBones = currentDestination.bones;
+                                var newBones = new List<Bone2D>();
 
-						}else{
-							foreach(Bone2D bone in s_InstanceBones)
-							{
-								bone.hideFlags = HideFlags.None;
-								bone.gameObject.SetActive(true);
-							}
+                                var data = SpriteMeshUtils.LoadSpriteMeshData(instance.spriteMesh);
 
-							instance.transform.parent = null;
-							instance.bones = s_InstanceBones;
-							SpriteMeshUtils.UpdateRenderer(instance,false);
-						}
+                                for (var i = 0; i < data.bindPoses.Length; ++i)
+                                {
+                                    var bindInfo = data.bindPoses[i];
+                                    var index = FindBindInfo(bindInfo, currentDestination);
+                                    if (index >= 0 && index < destinationBones.Count)
+                                        newBones.Add(destinationBones[index]);
+                                }
 
-						SceneView.RepaintAll();
-					}
-				}
+                                instance.transform.parent = currentDestination.transform.parent;
+                                instance.bones = newBones;
+                                SpriteMeshUtils.UpdateRenderer(instance, false);
 
-				break;
-			
-			case EventType.DragExited:
+                                foreach (var bone in s_InstanceBones)
+                                {
+                                    bone.hideFlags = HideFlags.HideAndDontSave;
+                                    bone.gameObject.SetActive(false);
+                                }
+                            }
+                            else
+                            {
+                                foreach (var bone in s_InstanceBones)
+                                {
+                                    bone.hideFlags = HideFlags.None;
+                                    bone.gameObject.SetActive(true);
+                                }
 
-				if(instance)
-				{
-					GameObject.DestroyImmediate(instance.gameObject);
-					Event.current.Use();
-				}
-				Cleanup();
-				break;
+                                instance.transform.parent = null;
+                                instance.bones = s_InstanceBones;
+                                SpriteMeshUtils.UpdateRenderer(instance, false);
+                            }
 
-			case EventType.DragPerform:
+                            SceneView.RepaintAll();
+                        }
+                    }
 
-				if(!createOnEnter)
-				{
-					CreateInstance();
-				}
+                    break;
 
-				if(instance)
-				{
-					if(currentDestination)
-					{
-						foreach(Bone2D bone in s_InstanceBones)
-						{
-							if(bone)
-							{
-								GameObject.DestroyImmediate(bone.gameObject);
-							}
-						}
-					}
+                case EventType.DragExited:
 
-					Undo.RegisterCreatedObjectUndo(instance.gameObject,"create SpriteMeshInstance");
-				}
+                    if (instance)
+                    {
+                        Object.DestroyImmediate(instance.gameObject);
+                        Event.current.Use();
+                    }
 
-				Cleanup();
-				break;
-			}
+                    Cleanup();
+                    break;
 
-			if(instance)
-			{
-				DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-			}
-		}
-	}
+                case EventType.DragPerform:
+
+                    if (!createOnEnter) CreateInstance();
+
+                    if (instance)
+                    {
+                        if (currentDestination)
+                            foreach (var bone in s_InstanceBones)
+                                if (bone)
+                                    Object.DestroyImmediate(bone.gameObject);
+
+                        Undo.RegisterCreatedObjectUndo(instance.gameObject, "create SpriteMeshInstance");
+                    }
+
+                    Cleanup();
+                    break;
+            }
+
+            if (instance) DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+        }
+    }
 }

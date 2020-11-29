@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bat : MonoBehaviour
 {
@@ -8,13 +6,13 @@ public class Bat : MonoBehaviour
     public Transform target;
     public float speed = 1f;
     public bool isMoving = true;
+    private Vector3 currentTarget;
+    private bool returning;
 
     private Vector3 startPos, endPos;
-    private bool returning;
-    private Vector3 currentTarget;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         startPos = transform.position;
         endPos = target.position;
@@ -22,20 +20,17 @@ public class Bat : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!isMoving) return;
 
         var dir = currentTarget - transform.position;
         body.AddForce(dir.normalized * speed);
 
-        if((transform.position - currentTarget).magnitude < 0.5f)
-        {
-            ChangeTarget();
-        }
+        if ((transform.position - currentTarget).magnitude < 0.5f) ChangeTarget();
     }
 
-    void ChangeTarget()
+    private void ChangeTarget()
     {
         returning = !returning;
         currentTarget = returning ? startPos : endPos;

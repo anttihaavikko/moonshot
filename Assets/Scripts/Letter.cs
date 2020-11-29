@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Letter : MonoBehaviour
 {
@@ -17,10 +15,10 @@ public class Letter : MonoBehaviour
         this.StartCoroutine(() =>
         {
             Tweener.Instance.ScaleTo(lowerFold, new Vector3(1f, -1f, 1f), foldSpeed, 0, TweenEasings.BounceEaseOut);
-            Tweener.Instance.MoveLocalTo(lowerFold, new Vector3(0f, -0.45f, 0f), foldSpeed, 0, TweenEasings.BounceEaseOut);
+            Tweener.Instance.MoveLocalTo(lowerFold, new Vector3(0f, -0.45f, 0f), foldSpeed, 0,
+                TweenEasings.BounceEaseOut);
 
             contents.Show();
-
         }, foldSpeed + midDelay);
     }
 }

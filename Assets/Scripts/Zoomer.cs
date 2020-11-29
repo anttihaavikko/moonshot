@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Zoomer : MonoBehaviour
 {
@@ -8,13 +6,13 @@ public class Zoomer : MonoBehaviour
     private float targetOrtho = 8.5f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         cam = Camera.main;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, targetOrtho, Time.deltaTime * 20f);
     }
@@ -23,9 +21,6 @@ public class Zoomer : MonoBehaviour
     {
         targetOrtho = target;
 
-        if(instant && cam)
-        {
-            cam.orthographicSize = targetOrtho;
-        }
+        if (instant && cam) cam.orthographicSize = targetOrtho;
     }
 }

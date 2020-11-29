@@ -4,25 +4,21 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using TriangleNet.Geometry;
+using TriangleNet.Tools;
+
 namespace TriangleNet.Smoothing
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using TriangleNet.Geometry;
-    using TriangleNet.Tools;
-
     /// <summary>
-    /// Simple mesh smoother implementation.
+    ///     Simple mesh smoother implementation.
     /// </summary>
     /// <remarks>
-    /// Vertices wich should not move (e.g. segment vertices) MUST have a
-    /// boundary mark greater than 0.
+    ///     Vertices wich should not move (e.g. segment vertices) MUST have a
+    ///     boundary mark greater than 0.
     /// </remarks>
     public class SimpleSmoother : ISmoother
     {
-        Mesh mesh;
+        private readonly Mesh mesh;
 
         public SimpleSmoother(Mesh mesh)
         {
@@ -34,7 +30,7 @@ namespace TriangleNet.Smoothing
             mesh.behavior.Quality = false;
 
             // Take a few smoothing rounds.
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 Step();
 
@@ -46,11 +42,11 @@ namespace TriangleNet.Smoothing
         }
 
         /// <summary>
-        /// Smooth all free nodes.
+        ///     Smooth all free nodes.
         /// </summary>
         private void Step()
         {
-            BoundedVoronoi voronoi = new BoundedVoronoi(this.mesh, false);
+            var voronoi = new BoundedVoronoi(mesh, false);
 
             var cells = voronoi.Regions;
 
@@ -74,31 +70,19 @@ namespace TriangleNet.Smoothing
         }
 
         /// <summary>
-        /// Rebuild the input geometry.
+        ///     Rebuild the input geometry.
         /// </summary>
         private InputGeometry Rebuild()
         {
-            InputGeometry geometry = new InputGeometry(mesh.vertices.Count);
+            var geometry = new InputGeometry(mesh.vertices.Count);
 
-            foreach (var vertex in mesh.vertices.Values)
-            {
-                geometry.AddPoint(vertex.x, vertex.y, vertex.mark);
-            }
+            foreach (var vertex in mesh.vertices.Values) geometry.AddPoint(vertex.x, vertex.y, vertex.mark);
 
-            foreach (var segment in mesh.subsegs.Values)
-            {
-                geometry.AddSegment(segment.P0, segment.P1, segment.Boundary);
-            }
+            foreach (var segment in mesh.subsegs.Values) geometry.AddSegment(segment.P0, segment.P1, segment.Boundary);
 
-            foreach (var hole in mesh.holes)
-            {
-                geometry.AddHole(hole.x, hole.y);
-            }
+            foreach (var hole in mesh.holes) geometry.AddHole(hole.x, hole.y);
 
-            foreach (var region in mesh.regions)
-            {
-                geometry.AddRegion(region.point.x, region.point.y, region.id);
-            }
+            foreach (var region in mesh.regions) geometry.AddRegion(region.point.x, region.point.y, region.id);
 
             return geometry;
         }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Level : MonoBehaviour
@@ -15,20 +15,25 @@ public abstract class Level : MonoBehaviour
 
     public LevelBonus[] bonuses;
     public float endDelay = 1.5f;
-
-    private bool completed;
-    private LevelData info;
-    private int shotCount;
-    private float levelTime;
-    private bool timeOn;
     private bool bonusTriggered;
     private Queue<string> code;
-    private string expectedCode;
     private bool codeComplete;
 
-    private bool shotLeft, shotRight;
+    private bool completed;
+    private string expectedCode;
     private bool gotDamaged;
+    private LevelData info;
     private bool isBoss;
+    private float levelTime;
+    private int shotCount;
+
+    private bool shotLeft, shotRight;
+    private bool timeOn;
+
+    private void Update()
+    {
+        if (timeOn) levelTime += Time.deltaTime;
+    }
 
     public void Restart()
     {
@@ -37,16 +42,14 @@ public abstract class Level : MonoBehaviour
 
     public void Complete()
     {
-        if(!completed)
+        if (!completed)
         {
             AudioManager.Instance.PlayEffectAt(28, levels.moon.transform.position, 3f);
 
             completed = true;
-            this.StartCoroutine(() => {
-                if(!levels.moon.HasDied())
-                {
-                    levels.moon.bubble.Show(info.winMessage, true);
-                }
+            this.StartCoroutine(() =>
+            {
+                if (!levels.moon.HasDied()) levels.moon.bubble.Show(info.winMessage, true);
             }, 0.2f);
 
             Invoke("ShowEnd", endDelay);
@@ -60,7 +63,7 @@ public abstract class Level : MonoBehaviour
         CancelInvoke("ShowEnd");
     }
 
-    void ShowEnd()
+    private void ShowEnd()
     {
         SaveManager.Instance.CompleteLevel(index);
         levels.levelInfo.ShowEnd();
@@ -81,7 +84,7 @@ public abstract class Level : MonoBehaviour
         levels.moon.transform.position = spawn.position;
         info = levels.GetInfo(index);
 
-        if(moonConnectJoint)
+        if (moonConnectJoint)
         {
             levels.moon.attachJoint.enabled = true;
             levels.moon.attachJoint.connectedBody = moonConnectJoint;
@@ -94,20 +97,12 @@ public abstract class Level : MonoBehaviour
         var data = SaveManager.Instance.GetDataFor(index);
         isBoss = info.boss;
         for (var i = 0; i < 3; i++)
-        {
-            if(bonuses.Length >= i + 1)
+            if (bonuses.Length >= i + 1)
             {
-                if (bonuses[i].type == BonusType.Moon && data.bonusesDone[i])
-                {
-                    bonuses[i].moon.SetActive(false);
-                }
+                if (bonuses[i].type == BonusType.Moon && data.bonusesDone[i]) bonuses[i].moon.SetActive(false);
 
-                if (bonuses[i].type == BonusType.Code)
-                {
-                    expectedCode = bonuses[i].name;
-                }
+                if (bonuses[i].type == BonusType.Code) expectedCode = bonuses[i].name;
             }
-        }
     }
 
     public virtual void AfterInfo()
@@ -122,19 +117,11 @@ public abstract class Level : MonoBehaviour
         return new Vector3(transform.position.x, transform.position.y, -10f);
     }
 
-    private void Update()
-    {
-        if(timeOn)
-        {
-            levelTime += Time.deltaTime;
-        }
-    }
-
     public abstract void CheckEnd(float time = 0f);
 
     public bool IsBonusDone(LevelBonus bonus)
     {
-        switch(bonus.type)
+        switch (bonus.type)
         {
             case BonusType.Moon:
                 return !bonus.moon.activeSelf;
@@ -163,7 +150,7 @@ public abstract class Level : MonoBehaviour
     {
         gotDamaged = true;
     }
-     
+
     public void AddShot(string letter)
     {
         code.Enqueue(letter);
@@ -183,7 +170,7 @@ public abstract class Level : MonoBehaviour
     }
 }
 
-[System.Serializable]
+[Serializable]
 public struct LevelBonus
 {
     public BonusType type;

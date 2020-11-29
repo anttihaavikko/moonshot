@@ -1,280 +1,286 @@
-using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 
 namespace Anima2D
 {
-	public class ContextMenu
-	{
-		[MenuItem("Assets/Create/Anima2D/SpriteMesh", true)]
-		static bool ValidateCreateSpriteMesh(MenuCommand menuCommand)
-		{
-			bool valid = false;
+    public class ContextMenu
+    {
+        [MenuItem("Assets/Create/Anima2D/SpriteMesh", true)]
+        private static bool ValidateCreateSpriteMesh(MenuCommand menuCommand)
+        {
+            var valid = false;
 
-			Sprite sprite = Selection.activeObject as Sprite;
+            var sprite = Selection.activeObject as Sprite;
 
-			if(sprite && !SpriteMeshPostprocessor.GetSpriteMeshFromSprite(sprite))
-			{
-				valid = true;
-			}
+            if (sprite && !SpriteMeshPostprocessor.GetSpriteMeshFromSprite(sprite))
+            {
+                valid = true;
+            }
 
-			List<Texture2D> selectedTextures = Selection.objects.ToList().Where( o => o is Texture2D).ToList().ConvertAll( o => o as Texture2D);
+            var selectedTextures = Selection.objects.ToList().Where(o => o is Texture2D).ToList()
+                .ConvertAll(o => o as Texture2D);
 
-			valid = valid || selectedTextures.Count > 0;
+            valid = valid || selectedTextures.Count > 0;
 
-			return valid;
-		}
+            return valid;
+        }
 
-		[MenuItem("Assets/Create/Anima2D/SpriteMesh", false)]
-		static void CreateSpriteMesh(MenuCommand menuCommand)
-		{
-			List<Texture2D> selectedTextures = Selection.objects.ToList().Where( o => o is Texture2D).ToList().ConvertAll( o => o as Texture2D);
+        [MenuItem("Assets/Create/Anima2D/SpriteMesh", false)]
+        private static void CreateSpriteMesh(MenuCommand menuCommand)
+        {
+            var selectedTextures = Selection.objects.ToList().Where(o => o is Texture2D).ToList()
+                .ConvertAll(o => o as Texture2D);
 
-			foreach(Texture2D texture in selectedTextures)
-			{
-				SpriteMeshUtils.CreateSpriteMesh(texture);
-			}
+            foreach (var texture in selectedTextures)
+            {
+                SpriteMeshUtils.CreateSpriteMesh(texture);
+            }
 
-			if(selectedTextures.Count == 0)
-			{
-				SpriteMeshUtils.CreateSpriteMesh(Selection.activeObject as Sprite);
-			}
-		}
-		
-		[MenuItem("GameObject/2D Object/SpriteMesh", false, 10)]
-		static void ContextCreateSpriteMesh(MenuCommand menuCommand)
-		{
-			GameObject spriteRendererGO = Selection.activeGameObject;
-			SpriteRenderer spriteRenderer = null;
-			SpriteMesh spriteMesh = null;
+            if (selectedTextures.Count == 0)
+            {
+                SpriteMeshUtils.CreateSpriteMesh(Selection.activeObject as Sprite);
+            }
+        }
 
-			int sortingLayerID = 0;
-			int sortingOrder = 0;
+        [MenuItem("GameObject/2D Object/SpriteMesh", false, 10)]
+        private static void ContextCreateSpriteMesh(MenuCommand menuCommand)
+        {
+            var spriteRendererGO = Selection.activeGameObject;
+            SpriteRenderer spriteRenderer = null;
+            SpriteMesh spriteMesh = null;
 
-			if(spriteRendererGO)
-			{
-				spriteRenderer = spriteRendererGO.GetComponent<SpriteRenderer>();
-			}
-			
-			if(spriteRenderer &&
-			   spriteRenderer.sprite)
-			{
-				sortingLayerID = spriteRenderer.sortingLayerID;
-				sortingOrder = spriteRenderer.sortingOrder;
+            var sortingLayerID = 0;
+            var sortingOrder = 0;
 
-				SpriteMesh overrideSpriteMesh =  SpriteMeshPostprocessor.GetSpriteMeshFromSprite(spriteRenderer.sprite);
+            if (spriteRendererGO)
+            {
+                spriteRenderer = spriteRendererGO.GetComponent<SpriteRenderer>();
+            }
 
-				if(overrideSpriteMesh)
-				{
-					spriteMesh = overrideSpriteMesh;
-				}else{
-					spriteMesh = SpriteMeshUtils.CreateSpriteMesh(spriteRenderer.sprite);
-				}
-			}
-			
-			if(spriteMesh)
-			{
-				Undo.SetCurrentGroupName("create SpriteMeshInstance"); 
-				Undo.DestroyObjectImmediate(spriteRenderer);
-				SpriteMeshInstance spriteMeshInstance = SpriteMeshUtils.CreateSpriteMeshInstance(spriteMesh,spriteRendererGO,true);
+            if (spriteRenderer &&
+                spriteRenderer.sprite)
+            {
+                sortingLayerID = spriteRenderer.sortingLayerID;
+                sortingOrder = spriteRenderer.sortingOrder;
 
-				spriteMeshInstance.sortingLayerID = sortingLayerID;
-				spriteMeshInstance.sortingOrder = sortingOrder;
-				
-				Selection.activeGameObject = spriteRendererGO;
-			}else{
-				Debug.Log("Select a SpriteRenderer with a Sprite to convert to SpriteMesh");
-			}
-		}
+                var overrideSpriteMesh = SpriteMeshPostprocessor.GetSpriteMeshFromSprite(spriteRenderer.sprite);
 
-		[MenuItem("GameObject/2D Object/Bone &#b", false, 10)]
-		public static void CreateBone(MenuCommand menuCommand)
-		{
-			GameObject bone = new GameObject("New bone");
-			Bone2D boneComponent = bone.AddComponent<Bone2D>();
+                if (overrideSpriteMesh)
+                {
+                    spriteMesh = overrideSpriteMesh;
+                }
+                else
+                {
+                    spriteMesh = SpriteMeshUtils.CreateSpriteMesh(spriteRenderer.sprite);
+                }
+            }
 
-			Undo.RegisterCreatedObjectUndo(bone, "Create bone");
+            if (spriteMesh)
+            {
+                Undo.SetCurrentGroupName("create SpriteMeshInstance");
+                Undo.DestroyObjectImmediate(spriteRenderer);
+                var spriteMeshInstance = SpriteMeshUtils.CreateSpriteMeshInstance(spriteMesh, spriteRendererGO);
 
-			bone.transform.position = GetDefaultInstantiatePosition();
+                spriteMeshInstance.sortingLayerID = sortingLayerID;
+                spriteMeshInstance.sortingOrder = sortingOrder;
 
-			GameObject selectedGO = Selection.activeGameObject;
-			if(selectedGO)
-			{
-				bone.transform.parent = selectedGO.transform;
+                Selection.activeGameObject = spriteRendererGO;
+            }
+            else
+            {
+                Debug.Log("Select a SpriteRenderer with a Sprite to convert to SpriteMesh");
+            }
+        }
 
-				Vector3 localPosition = bone.transform.localPosition;
-				localPosition.z = 0f;
+        [MenuItem("GameObject/2D Object/Bone &#b", false, 10)]
+        public static void CreateBone(MenuCommand menuCommand)
+        {
+            var bone = new GameObject("New bone");
+            var boneComponent = bone.AddComponent<Bone2D>();
 
-				bone.transform.localPosition = localPosition;
-				bone.transform.localRotation = Quaternion.identity;
-				bone.transform.localScale = Vector3.one;
-				
-				Bone2D selectedBone = selectedGO.GetComponent<Bone2D>();
+            Undo.RegisterCreatedObjectUndo(bone, "Create bone");
 
-				if(selectedBone)
-				{
-					if(!selectedBone.child)
-					{
-						bone.transform.position = selectedBone.endPosition;
-						selectedBone.child = boneComponent;
-					}
-				}
-			}
+            bone.transform.position = GetDefaultInstantiatePosition();
 
-			Selection.activeGameObject = bone;
-		}
+            var selectedGO = Selection.activeGameObject;
+            if (selectedGO)
+            {
+                bone.transform.parent = selectedGO.transform;
 
-		[MenuItem("GameObject/2D Object/IK CCD &#k", false, 10)]
-		static void CreateIkCCD(MenuCommand menuCommand)
-		{
-			GameObject ikCCD = new GameObject("New Ik CCD");
-			Undo.RegisterCreatedObjectUndo(ikCCD,"Crate Ik CCD");
+                var localPosition = bone.transform.localPosition;
+                localPosition.z = 0f;
 
-			IkCCD2D ikCCDComponent = ikCCD.AddComponent<IkCCD2D>();
-			ikCCD.transform.position = GetDefaultInstantiatePosition();
-			
-			GameObject selectedGO = Selection.activeGameObject;
-			if(selectedGO)
-			{
-				ikCCD.transform.parent = selectedGO.transform;
-				ikCCD.transform.localPosition = Vector3.zero;
+                bone.transform.localPosition = localPosition;
+                bone.transform.localRotation = Quaternion.identity;
+                bone.transform.localScale = Vector3.one;
 
-				Bone2D selectedBone = selectedGO.GetComponent<Bone2D>();
-				
-				if(selectedBone)
-				{
-					ikCCD.transform.parent = selectedBone.root.transform.parent;
-					ikCCD.transform.position = selectedBone.endPosition;
+                var selectedBone = selectedGO.GetComponent<Bone2D>();
 
-					if(selectedBone.child)
-					{
-						ikCCD.transform.rotation = selectedBone.child.transform.rotation;
-					}
+                if (selectedBone)
+                {
+                    if (!selectedBone.child)
+                    {
+                        bone.transform.position = selectedBone.endPosition;
+                        selectedBone.child = boneComponent;
+                    }
+                }
+            }
 
-					ikCCDComponent.numBones = selectedBone.chainLength;
-					ikCCDComponent.target = selectedBone;
-				}
-			}
+            Selection.activeGameObject = bone;
+        }
 
-			ikCCD.transform.localScale = Vector3.one;
+        [MenuItem("GameObject/2D Object/IK CCD &#k", false, 10)]
+        private static void CreateIkCCD(MenuCommand menuCommand)
+        {
+            var ikCCD = new GameObject("New Ik CCD");
+            Undo.RegisterCreatedObjectUndo(ikCCD, "Crate Ik CCD");
 
-			EditorUtility.SetDirty(ikCCDComponent);
+            var ikCCDComponent = ikCCD.AddComponent<IkCCD2D>();
+            ikCCD.transform.position = GetDefaultInstantiatePosition();
 
-			Selection.activeGameObject = ikCCD;
-		}
+            var selectedGO = Selection.activeGameObject;
+            if (selectedGO)
+            {
+                ikCCD.transform.parent = selectedGO.transform;
+                ikCCD.transform.localPosition = Vector3.zero;
 
-		[MenuItem("GameObject/2D Object/IK Limb &#l", false, 10)]
-		static void CreateIkLimb(MenuCommand menuCommand)
-		{
-			GameObject ikLimb = new GameObject("New Ik Limb");
-			Undo.RegisterCreatedObjectUndo(ikLimb,"Crate Ik Limb");
-			
-			IkLimb2D ikLimbComponent = ikLimb.AddComponent<IkLimb2D>();
-			ikLimb.transform.position = GetDefaultInstantiatePosition();
-			
-			GameObject selectedGO = Selection.activeGameObject;
-			if(selectedGO)
-			{
-				ikLimb.transform.parent = selectedGO.transform;
-				ikLimb.transform.localPosition = Vector3.zero;
-				
-				Bone2D selectedBone = selectedGO.GetComponent<Bone2D>();
-				
-				if(selectedBone)
-				{
-					ikLimb.transform.parent = selectedBone.root.transform.parent;
-					ikLimb.transform.position = selectedBone.endPosition;
+                var selectedBone = selectedGO.GetComponent<Bone2D>();
 
-					if(selectedBone.child)
-					{
-						ikLimb.transform.rotation = selectedBone.child.transform.rotation;
-					}
+                if (selectedBone)
+                {
+                    ikCCD.transform.parent = selectedBone.root.transform.parent;
+                    ikCCD.transform.position = selectedBone.endPosition;
 
-					ikLimbComponent.numBones = selectedBone.chainLength;
-					ikLimbComponent.target = selectedBone;
-				}
-			}
+                    if (selectedBone.child)
+                    {
+                        ikCCD.transform.rotation = selectedBone.child.transform.rotation;
+                    }
 
-			ikLimb.transform.localScale = Vector3.one;
+                    ikCCDComponent.numBones = selectedBone.chainLength;
+                    ikCCDComponent.target = selectedBone;
+                }
+            }
 
-			EditorUtility.SetDirty(ikLimbComponent);
+            ikCCD.transform.localScale = Vector3.one;
 
-			Selection.activeGameObject = ikLimb;
-		}
+            EditorUtility.SetDirty(ikCCDComponent);
 
-		[MenuItem("GameObject/2D Object/Control &#c", false, 10)]
-		static void CreateControl(MenuCommand menuCommand)
-		{
-			GameObject control = new GameObject("New control");
-			Undo.RegisterCreatedObjectUndo(control,"Crate Control");
-			
-			Control controlComponent = control.AddComponent<Control>();
-			control.transform.position = GetDefaultInstantiatePosition();
-			
-			GameObject selectedGO = Selection.activeGameObject;
-			if(selectedGO)
-			{
-				control.transform.parent = selectedGO.transform;
-				control.transform.localPosition = Vector3.zero;
-				control.transform.localRotation = Quaternion.identity;
-				
-				Bone2D selectedBone = selectedGO.GetComponent<Bone2D>();
-				
-				if(selectedBone)
-				{
-					control.name = "Control " + selectedBone.name;
-					controlComponent.bone = selectedBone;
-					control.transform.parent = selectedBone.root.transform.parent;
-				}
-			}
+            Selection.activeGameObject = ikCCD;
+        }
 
-			EditorUtility.SetDirty(controlComponent);
-			
-			Selection.activeGameObject = control;
-		}
+        [MenuItem("GameObject/2D Object/IK Limb &#l", false, 10)]
+        private static void CreateIkLimb(MenuCommand menuCommand)
+        {
+            var ikLimb = new GameObject("New Ik Limb");
+            Undo.RegisterCreatedObjectUndo(ikLimb, "Crate Ik Limb");
 
-		[MenuItem("Assets/Create/Anima2D/Pose")]
-		public static void CreatePose(MenuCommand menuCommand)
-		{
-			string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            var ikLimbComponent = ikLimb.AddComponent<IkLimb2D>();
+            ikLimb.transform.position = GetDefaultInstantiatePosition();
 
-			if(System.IO.File.Exists(path))
-			{
-				path = System.IO.Path.GetDirectoryName(path);
-			}
-			
-			path += "/";
-			
-			if(System.IO.Directory.Exists(path))
-			{
-				path += "New pose.asset";
+            var selectedGO = Selection.activeGameObject;
+            if (selectedGO)
+            {
+                ikLimb.transform.parent = selectedGO.transform;
+                ikLimb.transform.localPosition = Vector3.zero;
 
-				ScriptableObjectUtility.CreateAsset<Pose>(path);
-			}
-		}
+                var selectedBone = selectedGO.GetComponent<Bone2D>();
 
-		static Vector3 GetDefaultInstantiatePosition()
-		{
-			Vector3 result = Vector3.zero;
-			if (SceneView.lastActiveSceneView)
-			{
-				if (SceneView.lastActiveSceneView.in2DMode)
-				{
-					result = SceneView.lastActiveSceneView.camera.transform.position;
-					result.z = 0f;
-				}
-				else
-				{
-					PropertyInfo prop = typeof(SceneView).GetProperty("cameraTargetPosition",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                if (selectedBone)
+                {
+                    ikLimb.transform.parent = selectedBone.root.transform.parent;
+                    ikLimb.transform.position = selectedBone.endPosition;
 
-					result = (Vector3) prop.GetValue(SceneView.lastActiveSceneView,null);
-				}
-			}
-			return result;
-		}
-	}
+                    if (selectedBone.child)
+                    {
+                        ikLimb.transform.rotation = selectedBone.child.transform.rotation;
+                    }
+
+                    ikLimbComponent.numBones = selectedBone.chainLength;
+                    ikLimbComponent.target = selectedBone;
+                }
+            }
+
+            ikLimb.transform.localScale = Vector3.one;
+
+            EditorUtility.SetDirty(ikLimbComponent);
+
+            Selection.activeGameObject = ikLimb;
+        }
+
+        [MenuItem("GameObject/2D Object/Control &#c", false, 10)]
+        private static void CreateControl(MenuCommand menuCommand)
+        {
+            var control = new GameObject("New control");
+            Undo.RegisterCreatedObjectUndo(control, "Crate Control");
+
+            var controlComponent = control.AddComponent<Control>();
+            control.transform.position = GetDefaultInstantiatePosition();
+
+            var selectedGO = Selection.activeGameObject;
+            if (selectedGO)
+            {
+                control.transform.parent = selectedGO.transform;
+                control.transform.localPosition = Vector3.zero;
+                control.transform.localRotation = Quaternion.identity;
+
+                var selectedBone = selectedGO.GetComponent<Bone2D>();
+
+                if (selectedBone)
+                {
+                    control.name = "Control " + selectedBone.name;
+                    controlComponent.bone = selectedBone;
+                    control.transform.parent = selectedBone.root.transform.parent;
+                }
+            }
+
+            EditorUtility.SetDirty(controlComponent);
+
+            Selection.activeGameObject = control;
+        }
+
+        [MenuItem("Assets/Create/Anima2D/Pose")]
+        public static void CreatePose(MenuCommand menuCommand)
+        {
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+
+            if (File.Exists(path))
+            {
+                path = Path.GetDirectoryName(path);
+            }
+
+            path += "/";
+
+            if (Directory.Exists(path))
+            {
+                path += "New pose.asset";
+
+                ScriptableObjectUtility.CreateAsset<Pose>(path);
+            }
+        }
+
+        private static Vector3 GetDefaultInstantiatePosition()
+        {
+            var result = Vector3.zero;
+            if (SceneView.lastActiveSceneView)
+            {
+                if (SceneView.lastActiveSceneView.in2DMode)
+                {
+                    result = SceneView.lastActiveSceneView.camera.transform.position;
+                    result.z = 0f;
+                }
+                else
+                {
+                    var prop = typeof(SceneView).GetProperty("cameraTargetPosition",
+                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+
+                    result = (Vector3) prop.GetValue(SceneView.lastActiveSceneView, null);
+                }
+            }
+
+            return result;
+        }
+    }
 }

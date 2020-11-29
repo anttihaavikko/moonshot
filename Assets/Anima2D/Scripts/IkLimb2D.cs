@@ -1,39 +1,38 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Anima2D
 {
-	public class IkLimb2D : Ik2D
-	{
-		public bool flip = false;
+    public class IkLimb2D : Ik2D
+    {
+        public bool flip;
 
-		[SerializeField] IkSolver2DLimb m_Solver = new IkSolver2DLimb();
-		
-		protected override IkSolver2D GetSolver()
-		{
-			return m_Solver;
-		}
+        [SerializeField] private IkSolver2DLimb m_Solver = new IkSolver2DLimb();
 
-		protected override void Validate()
-		{
-			numBones = 2;
-		}
+        private void OnValidate()
+        {
+            numBones = 2;
+        }
 
-		protected override int ValidateNumBones(int numBones)
-		{
-			return 2;
-		}
+        protected override IkSolver2D GetSolver()
+        {
+            return m_Solver;
+        }
 
-		protected override void OnIkUpdate()
-		{
-			base.OnIkUpdate();
+        protected override void Validate()
+        {
+            numBones = 2;
+        }
 
-			m_Solver.flip = flip;
-		}
+        protected override int ValidateNumBones(int numBones)
+        {
+            return 2;
+        }
 
-		void OnValidate()
-		{
-			numBones = 2;
-		}
-	}
+        protected override void OnIkUpdate()
+        {
+            base.OnIkUpdate();
+
+            m_Solver.flip = flip;
+        }
+    }
 }

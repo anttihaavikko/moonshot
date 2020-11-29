@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AutoShooter : MonoBehaviour
 {
@@ -15,7 +13,7 @@ public class AutoShooter : MonoBehaviour
     private float autoShotDelay;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         autoShotDelay -= Time.deltaTime;
 
@@ -35,7 +33,7 @@ public class AutoShooter : MonoBehaviour
         }
     }
 
-    void Shoot(Vector3 pos, Vector3 dir)
+    private void Shoot(Vector3 pos, Vector3 dir)
     {
         var hit = Physics2D.Raycast(pos, dir, 100f, hitMask);
         if (hit)
@@ -56,10 +54,7 @@ public class AutoShooter : MonoBehaviour
                 AudioManager.Instance.PlayEffectAt(2, hit.point, 0.8f);
             }, 0.07f);
 
-            if (hit.collider.gameObject.tag == "Player" && targetTag == "Player")
-            {
-                moon.Hurt();
-            }
+            if (hit.collider.gameObject.tag == "Player" && targetTag == "Player") moon.Hurt();
 
             var line = moon.linePool.Get();
             line.SetPosition(0, pos);

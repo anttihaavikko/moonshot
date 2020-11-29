@@ -1,24 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class Bubble : MonoBehaviour
 {
-    public TMPro.TMP_Text text;
+    public TMP_Text text;
     public float showDuration = 0.3f;
     public GameObject wrapper;
     public Color hiliteColor;
     public Levels levels;
     public UnityAction afterHide;
-
-    private bool shown;
+    private bool endReached;
     private string hiliteColorHex;
     private bool locked;
+    private string message;
 
     private int messagePos;
-    private string message;
-    private bool endReached;
+
+    private bool shown;
 
     private void Start()
     {
@@ -27,11 +29,19 @@ public class Bubble : MonoBehaviour
         wrapper.transform.localScale = Vector3.zero;
     }
 
+    private void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            SkipOrHide();
+        }
+    }
+
     public void ShowWithMirroring(string message, bool mirrored)
     {
         SetText(message);
         SetMirroring(mirrored);
-        Show(false);
+        Show();
     }
 
     public void Show(string message, bool permanent = false)
@@ -49,9 +59,9 @@ public class Bubble : MonoBehaviour
     }
 
     private Vector3 GetSize()
-	{
-		return Vector3.one * (Application.isMobilePlatform ? 1.5f : 1.2f);
-	}
+    {
+        return Vector3.one * (Application.isMobilePlatform ? 1.5f : 1.2f);
+    }
 
     public void Show(bool permanent = false)
     {
@@ -63,7 +73,7 @@ public class Bubble : MonoBehaviour
 
     public void Hide(bool forced = false)
     {
-        if (!shown || (locked && !forced)) return;
+        if (!shown || locked && !forced) return;
 
         shown = false;
         Tweener.Instance.ScaleTo(wrapper.transform, Vector3.zero, showDuration, 0, TweenEasings.QuadraticEaseOut);
@@ -79,24 +89,16 @@ public class Bubble : MonoBehaviour
         Invoke("StartShowing", 0.25f);
     }
 
-    void StartShowing()
+    private void StartShowing()
     {
         StartCoroutine(UpdateMessage());
     }
 
-    private void Update()
-    {
-        if(Input.anyKeyDown)
-        {
-            SkipOrHide();
-        }
-    }
-
     public void SkipOrHide()
     {
-        if(shown)
+        if (shown)
         {
-            if(!endReached)
+            if (!endReached)
             {
                 messagePos = message.Length - 2;
                 endReached = true;
@@ -109,24 +111,27 @@ public class Bubble : MonoBehaviour
         }
     }
 
-    IEnumerator UpdateMessage()
+    private IEnumerator UpdateMessage()
     {
         var first = true;
-        while(messagePos < message.Length)
+        while (messagePos < message.Length)
         {
-            if(first)
+            if (first)
             {
                 AudioManager.Instance.PlayEffectAt(Random.Range(29, 41), transform.position, 2f);
             }
+
             if (message[messagePos] == '<')
             {
-                messagePos = message.IndexOf(">", messagePos, System.StringComparison.CurrentCulture) + 1;
+                messagePos = message.IndexOf(">", messagePos, StringComparison.CurrentCulture) + 1;
             }
             else
             {
                 messagePos++;
             }
-            text.text = message.Substring(0, messagePos).Replace("(", "<color=" + hiliteColorHex + ">").Replace(")", "</color>");
+
+            text.text = message.Substring(0, messagePos).Replace("(", "<color=" + hiliteColorHex + ">")
+                .Replace(")", "</color>");
             first = message[messagePos - 1] == ' ';
             var delay = first ? 0.07f : 0.03f;
             yield return new WaitForSeconds(delay);
