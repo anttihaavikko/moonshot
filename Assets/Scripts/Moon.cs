@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Moon : MonoBehaviour, IDier
 {
@@ -26,23 +25,15 @@ public class Moon : MonoBehaviour, IDier
     public ShellManager shellManager;
 
     private Level level;
-
-    private Camera cam;
-    private float touchTimer, bestTime = 0f;
+    
+    private float touchTimer, bestTime;
     private bool hasTouched;
     private bool hasDied;
 
     private float autoShotDelay;
-    private bool autoShoot = false;
 
     private int hp = 3;
     private bool clicksDisabled;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        cam = Camera.main;
-    }
 
     // Update is called once per frame
     void Update()
@@ -105,25 +96,22 @@ public class Moon : MonoBehaviour, IDier
                 ShootRight();
             }
         }
-
-        if(autoShoot)
-        {
-            autoShotDelay -= Time.deltaTime;
-
-            var hit = Physics2D.Raycast(rightBarrel.position, rightBarrel.transform.right, 100f, collisionMask);
-            if (hit && hit.collider.gameObject.tag == "Enemy" && autoShotDelay < 0f && Random.value < 0.1f)
-            {
-                ShootRight();
-                autoShotDelay = 0.5f;
-            }
-
-            hit = Physics2D.Raycast(leftBarrel.position, -leftBarrel.transform.right, 100f, collisionMask);
-            if (hit && hit.collider.gameObject.tag == "Enemy" && autoShotDelay < 0f && Random.value < 0.1f)
-            {
-                ShootLeft();
-                autoShotDelay = 0.5f;
-            }
-        }
+        
+        // autoShotDelay -= Time.deltaTime;
+        //
+        // var hit = Physics2D.Raycast(rightBarrel.position, rightBarrel.transform.right, 100f, collisionMask);
+        // if (hit && hit.collider.gameObject.CompareTag("Enemy") && autoShotDelay < 0f && Random.value < 0.1f)
+        // {
+        //     ShootRight();
+        //     autoShotDelay = 0.5f;
+        // }
+        //
+        // hit = Physics2D.Raycast(leftBarrel.position, -leftBarrel.transform.right, 100f, collisionMask);
+        // if (hit && hit.collider.gameObject.CompareTag("Enemy") && autoShotDelay < 0f && Random.value < 0.1f)
+        // {
+        //     ShootLeft();
+        //     autoShotDelay = 0.5f;
+        // }
     }
 
     public bool IsDead()
@@ -144,11 +132,12 @@ public class Moon : MonoBehaviour, IDier
     private void ShootLeft()
     {
         level.AddShot("L");
-        leftHand.AddForce(leftHand.transform.right * amount, ForceMode2D.Impulse);
+        var right = leftHand.transform.right;
+        leftHand.AddForce(right * amount, ForceMode2D.Impulse);
         var eff = EffectManager.Instance.AddEffect(0, leftMuzzle.position);
         eff.transform.parent = leftBarrel;
         effectCam.BaseEffect(0.2f);
-        Shoot(leftBarrel.position, -leftHand.transform.right);
+        Shoot(leftBarrel.position, -right);
     }
 
     public void SetLevel(Level l)
@@ -180,7 +169,7 @@ public class Moon : MonoBehaviour, IDier
             EffectManager.Instance.AddEffect(0, hit.point);
             EffectManager.Instance.AddEffect(1, hit.point);
 
-            if(hit.collider.gameObject.tag == "Enemy" || hit.collider.gameObject.tag == "Breakable")
+            if(hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Breakable"))
             {
                 var e = hit.collider.GetComponent<Enemy>();
                 if(e)
@@ -190,7 +179,7 @@ public class Moon : MonoBehaviour, IDier
                 }
             }
 
-			if (hit.collider.gameObject.tag == "BatLimb")
+			if (hit.collider.gameObject.CompareTag("BatLimb"))
 			{
                 var limb = hit.collider.GetComponent<BatLimb>();
                 limb.Break();
@@ -237,39 +226,40 @@ public class Moon : MonoBehaviour, IDier
     {
         if (hasDied) return;
 
-        if(collision.gameObject.tag == "Flag" && level)
+        if(collision.gameObject.CompareTag("Flag") && level)
         {
             level.Complete();
         }
 
-        if (collision.gameObject.tag == "Pickup" && level)
+        if (collision.gameObject.CompareTag("Pickup") && level)
         {
-            collision.gameObject.SetActive(false);
+            var o = collision.gameObject;
+            o.SetActive(false);
 
-            EffectManager.Instance.AddEffect(3, collision.gameObject.transform.position);
-            EffectManager.Instance.AddEffect(6, collision.gameObject.transform.position);
+            var position = o.transform.position;
+            EffectManager.Instance.AddEffect(3, position);
+            EffectManager.Instance.AddEffect(6, position);
 
-            AudioManager.Instance.PlayEffectAt(25, collision.gameObject.transform.position, 1f);
-            AudioManager.Instance.PlayEffectAt(26, collision.gameObject.transform.position, 1f);
-            AudioManager.Instance.PlayEffectAt(27, collision.gameObject.transform.position, 1f);
+            AudioManager.Instance.PlayEffectAt(25, position, 1f);
+            AudioManager.Instance.PlayEffectAt(26, position, 1f);
+            AudioManager.Instance.PlayEffectAt(27, position, 1f);
         }
 
-        if (collision.gameObject.tag == "Bubble")
+        if (!collision.gameObject.CompareTag("Bubble")) return;
+        
+        var trigger = collision.GetComponent<BubbleTrigger>();
+        var msg = trigger.GetMessage();
+        if (!trigger.shown && !Manager.Instance.IsShown(msg))
         {
-            var trigger = collision.GetComponent<BubbleTrigger>();
-            var msg = trigger.GetMessage();
-            if (!trigger.shown && !Manager.Instance.IsShown(msg))
-            {
-                this.StartCoroutine(() => {
-                    if(!hasDied)
-                    {
-                        bubble.Show(msg);
-                        trigger.appearers.ForEach(a => a.Show());
-                    }
-                }, trigger.delay);
-                Manager.Instance.Add(msg);
-                trigger.shown = true;
-            }
+            this.StartCoroutine(() => {
+                if(!hasDied)
+                {
+                    bubble.Show(msg);
+                    trigger.appearers.ForEach(a => a.Show());
+                }
+            }, trigger.delay);
+            Manager.Instance.Add(msg);
+            trigger.shown = true;
         }
     }
 
@@ -295,24 +285,26 @@ public class Moon : MonoBehaviour, IDier
         gameObject.layer = 10;
         body.gravityScale = 0;
 
-        EffectManager.Instance.AddEffect(3, transform.position);
-        EffectManager.Instance.AddEffect(4, transform.position);
-        EffectManager.Instance.AddEffect(5, transform.position);
-        EffectManager.Instance.AddEffect(6, transform.position);
+        var position = transform.position;
+        EffectManager.Instance.AddEffect(3, position);
+        EffectManager.Instance.AddEffect(4, position);
+        EffectManager.Instance.AddEffect(5, position);
+        EffectManager.Instance.AddEffect(6, position);
 
         effectCam.BaseEffect(0.5f);
 
         this.StartCoroutine(() =>
         {
-            AudioManager.Instance.PlayEffectAt(1, transform.position, 0.669f);
-            AudioManager.Instance.PlayEffectAt(6, transform.position, 1.233f);
-            AudioManager.Instance.PlayEffectAt(5, transform.position, 1.005f);
-            AudioManager.Instance.PlayEffectAt(4, transform.position, 1.204f);
-            AudioManager.Instance.PlayEffectAt(13, transform.position, 1.192f);
+            var pos = transform.position;
+            AudioManager.Instance.PlayEffectAt(1, pos, 0.669f);
+            AudioManager.Instance.PlayEffectAt(6, pos, 1.233f);
+            AudioManager.Instance.PlayEffectAt(5, pos, 1.005f);
+            AudioManager.Instance.PlayEffectAt(4, pos, 1.204f);
+            AudioManager.Instance.PlayEffectAt(13, pos, 1.192f);
         }, 0.07f);
     }
 
-    void ThrowBody(Joint2D joint)
+    private static void ThrowBody(Joint2D joint)
     {
         joint.enabled = false;
         var dir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
@@ -335,12 +327,13 @@ public class Moon : MonoBehaviour, IDier
         {
             this.StartCoroutine(() =>
             {
-                AudioManager.Instance.PlayEffectAt(8, transform.position, 1f);
-                AudioManager.Instance.PlayEffectAt(12, transform.position, 0.767f);
-                AudioManager.Instance.PlayEffectAt(14, transform.position, 1.184f);
-                AudioManager.Instance.PlayEffectAt(16, transform.position, 0.384f);
-                AudioManager.Instance.PlayEffectAt(11, transform.position, 0.588f);
-                AudioManager.Instance.PlayEffectAt(15, transform.position, 0.457f);
+                var position = transform.position;
+                AudioManager.Instance.PlayEffectAt(8, position, 1f);
+                AudioManager.Instance.PlayEffectAt(12, position, 0.767f);
+                AudioManager.Instance.PlayEffectAt(14, position, 1.184f);
+                AudioManager.Instance.PlayEffectAt(16, position, 0.384f);
+                AudioManager.Instance.PlayEffectAt(11, position, 0.588f);
+                AudioManager.Instance.PlayEffectAt(15, position, 0.457f);
             }, 0.1f);
         }
 
