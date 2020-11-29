@@ -12,6 +12,7 @@ public class LevelInfo : MonoBehaviour
     public List<TickBox> bonuses;
     public ButtonMenu menu;
     public Appearer completeText;
+    public List<GameObject> bonusStuffs;
 
     public TMPro.TMP_Text nameText, descText, nameShadow, descShadow;
 
@@ -21,10 +22,12 @@ public class LevelInfo : MonoBehaviour
 
     public void Show()
     {
-        shown = true;
-        appearers.ForEach(a => a.ShowAfterDelay());
+        var level = levels.GetCurrentLevel();
 
-        var bonusNames = levels.GetCurrentLevel().bonuses;
+        shown = true;
+        appearers.Where(a => !level.IsBoss() || !bonusStuffs.Contains(a.gameObject)).ToList().ForEach(a => a.ShowAfterDelay());
+
+        var bonusNames = level.bonuses;
 
         for(var i = 0; i < bonusNames.Length; i++)
         {

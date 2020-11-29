@@ -28,6 +28,7 @@ public abstract class Level : MonoBehaviour
 
     private bool shotLeft, shotRight;
     private bool gotDamaged;
+    private bool isBoss;
 
     public void Restart()
     {
@@ -65,6 +66,11 @@ public abstract class Level : MonoBehaviour
         levels.levelInfo.ShowEnd();
     }
 
+    public bool IsBoss()
+    {
+        return isBoss;
+    }
+
     public virtual void Activate()
     {
         code = new Queue<string>();
@@ -86,7 +92,8 @@ public abstract class Level : MonoBehaviour
         this.StartCoroutine(() => levels.levelInfo.Show(info.name, info.description), 0.6f);
 
         var data = SaveManager.Instance.GetDataFor(index);
-        for(var i = 0; i < 3; i++)
+        isBoss = info.boss;
+        for (var i = 0; i < 3; i++)
         {
             if(bonuses.Length >= i + 1)
             {
