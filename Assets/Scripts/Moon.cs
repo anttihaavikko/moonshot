@@ -75,7 +75,7 @@ public class Moon : MonoBehaviour, IDier
         clicksDisabled = state;
     }
 
-    void CheckShots()
+    private void CheckShots()
     {
         if (levelInfo.IsShown() || hasDied) return;
 
@@ -88,15 +88,15 @@ public class Moon : MonoBehaviour, IDier
             }
         }
 
-        if (RightTouch() || RightMouse() || Input.GetKeyDown(KeyCode.Alpha2) ||
-            Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            if (rightGun.activeSelf)
-            {
-                ShootRight();
-            }
-        }
+        if (!RightTouch() && !RightMouse() && !Input.GetKeyDown(KeyCode.Alpha2) &&
+            !Input.GetKeyDown(KeyCode.RightArrow) && !Input.GetKeyDown(KeyCode.D) &&
+            !Input.GetKeyDown(KeyCode.Alpha9)) return;
         
+        if (rightGun.activeSelf)
+        {
+            ShootRight();
+        }
+
         // autoShotDelay -= Time.deltaTime;
         //
         // var hit = Physics2D.Raycast(rightBarrel.position, rightBarrel.transform.right, 100f, collisionMask);
@@ -145,7 +145,7 @@ public class Moon : MonoBehaviour, IDier
         level = l;
     }
 
-    void CheckTouch()
+    private void CheckTouch()
     {
         if (touchTimer > bestTime)
             bestTime = touchTimer;
@@ -162,46 +162,44 @@ public class Moon : MonoBehaviour, IDier
         hasTouched = false;
 
         var hit = Physics2D.Raycast(pos, dir, 100f, collisionMask);
-        if(hit)
+        if (!hit) return;
+        shellManager.Add(pos, Quaternion.Euler(0, 0, 90) * dir);
+
+        EffectManager.Instance.AddEffect(0, hit.point);
+        EffectManager.Instance.AddEffect(1, hit.point);
+
+        if(hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Breakable"))
         {
-            shellManager.Add(pos, Quaternion.Euler(0, 0, 90) * dir);
-
-            EffectManager.Instance.AddEffect(0, hit.point);
-            EffectManager.Instance.AddEffect(1, hit.point);
-
-            if(hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Breakable"))
+            var e = hit.collider.GetComponent<Enemy>();
+            if(e)
             {
-                var e = hit.collider.GetComponent<Enemy>();
-                if(e)
-                {
-                    e.Hurt(hit.point, dir.normalized);
-                    level.CheckEnd(touchTimer);
-                }
+                e.Hurt(hit.point, dir.normalized);
+                level.CheckEnd(touchTimer);
             }
-
-			if (hit.collider.gameObject.CompareTag("BatLimb"))
-			{
-                var limb = hit.collider.GetComponent<BatLimb>();
-                limb.Break();
-			}
-
-			var line = linePool.Get();
-            line.SetPosition(0, pos);
-            line.SetPosition(1, hit.point);
-
-            this.StartCoroutine(() => linePool.ReturnToPool(line), 0.1f);
-
-            AudioManager.Instance.PlayEffectAt(0, pos, 1f);
-            AudioManager.Instance.PlayEffectAt(1, pos, 0.7f);
-
-            this.StartCoroutine(() =>
-            {
-                AudioManager.Instance.PlayEffectAt(14, hit.point, 0.898f);
-                AudioManager.Instance.PlayEffectAt(21, hit.point, 0.694f);
-                AudioManager.Instance.PlayEffectAt(11, hit.point, 0.588f);
-                AudioManager.Instance.PlayEffectAt(2, hit.point, 0.8f);
-            }, 0.07f);
         }
+
+        if (hit.collider.gameObject.CompareTag("BatLimb"))
+        {
+            var limb = hit.collider.GetComponent<BatLimb>();
+            limb.Break();
+        }
+
+        var line = linePool.Get();
+        line.SetPosition(0, pos);
+        line.SetPosition(1, hit.point);
+
+        this.StartCoroutine(() => linePool.ReturnToPool(line), 0.1f);
+
+        AudioManager.Instance.PlayEffectAt(0, pos, 1f);
+        AudioManager.Instance.PlayEffectAt(1, pos, 0.7f);
+
+        this.StartCoroutine(() =>
+        {
+            AudioManager.Instance.PlayEffectAt(14, hit.point, 0.898f);
+            AudioManager.Instance.PlayEffectAt(21, hit.point, 0.694f);
+            AudioManager.Instance.PlayEffectAt(11, hit.point, 0.588f);
+            AudioManager.Instance.PlayEffectAt(2, hit.point, 0.8f);
+        }, 0.07f);
     }
 
     public void Touched()
@@ -251,12 +249,11 @@ public class Moon : MonoBehaviour, IDier
         var msg = trigger.GetMessage();
         if (!trigger.shown && !Manager.Instance.IsShown(msg))
         {
-            this.StartCoroutine(() => {
-                if(!hasDied)
-                {
-                    bubble.Show(msg);
-                    trigger.appearers.ForEach(a => a.Show());
-                }
+            this.StartCoroutine(() =>
+            {
+                if (hasDied) return;
+                bubble.Show(msg);
+                trigger.appearers.ForEach(a => a.Show());
             }, trigger.delay);
             Manager.Instance.Add(msg);
             trigger.shown = true;

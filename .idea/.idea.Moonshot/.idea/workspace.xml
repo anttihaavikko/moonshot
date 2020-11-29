@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.vs/Moonshot/xs/UserPrefs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/Moonshot/xs/UserPrefs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/Moonshot/xs/sqlite3/storage.ide" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/Moonshot/xs/sqlite3/storage.ide" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Moon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Moon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +38,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -71,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="1787000" />
+      <workItem from="1606684963667" duration="1980000" />
     </task>
     <servers />
   </component>
@@ -152,10 +150,10 @@
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state width="1638" height="321" key="GridCell.Tab.3.right/0.23.1680.966@0.23.1680.966" timestamp="1606686369333" />
-    <state x="408" y="144" key="SettingsEditor" timestamp="1606686300470">
+    <state x="630" y="136" key="SettingsEditor" timestamp="1606686971348">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state x="408" y="144" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606686300470" />
+    <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606686971348" />
     <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606685055174">
       <screen x="0" y="23" width="1680" height="967" />
