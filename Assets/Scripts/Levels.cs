@@ -39,7 +39,7 @@ public class Levels : MonoBehaviour
         new LevelData("Corridor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."),
         new LevelData("Final Bout", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
         new LevelData("Stick the Landing", "Reach the goal", "Gotta be careful!", "Flawless!"),
-        new LevelData("Big Boss", "Time to Die!", "Oh no!", "Didn't doubt my (success) for a second!"),
+        new LevelData("Big Boss", "Time to Die!", "Oh no!", "Didn't doubt my (success) for a second!", null, true),
     };
 
     private static string GetLeftHelp()
@@ -176,13 +176,15 @@ public struct LevelData
     public string message;
     public string winMessage;
     public string demo;
+    public bool boss;
 
-    public LevelData(string name, string description, string message, string winMessage, string demo = null)
+    public LevelData(string name, string description, string message, string winMessage, string demo = null, bool boss = false)
     {
         this.name = name;
         this.description = description;
         this.message = message;
         this.winMessage = winMessage;
         this.demo = demo;
+        this.boss = boss;
     }
 };

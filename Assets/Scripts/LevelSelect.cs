@@ -19,22 +19,27 @@ public class LevelSelect : MonoBehaviour
     {
         points = SaveManager.Instance.GetPoints();
 
-        var num = 1;
+        var num = 0;
         Levels.levelData.ToList().ForEach(level =>
         {
-            var info = SaveManager.Instance.GetDataFor(num - 1);
+            var info = SaveManager.Instance.GetDataFor(num);
             var b = Instantiate(buttonPrefab, container);
-            b.button.interactable = num <= points + 1;
-            b.text.text = b.button.interactable ? num + ". " + level.name : "Earn <size=25>" + (num - 1) + "</size> to unlock";
+            var limit = level.boss ? 30 : num;
+            b.button.interactable = limit <= points;
+            b.text.text = b.button.interactable ? (num + 1) + ". " + level.name : "Earn <size=25>" + limit + "</size> to unlock";
             if (!b.button.interactable)
             {
                 b.text.fontSize = 20;
                 b.text.color = b.textColor = Color.gray;
                 b.extraFgs.ForEach(e => e.color = Color.gray);
             }
+            if(level.boss)
+            {
+                b.BossMode();
+            }
             b.menu = menu;
             menu.buttons.Add(b);
-            b.index = num - 1;
+            b.index = num;
             b.onFocus += () => ScrollTo(b.GetComponent<RectTransform>());
             b.button.onClick.AddListener(() => StartLevel(b.index));
             b.bonuses[0].SetActive(info.bonusesDone[0]);
@@ -45,7 +50,7 @@ public class LevelSelect : MonoBehaviour
             num++;
         });
 
-        pointsText.text = pointsShadow.text = points + "/" + Levels.levelData.Length * 4;
+        pointsText.text = pointsShadow.text = points + "/" + (Levels.levelData.Length * 4 - 3);
         var lvl = Manager.Instance.level;
         if(lvl > 0)
         {

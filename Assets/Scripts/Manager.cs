@@ -38,4 +38,9 @@ public class Manager : MonoBehaviour {
     {
         return shownMessages.Contains(message);
     }
+
+    public int GetLevelLimit()
+    {
+        return Levels.levelData[level].boss ? 30 : level;
+    }
 }

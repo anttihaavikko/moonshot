@@ -19,6 +19,7 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public GameObject strike;
     public Color fillColor, textColor;
     public bool isNextLevelButton;
+    public List<GameObject> bonusContainers, bossStuff;
 
     private Camera cam;
 
@@ -52,7 +53,12 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         AudioManager.Instance.PlayEffectAt(3, p, 0.31f * vol);
         AudioManager.Instance.PlayEffectAt(2, p, 0.996f * vol);
         AudioManager.Instance.PlayEffectAt(21, p, 1.347f * vol);
+    }
 
+    public void BossMode()
+    {
+        bonusContainers.ForEach(bc => bc.SetActive(false));
+        bossStuff.ForEach(bs => bs.SetActive(true));
     }
 
     public void DeFocus()
@@ -117,7 +123,7 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if(isNextLevelButton)
         {
-            button.interactable = SaveManager.Instance.GetPoints() > Manager.Instance.level;
+            button.interactable = SaveManager.Instance.GetPoints() > Manager.Instance.GetLevelLimit();
             text.color = button.interactable ? Color.white : Color.gray;
         }
     } 
