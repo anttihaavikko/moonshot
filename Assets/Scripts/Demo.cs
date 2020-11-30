@@ -434,7 +434,7 @@ public class Demo : MonoBehaviour
         
         actions.Enqueue(new DemoAction<Demo>(demo =>
         {
-            Manager.Instance.level = 6;
+            Manager.Instance.level = 21;
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 1f);
             SceneChanger.Instance.ChangeScene("Main");
             ChangeMusic();
@@ -459,7 +459,7 @@ public class Demo : MonoBehaviour
         
         actions.Enqueue(new DemoAction<Demo>(demo =>
         {
-            Manager.Instance.level = 5;
+            Manager.Instance.level = 22;
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 1f);
             SceneChanger.Instance.ChangeScene("Main");
             ChangeMusic();

@@ -23,7 +23,7 @@ public abstract class Level : MonoBehaviour
     private string expectedCode;
     private bool gotDamaged;
     private LevelData info;
-    private bool isBoss;
+    private bool isBoss, isExtra;
     private float levelTime;
     private int shotCount;
 
@@ -69,9 +69,9 @@ public abstract class Level : MonoBehaviour
         levels.levelInfo.ShowEnd();
     }
 
-    public bool IsBoss()
+    public bool HasBonuses()
     {
-        return isBoss;
+        return !isBoss && !isExtra;
     }
 
     public virtual void Activate()
@@ -96,6 +96,7 @@ public abstract class Level : MonoBehaviour
 
         var data = SaveManager.Instance.GetDataFor(index);
         isBoss = info.boss;
+        isExtra = info.hidden;
         for (var i = 0; i < 3; i++)
             if (bonuses.Length >= i + 1)
             {

@@ -29,7 +29,7 @@ public class LevelInfo : MonoBehaviour
         var level = levels.GetCurrentLevel();
 
         shown = true;
-        appearers.Where(a => !level.IsBoss() || !bonusStuffs.Contains(a.gameObject)).ToList()
+        appearers.Where(a => level.HasBonuses() || !bonusStuffs.Contains(a.gameObject)).ToList()
             .ForEach(a => a.ShowAfterDelay());
 
         var bonusNames = level.bonuses;

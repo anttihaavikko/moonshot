@@ -30,7 +30,9 @@ public class Levels : MonoBehaviour
         new LevelData("Corridor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."),
         new LevelData("Final Bout", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
         new LevelData("Stick the Landing", "Reach the goal", "Gotta be careful!", "Flawless!"),
-        new LevelData("Big Boss", "Time to Die!", "We'll see...", "Didn't doubt my (success) for a second!", "Boss", true)
+        new LevelData("Big Boss", "Time to Die!", "We'll see about that...", "Didn't doubt my (success) for a second!", "Boss", true),
+        new LevelData("Rising Sun", "Die, again!", "...", "...", null, false, true),
+        new LevelData("Eclipse", "The road back home", "Lets go!", "Home sweet home!", null, false, true)
     };
 
     public Moon moon;
@@ -175,15 +177,16 @@ public class Levels : MonoBehaviour
 
 public struct LevelData
 {
-    public string name;
-    public string description;
-    public string message;
-    public string winMessage;
-    public string demo;
-    public bool boss;
+    public readonly string name;
+    public readonly string description;
+    public readonly string message;
+    public readonly string winMessage;
+    public readonly string demo;
+    public readonly bool boss;
+    public readonly bool hidden;
 
     public LevelData(string name, string description, string message, string winMessage, string demo = null,
-        bool boss = false)
+        bool boss = false, bool hidden = false)
     {
         this.name = name;
         this.description = description;
@@ -191,5 +194,6 @@ public struct LevelData
         this.winMessage = winMessage;
         this.demo = demo;
         this.boss = boss;
+        this.hidden = hidden;
     }
 }
