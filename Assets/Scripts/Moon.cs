@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Moon : MonoBehaviour, IDier
 {
-    public Rigidbody2D leftHand, rightHand;
+    public Rigidbody2D leftHand, rightHand, leftNudger, rightNudger;
     public Transform leftBarrel, rightBarrel;
     public Transform leftMuzzle, rightMuzzle;
     public GameObject leftGun, rightGun;
@@ -15,7 +15,7 @@ public class Moon : MonoBehaviour, IDier
     public LineRenderer linePrefab;
     public LinePool linePool;
     public TMP_Text timerText, bestText, timerShadow, bestShadow;
-    public LayerMask collisionMask;
+    public LayerMask collisionMask, solidMask;
     public Bubble bubble;
     public LevelInfo levelInfo;
     public List<Joint2D> joints, extraJoints;
@@ -35,6 +35,7 @@ public class Moon : MonoBehaviour, IDier
     private Level level;
 
     private float touchTimer, bestTime;
+    private bool noGuns;
 
     // Update is called once per frame
     private void Update()
@@ -81,6 +82,11 @@ public class Moon : MonoBehaviour, IDier
             Manager.Instance.Add(msg);
             trigger.shown = true;
         }
+    }
+
+    public void DoNoGuns()
+    {
+        noGuns = true;
     }
 
     public void Die()
@@ -151,20 +157,59 @@ public class Moon : MonoBehaviour, IDier
         clicksDisabled = state;
     }
 
+    private void Nudge(Rigidbody2D hand)
+    {
+        var d= TryNudge(hand, Vector3.down);
+        var l = TryNudge(hand, Vector3.left);
+        var r = TryNudge(hand, Vector3.right);
+        
+        if(!d && !l && !r)
+            DoNudge(hand, Vector3.down);
+    }
+
+    private bool TryNudge(Rigidbody2D hand, Vector3 dir)
+    {
+        var hit = Physics2D.Raycast(hand.position, dir, 0.3f, solidMask);
+        if (hit)
+        {
+            DoNudge(hand, -dir);
+            return true;
+        }
+
+        return false;
+    }
+    
+    private void DoNudge(Rigidbody2D hand, Vector3 dir)
+    {
+        var position = hand.transform.position;
+        var vol = 0.5f;
+        AudioManager.Instance.PlayEffectAt(3, position, 0.392f * vol);
+        AudioManager.Instance.PlayEffectAt(1, position, 0.514f * vol);
+        hand.AddForce(dir * 30f, ForceMode2D.Impulse);
+    }
+
     private void CheckShots()
     {
         if (levelInfo.IsShown() || hasDied) return;
 
         if (LeftTouch() || LeftMouse() || Input.GetKeyDown(KeyCode.Alpha1) ||
             Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            if (noGuns)
+                Nudge(leftNudger);
             if (leftGun.activeSelf)
-                ShootLeft();
+                ShootLeft();   
+        }
 
-        if (!RightTouch() && !RightMouse() && !Input.GetKeyDown(KeyCode.Alpha2) &&
-            !Input.GetKeyDown(KeyCode.RightArrow) && !Input.GetKeyDown(KeyCode.D) &&
-            !Input.GetKeyDown(KeyCode.Alpha9)) return;
-
-        if (rightGun.activeSelf) ShootRight();
+        // ReSharper disable once InvertIf
+        if (RightTouch() || RightMouse() || Input.GetKeyDown(KeyCode.Alpha2) ||
+            Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) &&  Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            if (noGuns)
+                Nudge(rightNudger);
+            if (rightGun.activeSelf)
+                ShootRight();    
+        }
 
         // autoShotDelay -= Time.deltaTime;
         //

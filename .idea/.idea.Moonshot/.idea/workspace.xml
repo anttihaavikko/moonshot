@@ -25,11 +25,9 @@
     <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="Add boss intro demo">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Bat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Bat.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Levels.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Levels.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Moon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Moon.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,14 +40,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/Moon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Manager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Demo.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Level.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LevelInfo.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Levels.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Level.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Bat.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Moon.cs" />
       </list>
     </option>
   </component>
@@ -104,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="11263000" />
+      <workItem from="1606684963667" duration="14638000" />
     </task>
     <task id="LOCAL-00001" summary="Add boss intro demo">
       <created>1606732204890</created>
@@ -215,10 +214,10 @@
     </state>
     <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606686971348" />
     <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606741322833">
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606745960339">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606741322833" />
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606745960339" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.967@0.23.1680.967" timestamp="1606685055174" />
   </component>
 </project>

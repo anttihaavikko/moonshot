@@ -78,6 +78,10 @@ public abstract class Level : MonoBehaviour
     {
         code = new Queue<string>();
         levels.moon.SetGuns(hasLeftGun, hasRightGun);
+        if (!hasLeftGun && !hasRightGun)
+        {
+            levels.moon.DoNoGuns();
+        }
         levels.moon.SetLevel(this);
         gameObject.SetActive(true);
         levels.backdrop.position = transform.position;
