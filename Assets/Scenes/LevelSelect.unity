@@ -155,7 +155,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 2096.5537}
+  m_SizeDelta: {x: 0, y: 1963.3962}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &183765672
 GameObject:
@@ -2208,9 +2208,8 @@ MonoBehaviour:
   autoShow: 1
   appearAfter: -1
   hideDelay: 0
-  silent: 0
   hiddenOnWeb: 0
-  soundOnZero: 0
+  isNotUi: 0
   volume: 0.6
   hiddenSize: {x: 0, y: 1, z: 0}
   showDuration: 0.3
@@ -2482,7 +2481,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2085947430}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.24945703
+  m_Size: 0.26637515
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
