@@ -377,6 +377,6 @@ public class Moon : MonoBehaviour, IDier
 
     public void Heal()
     {
-        hp = 3;
+        hp += 3;
     }
 }

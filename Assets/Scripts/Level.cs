@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class Level : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public abstract class Level : MonoBehaviour
 
             Invoke("ShowEnd", endDelay);
 
-            print("Level completed in: " + levelTime + " (" + shotCount + " shots).");
+            // print("Level completed in: " + levelTime + " (" + shotCount + " shots).");
         }
     }
 
@@ -66,7 +67,14 @@ public abstract class Level : MonoBehaviour
     private void ShowEnd()
     {
         SaveManager.Instance.CompleteLevel(index);
-        levels.levelInfo.ShowEnd();
+        if (HasBonuses())
+        {
+            levels.levelInfo.ShowEnd();   
+        }
+        else
+        {
+            SceneChanger.Instance.ChangeScene(isBoss ? "Ultimatum" : "End");
+        }
     }
 
     public bool HasBonuses()

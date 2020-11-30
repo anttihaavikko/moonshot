@@ -34,6 +34,8 @@ public class Levels : MonoBehaviour
         new LevelData("Rising Sun", "Die, again!", "...", "...", null, false, true),
         new LevelData("Eclipse", "The road back home", "Lets go!", "Home sweet home!", null, false, true)
     };
+    
+    public const int BossLevelLimit = 30;
 
     public Moon moon;
     public EffectCamera cam;

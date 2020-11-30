@@ -23,7 +23,7 @@ public class LevelSelect : MonoBehaviour
         {
             var info = SaveManager.Instance.GetDataFor(num);
             var b = Instantiate(buttonPrefab, container);
-            var limit = level.boss ? 30 : num;
+            var limit = level.boss ? Levels.BossLevelLimit : num;
             b.button.interactable = limit <= points;
             b.text.text = b.button.interactable
                 ? num + 1 + ". " + level.name

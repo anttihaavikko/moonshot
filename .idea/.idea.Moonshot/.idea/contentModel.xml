@@ -239,6 +239,7 @@
           <e p="DisableOnHover.cs" t="Include" />
           <e p="EffectCamera.cs" t="Include" />
           <e p="EffectManager.cs" t="Include" />
+          <e p="EndView.cs" t="Include" />
           <e p="Enemy.cs" t="Include" />
           <e p="Face.cs" t="Include" />
           <e p="Flasher.cs" t="Include" />
@@ -264,6 +265,7 @@
           <e p="MoonPart.cs" t="Include" />
           <e p="Mover.cs" t="Include" />
           <e p="MyObjectPool.cs" t="Include" />
+          <e p="NoiseScaler.cs" t="Include" />
           <e p="OptionsView.cs" t="Include" />
           <e p="Platform.cs" t="Include" />
           <e p="Pulsate.cs" t="Include" />

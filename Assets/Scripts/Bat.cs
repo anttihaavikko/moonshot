@@ -35,6 +35,11 @@ public class Bat : MonoBehaviour
         if ((transform.position - currentTarget).magnitude < 0.5f) ChangeTarget();
     }
 
+    private float GetTargetDistance()
+    {
+        return extraTargets.Any() ? 2f : 0.5f;
+    }
+
     private void ChangeTarget()
     {
         if (extraTargets.Any())

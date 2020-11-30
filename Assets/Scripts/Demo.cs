@@ -459,6 +459,11 @@ public class Demo : MonoBehaviour
         
         actions.Enqueue(new DemoAction<Demo>(demo =>
         {
+            demo.sunBubble.ShowWithMirroring("Lets go home...", false);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
             Manager.Instance.level = 22;
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 1f);
             SceneChanger.Instance.ChangeScene("Main");

@@ -7,6 +7,7 @@ public class StartView : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.BackToDefaultMusic();
     }
 
     // Update is called once per frame

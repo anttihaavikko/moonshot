@@ -21,9 +21,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Boss.unity
     guid: a57d80042c6e547e19043c67fd017720
   - enabled: 1
+    path: Assets/Scenes/Ultimatum.unity
+    guid: 00427f638caf14754844dc7db889cf0f
+  - enabled: 1
     path: Assets/Scenes/LevelSelect.unity
     guid: 405e6c95b5e78487ca830449ed7f783a
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: 84d30b7ded7294886923cb836542561c
   m_configObjects: {}
