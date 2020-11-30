@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Levels : MonoBehaviour
 {
-    public static readonly LevelData[] levelData =
+    public static readonly LevelData[] Data =
     {
         new LevelData("Sinistrum", "Reach the goal", GetLeftHelp(), "Nice!"),
         new LevelData("Dextrum", "Reach the goal", GetRightHelp(), "Yahoo!"),
@@ -126,9 +126,9 @@ public class Levels : MonoBehaviour
 
     public LevelData GetInfo(int index)
     {
-        if (index >= levelData.Length) return levelData[Random.Range(0, levelData.Length)];
+        if (index >= Data.Length) return Data[Random.Range(0, Data.Length)];
 
-        return levelData[index];
+        return Data[index];
     }
 
     public void ChangeLevel(int dir = 1)
@@ -175,7 +175,7 @@ public class Levels : MonoBehaviour
     }
 }
 
-public struct LevelData
+public readonly struct LevelData
 {
     public readonly string name;
     public readonly string description;

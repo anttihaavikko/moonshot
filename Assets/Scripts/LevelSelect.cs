@@ -19,7 +19,7 @@ public class LevelSelect : MonoBehaviour
         points = SaveManager.Instance.GetPoints();
 
         var num = 0;
-        Levels.levelData.Where(level => !level.hidden).ToList().ForEach(level =>
+        Levels.Data.Where(level => !level.hidden).ToList().ForEach(level =>
         {
             var info = SaveManager.Instance.GetDataFor(num);
             var b = Instantiate(buttonPrefab, container);
@@ -49,7 +49,7 @@ public class LevelSelect : MonoBehaviour
             num++;
         });
 
-        pointsText.text = pointsShadow.text = points + "/" + (Levels.levelData.Length * 4 - 9);
+        pointsText.text = pointsShadow.text = points + "/" + (Levels.Data.Length * 4 - 9);
         var lvl = Manager.Instance.level;
         if (lvl > 0)
         {

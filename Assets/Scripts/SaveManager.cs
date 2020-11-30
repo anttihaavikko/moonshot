@@ -54,7 +54,7 @@ public class SaveData
 
     public SaveData()
     {
-        levelSaveData = Levels.levelData.Select(lvl => new LevelSaveData()).ToList();
+        levelSaveData = Levels.Data.Select(lvl => new LevelSaveData()).ToList();
         seenDemos = new List<string>();
     }
 }

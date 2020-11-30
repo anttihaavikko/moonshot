@@ -39,6 +39,6 @@ public class Manager : MonoBehaviour
     public int GetLevelLimit()
     {
         if (level == -1) return 0;
-        return Levels.levelData[level].boss ? 30 : level;
+        return Levels.Data[level].boss ? 30 : level;
     }
 }

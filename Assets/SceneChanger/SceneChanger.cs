@@ -86,7 +86,7 @@ public class SceneChanger : MonoBehaviour
     public void StartLevel()
     {
         var lvl = Manager.Instance.level;
-        var demo = Levels.levelData[lvl].demo;
+        var demo = Levels.Data[lvl].demo;
         if (SaveManager.Instance.ShouldShowDemo(demo))
         {
             SaveManager.Instance.MarkDemoSeen(demo);
