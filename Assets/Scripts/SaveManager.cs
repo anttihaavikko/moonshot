@@ -38,7 +38,6 @@ public class SaveManager : SingletonManager<SaveManager>
     {
         var json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString("MoonSave", json);
-        print("Saved");
     }
 
     public LevelSaveData GetDataFor(int level)
