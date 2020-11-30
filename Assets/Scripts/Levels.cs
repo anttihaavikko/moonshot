@@ -30,7 +30,7 @@ public class Levels : MonoBehaviour
         new LevelData("Corridor is lava", "Survive 7 seconds", "Psh, only (7) seconds.", "Could have done double..."),
         new LevelData("Final Bout", "Kill the bats", "Die you filthy animals!", "Piece of cake!"),
         new LevelData("Stick the Landing", "Reach the goal", "Gotta be careful!", "Flawless!"),
-        new LevelData("Big Boss", "Time to Die!", "Oh no!", "Didn't doubt my (success) for a second!", null, true)
+        new LevelData("Big Boss", "Time to Die!", "Oh no!", "Didn't doubt my (success) for a second!", "Boss", true)
     };
 
     public Moon moon;

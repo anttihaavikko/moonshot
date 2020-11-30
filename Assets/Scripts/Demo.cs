@@ -66,6 +66,12 @@ public class Demo : MonoBehaviour
             case DemoType.Trapped:
                 Trapped();
                 break;
+            case DemoType.Boss:
+                Boss();
+                break;
+            case DemoType.Ultimatum:
+                Ultimatum();
+                break;
         }
     }
 
@@ -86,6 +92,11 @@ public class Demo : MonoBehaviour
         {
             demo.moonBubble.ShowWithMirroring("Hiya, I'm (Monsieur Moon)!", true);
         }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.moonBubble.ShowWithMirroring("But my friends call me (Selene).", true);
+        }));
 
         actions.Enqueue(new DemoAction<Demo>(demo =>
         {
@@ -95,7 +106,7 @@ public class Demo : MonoBehaviour
 
         actions.Enqueue(new DemoAction<Demo>(demo =>
         {
-            demo.moonBubble.ShowWithMirroring("And this is my girlfriend, (Madame Sun)!", false);
+            demo.moonBubble.ShowWithMirroring("And this is my girlfriend, (Aurora)!", false);
             demo.sun.SetTrigger("Jump");
         }));
 
@@ -285,6 +296,71 @@ public class Demo : MonoBehaviour
         }));
     }
 
+    private void Boss()
+    {
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.zoomer.ZoomTo(6);
+            demo.MoveCamTo(new Vector3(0f, 0f, 0f), 0.75f);
+        }, 1.5f));
+
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.MoveCamTo(new Vector3(-2.5f, 0f, 0f), 0.75f);
+            demo.moonBubble.ShowWithMirroring("Where is (Aurora) you ugly bastard?", true);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.moon.SetTrigger("Jump");
+            demo.moonBubble.ShowWithMirroring("What have you done with (her)?", true);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.MoveCamTo(new Vector3(1.5f, 0f, 0f), 0.75f);
+            demo.sunBubble.ShowWithMirroring("Nothing (yet)...", false);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.sunBubble.ShowWithMirroring("But she (will) bear my brood!", false);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.MoveCamTo(new Vector3(-2.5f, 0f, 0f), 0.75f);
+            demo.moon.SetTrigger("PullGun");
+            demo.moonBubble.ShowWithMirroring("Oh (hell) no!", true);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.MoveCamTo(new Vector3(1.5f, 0f, 0f), 0.75f);
+            demo.sunBubble.ShowWithMirroring("And first I need to (take care) of you!", false);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            SceneChanger.Instance.ChangeScene("Main");
+            ChangeMusic();
+        }));
+    }
+    
+    private void Ultimatum()
+    {
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.zoomer.ZoomTo(5);
+            demo.MoveCamTo(new Vector3(0f, 0f, 0f), 0.75f);
+        }, 0.75f));
+
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.moonBubble.ShowWithMirroring("Final cutscene incoming...", false);
+        }));
+    }
+
     private void BatsLooksAt(Vector3 pos, float amount = 0.2f)
     {
         batFaces.ForEach(bf => bf.LookAt(pos, amount));
@@ -354,5 +430,7 @@ public enum DemoType
 {
     Intro,
     Kidnapping,
-    Trapped
+    Trapped,
+    Boss,
+    Ultimatum
 }

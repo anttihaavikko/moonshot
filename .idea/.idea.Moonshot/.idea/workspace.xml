@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Intro.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Intro.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +23,7 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Moon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Manager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Demo.cs" />
       </list>
     </option>
   </component>
@@ -33,6 +34,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34971997" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.29993778" />
@@ -76,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="3088000" />
+      <workItem from="1606684963667" duration="5184000" />
     </task>
     <servers />
   </component>
@@ -166,10 +168,10 @@
     </state>
     <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606686971348" />
     <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606687873902">
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606688465097">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606687873902" />
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606688465097" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.967@0.23.1680.967" timestamp="1606685055174" />
   </component>
 </project>
