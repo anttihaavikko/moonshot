@@ -118,7 +118,7 @@ public class Bubble : MonoBehaviour
         {
             if (first)
             {
-                AudioManager.Instance.PlayEffectAt(Random.Range(29, 41), transform.position, 2f);
+                AudioManager.Instance.PlayEffectAt(Random.Range(29, 41), transform.position, 1.5f);
             }
 
             if (message[messagePos] == '<')
