@@ -3,11 +3,31 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="">
+    <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="Add boss intro demo">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Intro.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Intro.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Button.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Button.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Levels.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Levels.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +43,7 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Moon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Manager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Levels.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Demo.cs" />
       </list>
     </option>
@@ -78,8 +99,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="5184000" />
+      <workItem from="1606684963667" duration="9190000" />
     </task>
+    <task id="LOCAL-00001" summary="Add boss intro demo">
+      <created>1606732204890</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606732204890</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -87,8 +116,21 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Add boss intro demo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add boss intro demo" />
   </component>
   <component name="WindowStateProjectService">
     <state x="586" y="357" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.RiderCodeCleanupAction$actionPerformed$dlg$1" timestamp="1606687292828">
@@ -168,10 +210,10 @@
     </state>
     <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606686971348" />
     <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606688465097">
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606732098470">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606688465097" />
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606732098470" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.967@0.23.1680.967" timestamp="1606685055174" />
   </component>
 </project>

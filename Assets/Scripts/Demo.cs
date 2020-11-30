@@ -14,6 +14,7 @@ public class Demo : MonoBehaviour
     public Letter letter;
     public List<Mover> bats;
     public List<BatFace> batFaces;
+    public Appearer choice;
 
     private Queue<DemoAction<Demo>> actions;
 
@@ -208,8 +209,9 @@ public class Demo : MonoBehaviour
         actions.Enqueue(new DemoAction<Demo>(demo =>
         {
             demo.moonBubble.Hide();
-            var pos = demo.moon.transform.position + Vector3.right * 7f;
-            Tweener.Instance.MoveTo(demo.moon.transform, pos, 0.9f, 0, TweenEasings.BounceEaseOut);
+            var t = demo.moon.transform;
+            var pos = t.position + Vector3.right * 7f;
+            Tweener.Instance.MoveTo(t, pos, 0.9f, 0, TweenEasings.BounceEaseOut);
             demo.MoveCamTo(new Vector3(6f, 0f, 0f), 1f);
         }, 1.1f));
 
@@ -353,12 +355,117 @@ public class Demo : MonoBehaviour
         {
             demo.zoomer.ZoomTo(5);
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 0.75f);
-        }, 0.75f));
+        }, 1.75f));
 
         actions.Enqueue(new DemoAction<Demo>(demo =>
         {
-            demo.moonBubble.ShowWithMirroring("Final cutscene incoming...", false);
+            demo.moon.SetTrigger("Jump");
+            demo.moonBubble.ShowWithMirroring("(Honey), I saved you!", false);
         }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.moonBubble.ShowWithMirroring("And it's all thanks to these guns.", false);
+            var t = demo.moon.transform;
+            var pos = t.position + Vector3.right * 1f;
+            Tweener.Instance.MoveTo(t, pos, 0.3f, 0, TweenEasings.BounceEaseOut);
+            demo.moon.SetTrigger("PullGun");
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.sunBubble.ShowWithMirroring("I still (hate) em. (Violence) isn't the answer...", true);
+            var t = demo.sun.transform;
+            var pos = t.position + Vector3.right * 1f;
+            Tweener.Instance.MoveTo(t, pos, 0.3f, 0, TweenEasings.BounceEaseOut);
+            demo.MoveCamTo(new Vector3(1f, 0f, 0f), 0.75f);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.sunBubble.ShowWithMirroring("You're just the same as those dumb (bats)...", true);
+            var t = demo.sun.transform;
+            var pos = t.position + Vector3.right * 1f;
+            Tweener.Instance.MoveTo(t, pos, 0.3f, 0, TweenEasings.BounceEaseOut);
+            demo.MoveCamTo(new Vector3(2f, 0f, 0f), 0.75f);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.sunBubble.ShowWithMirroring("Basically you gotta (choose)! Me or the guns...", true);
+            var t = demo.sun.transform;
+            var pos = t.position + Vector3.right * 1f;
+            Tweener.Instance.MoveTo(t, pos, 0.3f, 0, TweenEasings.BounceEaseOut);
+            demo.MoveCamTo(new Vector3(3f, 0f, 0f), 0.75f);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.sunBubble.ShowWithMirroring("This is an (ultimatum)!", true);
+            var t = demo.sun.transform;
+            var pos = t.position + Vector3.left * 1.5f;
+            Tweener.Instance.MoveTo(t, pos, 0.3f, 0, TweenEasings.BounceEaseOut);
+            demo.MoveCamTo(new Vector3(1.5f, 0f, 0f), 0.75f);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.zoomer.ZoomTo(4);
+            demo.MoveCamTo(new Vector3(1.5f, -1.5f, 0f), 1f);
+        }, 0.7f));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            choice.Show();
+        }));
+    }
+
+    public void ChooseGuns()
+    {
+        choice.Hide();
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.zoomer.ZoomTo(6);
+            demo.MoveCamTo(new Vector3(1.5f, 0f, 0f), 1f);
+            demo.sunBubble.ShowWithMirroring("Fine then...", false);
+            demo.sun.SetTrigger("PullGun");
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            Manager.Instance.level = 6;
+            demo.MoveCamTo(new Vector3(0f, 0f, 0f), 1f);
+            SceneChanger.Instance.ChangeScene("Main");
+            ChangeMusic();
+        }));
+
+        Skip();
+    }
+    
+    public void ChooseAurora()
+    {
+        choice.Hide();
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            demo.zoomer.ZoomTo(6);
+            demo.MoveCamTo(new Vector3(1.5f, 0f, 0f), 1f);
+            demo.sunBubble.ShowWithMirroring("Good choice!", false);
+            var t = demo.sun.transform;
+            var pos = t.position + Vector3.left * 2f;
+            Tweener.Instance.MoveTo(t, pos, 0.3f, 0, TweenEasings.BounceEaseOut);
+        }));
+        
+        actions.Enqueue(new DemoAction<Demo>(demo =>
+        {
+            Manager.Instance.level = 5;
+            demo.MoveCamTo(new Vector3(0f, 0f, 0f), 1f);
+            SceneChanger.Instance.ChangeScene("Main");
+            ChangeMusic();
+        }));
+        
+        Skip();
     }
 
     private void BatsLooksAt(Vector3 pos, float amount = 0.2f)

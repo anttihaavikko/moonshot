@@ -289,17 +289,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7650013351602736765}
-        m_MethodName: ClickSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7650013351602736765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +315,8 @@ MonoBehaviour:
   fillColor: {r: 0, g: 0, b: 0, a: 0}
   textColor: {r: 0, g: 0, b: 0, a: 0}
   isNextLevelButton: 0
+  bonusContainers: []
+  bossStuff: []
 --- !u!1 &7184153824122881809
 GameObject:
   m_ObjectHideFlags: 0
