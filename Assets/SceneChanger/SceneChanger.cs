@@ -94,7 +94,14 @@ public class SceneChanger : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadSceneAsync("Main");
+            if (SceneManager.GetActiveScene().name != "Main")
+            {
+                ChangeScene("Main");
+            }
+            else
+            {
+                SceneManager.LoadSceneAsync("Main");   
+            }
         }
     }
 
