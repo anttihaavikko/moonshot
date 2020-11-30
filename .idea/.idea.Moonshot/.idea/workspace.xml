@@ -23,13 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="Add boss intro demo">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Jump.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Jump.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/PullGun.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PullGun.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Puppet.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Puppet.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Trapped.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Trapped.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,11 +53,11 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/NoiseScaler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Levels.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Manager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Bubble.cs" />
         <option value="$PROJECT_DIR$/Assets/SceneChanger/SceneChanger.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/DemoSounder.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Demo.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" />
       </list>
     </option>
   </component>
@@ -117,7 +112,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="20712000" />
+      <workItem from="1606684963667" duration="21478000" />
     </task>
     <task id="LOCAL-00001" summary="Add boss intro demo">
       <created>1606732204890</created>
