@@ -23,7 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="Add boss intro demo">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Bubble.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Bubble.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Jump.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Jump.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/PullGun.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PullGun.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Puppet.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Puppet.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Trapped.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Trapped.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Demo.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +41,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NoiseScaler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/DemoSounder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/EndView.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -44,7 +51,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/LevelInfo.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Moon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Bat.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Demo.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Level.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EndView.cs" />
@@ -54,6 +60,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Manager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Bubble.cs" />
+        <option value="$PROJECT_DIR$/Assets/SceneChanger/SceneChanger.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/DemoSounder.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Demo.cs" />
       </list>
     </option>
   </component>
@@ -108,7 +117,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="19154000" />
+      <workItem from="1606684963667" duration="20712000" />
     </task>
     <task id="LOCAL-00001" summary="Add boss intro demo">
       <created>1606732204890</created>
@@ -214,15 +223,16 @@
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state width="1638" height="321" key="GridCell.Tab.3.right/0.23.1680.966@0.23.1680.966" timestamp="1606686369333" />
-    <state x="630" y="136" key="SettingsEditor" timestamp="1606749800267">
-      <screen x="0" y="23" width="1680" height="966" />
-    </state>
-    <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606749800267" />
-    <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606758084244">
+    <state x="630" y="136" key="SettingsEditor" timestamp="1606760086851">
       <screen x="0" y="23" width="1680" height="965" />
     </state>
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.965@0.23.1680.965" timestamp="1606758084244" />
+    <state x="630" y="136" key="SettingsEditor/0.23.1680.965@0.23.1680.965" timestamp="1606760086851" />
+    <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606749800267" />
+    <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606758728476">
+      <screen x="0" y="23" width="1680" height="965" />
+    </state>
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.965@0.23.1680.965" timestamp="1606758728476" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606753454737" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.967@0.23.1680.967" timestamp="1606685055174" />
   </component>

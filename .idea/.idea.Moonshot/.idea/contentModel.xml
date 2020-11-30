@@ -236,6 +236,7 @@
           <e p="CollisionSoundSource.cs" t="Include" />
           <e p="CustomButton.cs" t="Include" />
           <e p="Demo.cs" t="Include" />
+          <e p="DemoSounder.cs" t="Include" />
           <e p="DisableOnHover.cs" t="Include" />
           <e p="EffectCamera.cs" t="Include" />
           <e p="EffectManager.cs" t="Include" />

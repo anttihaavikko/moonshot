@@ -133,6 +133,7 @@ public class Demo : MonoBehaviour
         {
             Tweener.Instance.MoveTo(demo.sun.transform, sun.transform.position + Vector3.right * 15f, 0.2f, 0f,
                 TweenEasings.QuadraticEaseInOut);
+            SwooshAt(demo.sun.transform.position, 0.5f);
             demo.MoveCamTo(new Vector3(0f, 0f, 0f), 0.5f);
             demo.zoomer.ZoomTo(6);
         }, 2f));
@@ -199,6 +200,12 @@ public class Demo : MonoBehaviour
         {
             var bling = EffectManager.Instance.AddEffect(6, letter.transform.position);
             bling.transform.localScale = Vector3.one * 0.5f;
+
+            var position = bling.transform.position;
+            AudioManager.Instance.PlayEffectAt(8, position, 1f);
+            AudioManager.Instance.PlayEffectAt(7, position, 0.531f);
+            AudioManager.Instance.PlayEffectAt(25, position, 0.392f);
+
         }, 0.9f));
 
         actions.Enqueue(new DemoAction<Demo>(demo =>
@@ -210,8 +217,10 @@ public class Demo : MonoBehaviour
         {
             demo.moonBubble.Hide();
             var t = demo.moon.transform;
-            var pos = t.position + Vector3.right * 7f;
+            var origin = t.position;
+            var pos = origin + Vector3.right * 7f;
             Tweener.Instance.MoveTo(t, pos, 0.9f, 0, TweenEasings.BounceEaseOut);
+            SwooshAt(origin, 0.5f);
             demo.MoveCamTo(new Vector3(6f, 0f, 0f), 1f);
         }, 1.1f));
 
@@ -236,6 +245,13 @@ public class Demo : MonoBehaviour
             SceneChanger.Instance.ChangeScene("Main");
             ChangeMusic();
         }));
+    }
+
+    private void SwooshAt(Vector3 pos, float vol)
+    {
+        AudioManager.Instance.PlayEffectAt(11, pos, 0.62f * vol);
+        AudioManager.Instance.PlayEffectAt(15, pos, 0.171f * vol);
+        AudioManager.Instance.PlayEffectAt(22, pos, 2f * vol);
     }
 
     private void Trapped()
@@ -489,8 +505,18 @@ public class Demo : MonoBehaviour
                 TweenEasings.QuadraticEaseInOut);
             if (doEffects)
             {
-                EffectManager.Instance.AddEffect(3, bats[index].transform.position);
-                EffectManager.Instance.AddEffect(1, bats[index].transform.position);
+                var bp = bats[index].transform.position;
+                EffectManager.Instance.AddEffect(3, bp);
+                EffectManager.Instance.AddEffect(1, bp);
+
+                var vol = 0.5f;
+                AudioManager.Instance.PlayEffectAt(2, bp, 0.743f * vol);
+                AudioManager.Instance.PlayEffectAt(5, bp, 0.506f * vol);
+                AudioManager.Instance.PlayEffectAt(6, bp, 0.367f * vol);
+            }
+            else
+            {
+                SwooshAt(bats[index].transform.position, 0.5f);
             }
         }, Random.Range(0.1f, 0.3f) * speed);
     }
@@ -501,6 +527,9 @@ public class Demo : MonoBehaviour
         {
             bats[index].enabled = false;
             Tweener.Instance.MoveFor(bats[index].transform, dir, duration, 0, TweenEasings.QuadraticEaseInOut);
+            
+            SwooshAt(bats[index].transform.position, 0.5f);
+
         }, delay);
 
         this.StartCoroutine(() =>
