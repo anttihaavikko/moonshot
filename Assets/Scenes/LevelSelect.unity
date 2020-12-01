@@ -1560,6 +1560,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Start
       objectReference: {fileID: 0}
+    - target: {fileID: 6203130960459392243, guid: c8c812a9073634c499479f8abcb3e4fc,
+        type: 3}
+      propertyPath: hiddenOnWeb
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6203130961296090204, guid: c8c812a9073634c499479f8abcb3e4fc,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -47,6 +47,7 @@ public class AudioManager : MyObjectPool<SoundEffect>
 
     private void Start()
     {
+        LoadVolumes();
     }
 
     private void Update()
