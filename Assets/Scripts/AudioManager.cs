@@ -66,11 +66,11 @@ public class AudioManager : MyObjectPool<SoundEffect>
 
         if (fadeOutPos < 1f) fadeOutPos += Time.unscaledDeltaTime / fadeOutDuration;
 
-        if (curMusic && fadeInPos >= 0f) curMusic.volume = Mathf.Lerp(0f, musVolume, fadeInPos);
+        if (curMusic && fadeInPos >= 0f) curMusic.volume = Mathf.Lerp(0f, musVolume * 1.5f, fadeInPos);
 
         if (prevMusic)
         {
-            prevMusic.volume = Mathf.Lerp(musVolume, 0f, fadeOutPos);
+            prevMusic.volume = Mathf.Lerp(musVolume * 1.5f, 0f, fadeOutPos);
 
             if (prevMusic.volume <= 0f) prevMusic.Stop();
         }
@@ -140,9 +140,26 @@ public class AudioManager : MyObjectPool<SoundEffect>
         PlayEffectAt(effects[effect], pos, volume, pitchShift);
     }
 
+    public float GetMusicVolume()
+    {
+        return musVolume;
+    }
+
     public void ChangeMusicVolume(float vol)
     {
         curMusic.volume = vol * 1.5f;
-        musVolume = vol * 1.5f;
+        musVolume = vol;
+    }
+
+    public void SaveVolumes()
+    {
+        PlayerPrefs.SetFloat("MusicVolume", musVolume);
+        PlayerPrefs.SetFloat("SoundVolume", volume);
+    }
+
+    public void LoadVolumes()
+    {
+        ChangeMusicVolume(PlayerPrefs.HasKey("MusicVolume") ? PlayerPrefs.GetFloat("MusicVolume") : 0.5f);
+        volume = PlayerPrefs.HasKey("SoundVolume") ? PlayerPrefs.GetFloat("SoundVolume") : 0.5f;
     }
 }

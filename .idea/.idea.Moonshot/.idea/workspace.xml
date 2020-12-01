@@ -24,7 +24,11 @@
   <component name="ChangeListManager">
     <list default="true" id="4245bf18-41b2-4f44-bd8d-424925a6a121" name="Default Changelist" comment="Add boss intro demo">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Moonshot/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Start.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Start.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OptionsView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OptionsView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,11 +46,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LevelInfo.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Moon.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Bat.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Level.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EndView.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/StartView.cs" />
@@ -58,6 +60,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/DemoSounder.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Demo.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/SaveManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/OptionsView.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/LevelSelect.cs" />
       </list>
     </option>
   </component>
@@ -112,7 +117,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606684955260</updated>
-      <workItem from="1606684963667" duration="21478000" />
+      <workItem from="1606684963667" duration="23250000" />
     </task>
     <task id="LOCAL-00001" summary="Add boss intro demo">
       <created>1606732204890</created>
@@ -224,10 +229,10 @@
     <state x="630" y="136" key="SettingsEditor/0.23.1680.965@0.23.1680.965" timestamp="1606760086851" />
     <state x="630" y="136" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1606749800267" />
     <state x="341" y="145" key="SettingsEditor/0.23.1680.967@0.23.1680.967" timestamp="1606685134520" />
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606758728476">
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606809877298">
       <screen x="0" y="23" width="1680" height="965" />
     </state>
-    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.965@0.23.1680.965" timestamp="1606758728476" />
+    <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.965@0.23.1680.965" timestamp="1606809877298" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.966@0.23.1680.966" timestamp="1606753454737" />
     <state x="503" y="233" width="672" height="678" key="search.everywhere.popup/0.23.1680.967@0.23.1680.967" timestamp="1606685055174" />
   </component>

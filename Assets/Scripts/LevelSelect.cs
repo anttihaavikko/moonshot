@@ -16,6 +16,7 @@ public class LevelSelect : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        AudioManager.Instance.BackToDefaultMusic();
         points = SaveManager.Instance.GetPoints();
 
         var num = 0;

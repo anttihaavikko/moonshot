@@ -4,88 +4,38 @@ using UnityEngine.UI;
 public class OptionsView : MonoBehaviour
 {
     public Slider musicSlider, soundSlider;
-    public RectTransform options;
-    private bool canQuit;
-
-    private bool optionsOpen;
+    
     private float prevSoundStep;
-
-    private bool starting = false;
+    private bool isInit;
 
     private void Start()
     {
+        AudioManager.Instance.LoadVolumes ();
         soundSlider.value = AudioManager.Instance.volume;
-        musicSlider.value = AudioManager.Instance.curMusic.volume;
-        GetComponent<Canvas>().worldCamera = Camera.main;
-        GetComponent<Canvas>().planeDistance = 1;
-
+        musicSlider.value = AudioManager.Instance.GetMusicVolume();
         prevSoundStep = AudioManager.Instance.volume;
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        DoInputs();
-
-        var optionsX = optionsOpen ? 0f : 90f;
-        options.anchoredPosition =
-            Vector2.Lerp(options.anchoredPosition, new Vector2(optionsX, 0f), Time.deltaTime * 10f);
-    }
-
-    private void EnableQuit()
-    {
-        canQuit = true;
-    }
-
-    private void DoInputs()
-    {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            canQuit = true;
-            return;
-        }
-
-        if (!canQuit) return;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (optionsOpen) ToggleOptions(false);
-
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.P))
-        {
-            ToggleOptions();
-        }
+        isInit = true;
     }
 
     public void ChangeMusicVolume()
     {
-        AudioManager.Instance.curMusic.volume = musicSlider.value;
-        AudioManager.Instance.ChangeMusicVolume(musicSlider.value);
-//		AudioManager.Instance.SaveVolumes ();
+        var value = musicSlider.value;
+        AudioManager.Instance.curMusic.volume = value;
+        AudioManager.Instance.ChangeMusicVolume(value);
+		AudioManager.Instance.SaveVolumes ();
     }
 
     public void ChangeSoundVolume()
     {
-        if (Mathf.Abs(soundSlider.value - prevSoundStep) > 0.075f)
+        if (!isInit) return;
+        
+        if (Mathf.Abs(soundSlider.value - prevSoundStep) > 0.1f)
         {
-            AudioManager.Instance.PlayEffectAt(2, Camera.main.transform.position, 1.5f);
+            AudioManager.Instance.PlayEffectAt(0, Vector3.zero, 1.5f);
             prevSoundStep = soundSlider.value;
         }
 
         AudioManager.Instance.volume = soundSlider.value;
-    }
-
-    public void ToggleOptions()
-    {
-        ToggleOptions(!optionsOpen);
-    }
-
-    public void ToggleOptions(bool state)
-    {
-        AudioManager.Instance.PlayEffectAt(16, Vector3.zero, 1.5f);
-        optionsOpen = state;
+        AudioManager.Instance.SaveVolumes ();
     }
 }
